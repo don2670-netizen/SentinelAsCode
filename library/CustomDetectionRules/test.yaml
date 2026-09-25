@@ -1,0 +1,18 @@
+# Genereret af SocHub objekt-editor
+kind: DefenderCustomDetection
+id: test
+name: test
+description: test
+severity: Medium
+category: Execution
+schedule: 1h
+mitreTechniques: []
+enabled: true
+query: |
+  DeviceProcessEvents
+  | where FileName =~ "powershell.exe" and ProcessCommandLine has "-enc"
+  // SocHub-undtagelser
+  | where not(test in~ ("ramal-safi@live.dk"))
+impactedAssets:
+  - type: device
+    identifier: deviceId

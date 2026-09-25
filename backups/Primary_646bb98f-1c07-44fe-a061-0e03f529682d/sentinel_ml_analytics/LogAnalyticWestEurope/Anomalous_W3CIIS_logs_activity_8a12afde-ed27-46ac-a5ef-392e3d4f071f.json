@@ -1,0 +1,106 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/8a12afde-ed27-46ac-a5ef-392e3d4f071f",
+  "kind": "Anomaly",
+  "name": "8a12afde-ed27-46ac-a5ef-392e3d4f071f",
+  "properties": {
+    "anomalySettingsVersion": 0,
+    "anomalyVersion": "1.0.6",
+    "customizableObservations": {
+      "multiSelectObservations": null,
+      "prioritizeExcludeObservations": [
+        {
+          "dataType": "string",
+          "description": "Enter comma separated client IPs (prefixed client IP entities supported) that the anomalies should not display results for, in the exclude field.",
+          "exclude": null,
+          "name": "Exclude client IPs from the anomalies generated",
+          "prioritize": null,
+          "rerun": "RerunAlways",
+          "sequenceNumber": 0
+        }
+      ],
+      "singleSelectObservations": [
+        {
+          "description": "Provide explanations for the specified number of reasons why a W3CIIS session is anomalous.",
+          "name": "Number of reasons for anomalous activity",
+          "rerun": "RerunAlways",
+          "sequenceNumber": 0,
+          "supportedValues": [
+            "1",
+            "2",
+            "3"
+          ],
+          "supportedValuesKql": null,
+          "value": "3"
+        },
+        {
+          "description": "Display anomalies only where the top reason is specified in the checklist.",
+          "name": "Display anomalies for a specific top reason",
+          "rerun": "RerunAlways",
+          "sequenceNumber": 1,
+          "supportedValues": [
+            "Distinct number of methods",
+            "Distinct number of uri queries",
+            "Distinct number of uri stems",
+            "Distinct number of statuses",
+            "Distinct number of user agents",
+            "Total number of operations",
+            "Total number of http verbs",
+            "Total number of http statuses",
+            "None"
+          ],
+          "supportedValuesKql": null,
+          "value": "None"
+        },
+        {
+          "description": "Choose to display anomalies for public, private, or all IPs.",
+          "name": "Display anomalies for public, private, or all IPs",
+          "rerun": "RerunAlways",
+          "sequenceNumber": 2,
+          "supportedValues": [
+            "Public IPs",
+            "Private IPs",
+            "All IPs"
+          ],
+          "supportedValuesKql": null,
+          "value": "All IPs"
+        }
+      ],
+      "singleValueObservations": null,
+      "thresholdObservations": [
+        {
+          "description": "Generate an anomaly when the anomaly score is greater than or equal to the chosen value.",
+          "maximum": "1.0",
+          "minimum": "0.0",
+          "name": "Score",
+          "rerun": "RerunAlways",
+          "sequenceNumber": 0,
+          "value": "0.7"
+        }
+      ]
+    },
+    "description": "This anomaly indicates anomalous W3CIIS sessions within the last day, due to reasons such as a high number of distinct uri queries, specific http verbs or http statuses, user agents, or an unusually high number of logs in a session.\nThe machine learning algorithm identifies unusual W3CIIS log events within an hourly session, grouped by site name and client IP.\nThe model is trained on the previous 7 days of W3CIIS activity, using an autoencoder. The algorithm checks for sufficient volume of W3CIIS activity before training the model.\nThe autoencoder compressess these site name/client IP sessions using a bottleneck encoding, and reconstructs the input sessions using a decoder.\nSessions with high reconstruction errors are marked as anomalous.\n",
+    "displayName": "Anomalous W3CIIS logs activity",
+    "enabled": true,
+    "frequency": "P1D",
+    "isDefaultSettings": true,
+    "requiredDataConnectors": [
+      {
+        "ConnectorId": "AzureMonitor(IIS)",
+        "DataTypes": [
+          "W3CIISLog"
+        ]
+      }
+    ],
+    "settingsDefinitionId": "8a12afde-ed27-46ac-a5ef-392e3d4f071f",
+    "settingsStatus": "Production",
+    "tactics": [
+      "InitialAccess",
+      "Persistence"
+    ],
+    "techniques": [
+      "T1190",
+      "T1505"
+    ]
+  },
+  "type": "Microsoft.SecurityInsights/securityMLAnalyticsSettings"
+}

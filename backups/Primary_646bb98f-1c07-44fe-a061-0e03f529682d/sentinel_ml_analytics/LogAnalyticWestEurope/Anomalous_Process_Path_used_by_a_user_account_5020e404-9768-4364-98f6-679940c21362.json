@@ -1,0 +1,48 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/5020e404-9768-4364-98f6-679940c21362",
+  "kind": "Anomaly",
+  "name": "5020e404-9768-4364-98f6-679940c21362",
+  "properties": {
+    "anomalySettingsVersion": 0,
+    "anomalyVersion": "3.4.10",
+    "customizableObservations": {
+      "multiSelectObservations": null,
+      "prioritizeExcludeObservations": null,
+      "singleSelectObservations": null,
+      "singleValueObservations": null,
+      "thresholdObservations": [
+        {
+          "description": "Set the normalized Z score threshold for the anomalies generated.",
+          "maximum": "1",
+          "minimum": "0",
+          "name": "ScoreThreshold",
+          "rerun": "NotRequired",
+          "sequenceNumber": 1,
+          "value": "0.9"
+        }
+      ]
+    },
+    "description": "This algorithm finds anomalous process paths in Windows systems using a word2vec language model. It analyzes SecurityEvents/4688 events to create a vocabulary of process paths in the workspace over 21 days. Based on this vocabulary, it builds a probability distribution of paths for each process in the workspace and then determines outliers using a z-score on each day.",
+    "displayName": "Anomalous Process Path used by a user account",
+    "enabled": true,
+    "frequency": "P1D",
+    "isDefaultSettings": true,
+    "requiredDataConnectors": [
+      {
+        "ConnectorId": "SecurityEvents",
+        "DataTypes": [
+          "SecurityEvents"
+        ]
+      }
+    ],
+    "settingsDefinitionId": "5020e404-9768-4364-98f6-679940c21362",
+    "settingsStatus": "Production",
+    "tactics": [
+      "InitialAccess"
+    ],
+    "techniques": [
+      "T1078"
+    ]
+  },
+  "type": "Microsoft.SecurityInsights/securityMLAnalyticsSettings"
+}

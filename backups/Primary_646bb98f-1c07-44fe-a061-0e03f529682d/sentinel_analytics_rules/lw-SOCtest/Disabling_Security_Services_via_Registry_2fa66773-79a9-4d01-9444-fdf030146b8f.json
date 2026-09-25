@@ -1,0 +1,91 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/2fa66773-79a9-4d01-9444-fdf030146b8f",
+  "kind": "Scheduled",
+  "name": "2fa66773-79a9-4d01-9444-fdf030146b8f",
+  "properties": {
+    "alertRuleTemplateName": "32b29155-3fd3-4a9e-a0ca-a67e2593b60b",
+    "description": "This query checks for processes modifying the registry to disable security features. This is a common technique used by threat actors for defence evasion.",
+    "displayName": "Disabling Security Services via Registry",
+    "enabled": true,
+    "entityMappings": [
+      {
+        "entityType": "Host",
+        "fieldMappings": [
+          {
+            "columnName": "DeviceName",
+            "identifier": "FullName"
+          },
+          {
+            "columnName": "HostName",
+            "identifier": "HostName"
+          },
+          {
+            "columnName": "DnsDomain",
+            "identifier": "DnsDomain"
+          }
+        ]
+      },
+      {
+        "entityType": "Account",
+        "fieldMappings": [
+          {
+            "columnName": "AccountUpn",
+            "identifier": "FullName"
+          },
+          {
+            "columnName": "AccountName",
+            "identifier": "Name"
+          },
+          {
+            "columnName": "AccountDomain",
+            "identifier": "NTDomain"
+          }
+        ]
+      },
+      {
+        "entityType": "Process",
+        "fieldMappings": [
+          {
+            "columnName": "ProcessId",
+            "identifier": "ProcessId"
+          },
+          {
+            "columnName": "ProcessCommandLine",
+            "identifier": "CommandLine"
+          }
+        ]
+      }
+    ],
+    "eventGroupingSettings": {
+      "aggregationKind": "SingleAlert"
+    },
+    "incidentConfiguration": {
+      "createIncident": true,
+      "groupingConfiguration": {
+        "enabled": false,
+        "groupByAlertDetails": [],
+        "groupByCustomDetails": [],
+        "groupByEntities": [],
+        "lookbackDuration": "PT5H",
+        "matchingMethod": "AllEntities",
+        "reopenClosedIncident": false
+      }
+    },
+    "query": "DeviceProcessEvents\n| where InitiatingProcessCommandLine has_all(@\u0027\u0022reg\u0022\u0027, \u0027add\u0027, @\u0027\u0022HKLM\\SOFTWARE\\Policies\\\u0027, \u0027/v\u0027,\u0027/t\u0027, \u0027REG_DWORD\u0027, \u0027/d\u0027, \u0027/f\u0027)\n  and InitiatingProcessCommandLine has_any(\u0027DisableRealtimeMonitoring\u0027, \u0027UseTPMKey\u0027, \u0027UseTPMKeyPIN\u0027, \u0027UseAdvancedStartup\u0027, \n  \u0027EnableBDEWithNoTPM\u0027, \u0027RecoveryKeyMessageSource\u0027)\n| extend HostName = iff(DeviceName has \u0027.\u0027, substring(DeviceName, 0, indexof(DeviceName, \u0027.\u0027)), DeviceName)\n| extend DnsDomain = iff(DeviceName has \u0027.\u0027, substring(DeviceName, indexof(DeviceName, \u0027.\u0027) \u002B 1), \u0022\u0022)\n",
+    "queryFrequency": "PT1H",
+    "queryPeriod": "PT1H",
+    "severity": "Medium",
+    "suppressionDuration": "PT1H",
+    "suppressionEnabled": false,
+    "tactics": [
+      "DefenseEvasion"
+    ],
+    "techniques": [
+      "T1562"
+    ],
+    "templateVersion": "1.0.0",
+    "triggerOperator": "GreaterThan",
+    "triggerThreshold": 0
+  },
+  "type": "Microsoft.SecurityInsights/alertRules"
+}

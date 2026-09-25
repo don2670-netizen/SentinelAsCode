@@ -1,0 +1,11 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/LogAnalyticWestEurope/savedSearches/LogManagement(LogAnalyticWestEurope)_LogManagement|ServerRestartTime",
+  "name": "LogManagement(LogAnalyticWestEurope)_LogManagement|ServerRestartTime",
+  "properties": {
+    "category": "Log Management",
+    "displayName": "When did my servers initiate restart?",
+    "query": "search in (Event) \u0022shutdown\u0022 and EventLog == \u0022System\u0022 and Source == \u0022User32\u0022 and EventID == 1074 | sort by TimeGenerated desc | project TimeGenerated, Computer\r\n// Oql: shutdown Type=Event EventLog=System Source=User32 EventID=1074 | Select TimeGenerated,Computer // Args: {OQ: True; WorkspaceId: 00000000-0000-0000-0000-000000000000} // Settings: {PTT: True; SortI: True; SortF: True} // Version: 0.1.122",
+    "version": 2
+  },
+  "type": "Microsoft.OperationalInsights/savedSearches"
+}

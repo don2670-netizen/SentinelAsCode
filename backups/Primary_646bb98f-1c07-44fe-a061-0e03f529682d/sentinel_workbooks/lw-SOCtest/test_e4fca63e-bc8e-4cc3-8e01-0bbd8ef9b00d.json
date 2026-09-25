@@ -1,0 +1,24 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourcegroups/rg-soc/providers/microsoft.insights/workbooks/e4fca63e-bc8e-4cc3-8e01-0bbd8ef9b00d",
+  "identity": {
+    "type": "None"
+  },
+  "kind": "shared",
+  "location": "germanywestcentral",
+  "name": "e4fca63e-bc8e-4cc3-8e01-0bbd8ef9b00d",
+  "properties": {
+    "category": "sentinel",
+    "displayName": "test",
+    "revision": "182442ffce044fc59a68a0dfdb972fe3",
+    "serializedData": "{\u0022version\u0022:\u0022Notebook/1.0\u0022,\u0022items\u0022:[{\u0022type\u0022:1,\u0022content\u0022:{\u0022json\u0022:\u0022## New workbook\\n---\\n\\nWelcome to your new workbook.  This area will display text formatted as markdown.\\n\\n\\nWe\u0027ve included a basic analytics query to get you started. Use the \u0060Edit\u0060 button below each section to configure it or add more sections.\u0022},\u0022name\u0022:\u0022text - 2\u0022},{\u0022type\u0022:3,\u0022content\u0022:{\u0022version\u0022:\u0022KqlItem/1.0\u0022,\u0022query\u0022:\u0022union withsource=_TableName *\\n| summarize Count=count() by _TableName\\n| render barchart\u0022,\u0022size\u0022:1,\u0022queryType\u0022:0,\u0022resourceType\u0022:\u0022microsoft.operationalinsights/workspaces\u0022},\u0022name\u0022:\u0022query - 2\u0022}],\u0022isLocked\u0022:true,\u0022fallbackResourceIds\u0022:[\u0022/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourcegroups/rg-soc/providers/microsoft.operationalinsights/workspaces/lw-soctest\u0022],\u0022fromTemplateId\u0022:\u0022sentinel-UserWorkbook\u0022}",
+    "sourceId": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourcegroups/rg-soc/providers/microsoft.operationalinsights/workspaces/lw-soctest",
+    "storageUri": null,
+    "tags": null,
+    "userId": "86fd46dd-a0df-4ade-ad91-8ec4d6e31b21",
+    "version": "Notebook/1.0"
+  },
+  "tags": {
+    "hidden-title": "test"
+  },
+  "type": "microsoft.insights/workbooks"
+}

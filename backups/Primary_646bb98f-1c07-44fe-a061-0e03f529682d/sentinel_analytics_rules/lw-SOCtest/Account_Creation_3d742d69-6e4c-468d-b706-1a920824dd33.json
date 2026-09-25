@@ -1,0 +1,74 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-SOC/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/3d742d69-6e4c-468d-b706-1a920824dd33",
+  "kind": "Scheduled",
+  "name": "3d742d69-6e4c-468d-b706-1a920824dd33",
+  "properties": {
+    "alertRuleTemplateName": null,
+    "description": "User accounts may be created to achieve persistence on a machine.\nRead more here: https://attack.mitre.org/wiki/Technique/T1136.\nTags: #CreateAccount.\nQuery #1: Query for users being created using \u0022net user\u0022 command.\n\u0022net user\u0022 commands are noisy, so needs to be joined with another signal -.\nE.g. in this example we look for use of uncommon \u0026 undocumented commandline switches (e.g. /ad instead of /add).",
+    "displayName": "Account Creation",
+    "enabled": true,
+    "entityMappings": [
+      {
+        "entityType": "Host",
+        "fieldMappings": [
+          {
+            "columnName": "DeviceName",
+            "identifier": "FullName"
+          },
+          {
+            "columnName": "HostName",
+            "identifier": "HostName"
+          },
+          {
+            "columnName": "DnsDomain",
+            "identifier": "DnsDomain"
+          }
+        ]
+      },
+      {
+        "entityType": "Process",
+        "fieldMappings": [
+          {
+            "columnName": "ProcessId",
+            "identifier": "ProcessId"
+          },
+          {
+            "columnName": "ProcessCommandLine",
+            "identifier": "CommandLine"
+          }
+        ]
+      }
+    ],
+    "eventGroupingSettings": {
+      "aggregationKind": "SingleAlert"
+    },
+    "incidentConfiguration": {
+      "createIncident": true,
+      "groupingConfiguration": {
+        "enabled": false,
+        "groupByAlertDetails": [],
+        "groupByCustomDetails": [],
+        "groupByEntities": [],
+        "lookbackDuration": "PT5H",
+        "matchingMethod": "AllEntities",
+        "reopenClosedIncident": false
+      }
+    },
+    "query": "DeviceProcessEvents\n// Pro-tip: \n// There are many different ways to run a process from a file - e.g. by using full path, env. variables, ~1 annotation, more...\n// So, to find executions of a known filename, better filter on the filename (and possibly on folder path) than on the commandline.\n| where FileName in~ (\u0022net.exe\u0022, \u0022net1.exe\u0022)\n// Parse the user name from the commandline.\n// To have case-insensitive parsing use the i flag, to have non-greedy match (e.g. CreatedUser as short as possible), specify U flag:\n// \u0022kind=regex flags=i\u0022\n| parse kind=regex flags=iU ProcessCommandLine with * \u0022user \u0022 CreatedUser \u0022 \u0022 * \u0022/ad\u0022\n// Filter rows where user could not be parsed - e.g. because it was not a user command, or the /add commandline switch was not specified.\n| where isnotempty(CreatedUser)\n// Every net.exe executed will run net1.exe with the same commandline.\n// in this where clause we remove such rows, as they duplicate the number of results we have without adding any value.\n| where not (FileName =~ \u0022net1.exe\u0022 and InitiatingProcessFileName =~ \u0022net.exe\u0022 and replace(\u0022net\u0022, \u0022net1\u0022, InitiatingProcessCommandLine) =~ ProcessCommandLine)\n// If /domain is specified, so the user is created on the domain controller.\n// Also, any prefix that\u0027s longer than 1 char will also do the same, e.g. /do, /dom, /doma, ....\n| extend CreatedOnLocalMachine=(ProcessCommandLine !contains \u0022/do\u0022)\n| where ProcessCommandLine !contains \u0022/add\u0022 or (CreatedOnLocalMachine == 0 and ProcessCommandLine !contains \u0022/domain\u0022)\n| summarize MachineCount=dcount(DeviceName) by CreatedUser, CreatedOnLocalMachine, InitiatingProcessFileName, FileName, ProcessId, ProcessCommandLine, InitiatingProcessCommandLine, DeviceId, DeviceName\n| extend HostName = iff(DeviceName has \u0027.\u0027, substring(DeviceName, 0, indexof(DeviceName, \u0027.\u0027)), DeviceName)\n| extend DnsDomain = iff(DeviceName has \u0027.\u0027, substring(DeviceName, indexof(DeviceName, \u0027.\u0027) \u002B 1), \u0022\u0022)\n",
+    "queryFrequency": "PT1H",
+    "queryPeriod": "PT1H",
+    "severity": "Medium",
+    "suppressionDuration": "PT1H",
+    "suppressionEnabled": false,
+    "tactics": [
+      "Persistence"
+    ],
+    "techniques": [
+      "T1136"
+    ],
+    "templateVersion": "1.0.0",
+    "triggerOperator": "GreaterThan",
+    "triggerThreshold": 0
+  },
+  "type": "Microsoft.SecurityInsights/alertRules"
+}

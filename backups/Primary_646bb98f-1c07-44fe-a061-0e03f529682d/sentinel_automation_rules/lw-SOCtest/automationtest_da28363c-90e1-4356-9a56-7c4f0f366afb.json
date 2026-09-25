@@ -1,0 +1,49 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/AutomationRules/da28363c-90e1-4356-9a56-7c4f0f366afb",
+  "name": "da28363c-90e1-4356-9a56-7c4f0f366afb",
+  "properties": {
+    "actions": [
+      {
+        "actionConfiguration": {
+          "classification": "FalsePositive",
+          "classificationComment": "test",
+          "classificationReason": "IncorrectAlertLogic",
+          "labels": null,
+          "owner": null,
+          "severity": null,
+          "status": "Closed"
+        },
+        "actionType": "ModifyProperties",
+        "order": 1
+      }
+    ],
+    "createdBy": {
+      "email": null,
+      "name": "Global",
+      "objectId": "0e5ec069-8d97-4d0b-a210-c5277f11644f",
+      "userPrincipalName": "Global@safis.dk"
+    },
+    "createdTimeUtc": "2025-12-13T08:08:56Z",
+    "displayName": "automationtest",
+    "order": 2,
+    "triggeringLogic": {
+      "conditions": [
+        {
+          "conditionProperties": {
+            "operator": "Contains",
+            "propertyName": "IncidentRelatedAnalyticRuleIds",
+            "propertyValues": [
+              "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/0ab35650-be9a-48e0-9de7-e869b3fd6cdb"
+            ]
+          },
+          "conditionType": "Property"
+        }
+      ],
+      "expirationTimeUtc": "2026-04-23T22:00:00Z",
+      "isEnabled": false,
+      "triggersOn": "Incidents",
+      "triggersWhen": "Created"
+    }
+  },
+  "type": "Microsoft.SecurityInsights/AutomationRules"
+}

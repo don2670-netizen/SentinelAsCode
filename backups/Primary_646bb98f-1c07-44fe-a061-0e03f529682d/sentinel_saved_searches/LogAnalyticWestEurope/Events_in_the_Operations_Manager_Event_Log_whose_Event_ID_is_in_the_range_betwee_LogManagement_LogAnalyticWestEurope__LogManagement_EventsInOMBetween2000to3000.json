@@ -1,0 +1,11 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/LogAnalyticWestEurope/savedSearches/LogManagement(LogAnalyticWestEurope)_LogManagement|EventsInOMBetween2000to3000",
+  "name": "LogManagement(LogAnalyticWestEurope)_LogManagement|EventsInOMBetween2000to3000",
+  "properties": {
+    "category": "Log Management",
+    "displayName": "Events in the Operations Manager Event Log whose Event ID is in the range between 2000 and 3000",
+    "query": "Event | where EventLog == \u0022Operations Manager\u0022 and EventID \u003E= 2000 and EventID \u003C= 3000 | sort by TimeGenerated desc\r\n// Oql: Type=Event EventLog=\u0022Operations Manager\u0022 EventID:[2000..3000] // Args: {OQ: True; WorkspaceId: 00000000-0000-0000-0000-000000000000} // Settings: {PTT: True; SortI: True; SortF: True} // Version: 0.1.122",
+    "version": 2
+  },
+  "type": "Microsoft.OperationalInsights/savedSearches"
+}

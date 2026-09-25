@@ -1,0 +1,11 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/LogAnalyticWestEurope/savedSearches/LogManagement(LogAnalyticWestEurope)_LogManagement|TotalBytesRespondedToClientsByClientIPAddress",
+  "name": "LogManagement(LogAnalyticWestEurope)_LogManagement|TotalBytesRespondedToClientsByClientIPAddress",
+  "properties": {
+    "category": "Log Management",
+    "displayName": "Total Bytes responded back to clients by Client IP Address",
+    "query": "search * | extend Type = $table | where Type == W3CIISLog | summarize AggregatedValue = sum(scBytes) by cIP\r\n// Oql: Type=W3CIISLog | Measure Sum(scBytes) by cIP // Args: {OQ: True; WorkspaceId: 00000000-0000-0000-0000-000000000000} // Settings: {PEF: True; SortI: True; SortF: True} // Version: 0.1.122",
+    "version": 2
+  },
+  "type": "Microsoft.OperationalInsights/savedSearches"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/LogAnalyticWestEurope/savedSearches/LogManagement(LogAnalyticWestEurope)_LogManagement|NoOfConnectionsToOMSDKService",
+  "name": "LogManagement(LogAnalyticWestEurope)_LogManagement|NoOfConnectionsToOMSDKService",
+  "properties": {
+    "category": "Log Management",
+    "displayName": "How many connections to Operations Manager\u0027s SDK service by day",
+    "query": "Event | where EventID == 26328 and EventLog == \u0022Operations Manager\u0022 | summarize AggregatedValue = count() by bin(TimeGenerated, 1d) | sort by TimeGenerated desc\r\n// Oql: Type=Event EventID=26328 EventLog=\u0022Operations Manager\u0022 | Measure count() interval 1DAY // Args: {OQ: True; WorkspaceId: 00000000-0000-0000-0000-000000000000} // Settings: {PTT: True; SortI: True; SortF: True} // Version: 0.1.122",
+    "version": 2
+  },
+  "type": "Microsoft.OperationalInsights/savedSearches"
+}

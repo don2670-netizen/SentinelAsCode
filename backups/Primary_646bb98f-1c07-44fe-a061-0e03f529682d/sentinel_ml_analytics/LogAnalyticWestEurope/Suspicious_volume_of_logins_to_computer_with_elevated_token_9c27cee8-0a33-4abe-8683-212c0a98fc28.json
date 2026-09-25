@@ -1,0 +1,48 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/9c27cee8-0a33-4abe-8683-212c0a98fc28",
+  "kind": "Anomaly",
+  "name": "9c27cee8-0a33-4abe-8683-212c0a98fc28",
+  "properties": {
+    "anomalySettingsVersion": 0,
+    "anomalyVersion": "3.4.11",
+    "customizableObservations": {
+      "multiSelectObservations": null,
+      "prioritizeExcludeObservations": null,
+      "singleSelectObservations": null,
+      "singleValueObservations": null,
+      "thresholdObservations": [
+        {
+          "description": "Generate an anomaly when score is greater than the chosen value",
+          "maximum": "1",
+          "minimum": "0",
+          "name": "Score",
+          "rerun": "NotRequired",
+          "sequenceNumber": 1,
+          "value": "0.1"
+        }
+      ]
+    },
+    "description": "This algorithm detects an unusually high volume of successful logins with elevated token per computer. The model is trained on the previous 21 days of security event ID 4624 on a computer. It indicates anomalous high volume of successful logins with administrator privileges in the last day.",
+    "displayName": "Suspicious volume of logins to computer with elevated token",
+    "enabled": true,
+    "frequency": "P1D",
+    "isDefaultSettings": true,
+    "requiredDataConnectors": [
+      {
+        "ConnectorId": "SecurityEvents",
+        "DataTypes": [
+          "SecurityEvents"
+        ]
+      }
+    ],
+    "settingsDefinitionId": "9c27cee8-0a33-4abe-8683-212c0a98fc28",
+    "settingsStatus": "Production",
+    "tactics": [
+      "InitialAccess"
+    ],
+    "techniques": [
+      "T1078"
+    ]
+  },
+  "type": "Microsoft.SecurityInsights/securityMLAnalyticsSettings"
+}

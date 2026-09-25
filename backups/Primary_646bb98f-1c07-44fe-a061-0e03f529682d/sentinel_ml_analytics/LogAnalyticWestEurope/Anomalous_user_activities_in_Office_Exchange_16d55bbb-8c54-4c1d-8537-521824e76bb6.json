@@ -1,0 +1,90 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/16d55bbb-8c54-4c1d-8537-521824e76bb6",
+  "kind": "Anomaly",
+  "name": "16d55bbb-8c54-4c1d-8537-521824e76bb6",
+  "properties": {
+    "anomalySettingsVersion": 0,
+    "anomalyVersion": "1.0.10",
+    "customizableObservations": {
+      "multiSelectObservations": [
+        {
+          "description": "Include only anomalies where the top reason is one of these values.",
+          "name": "Top reason for high anomaly score",
+          "rerun": "RerunAlways",
+          "sequenceNumber": 0,
+          "supportedValues": [
+            "Distinct number of operations",
+            "Distinct number of ClientInfoString",
+            "Distinct number of mailboxes",
+            "Number of operations",
+            "Distinct number of IP addresses",
+            "Distinct number of /24 subnets",
+            "Distinct number of /16 subnets",
+            "Number of MessageBind operations",
+            "Number of FolderBind operations",
+            "Number of UpdateInboxRules operations",
+            "Number of MailItemsAccessed operations"
+          ],
+          "supportedValuesKql": null,
+          "values": [
+            "Distinct number of operations",
+            "Distinct number of ClientInfoString",
+            "Distinct number of mailboxes",
+            "Number of operations",
+            "Distinct number of IP addresses",
+            "Distinct number of /24 subnets",
+            "Distinct number of /16 subnets",
+            "Number of MessageBind operations",
+            "Number of FolderBind operations",
+            "Number of UpdateInboxRules operations",
+            "Number of MailItemsAccessed operations"
+          ],
+          "valuesKql": null
+        }
+      ],
+      "prioritizeExcludeObservations": null,
+      "singleSelectObservations": null,
+      "singleValueObservations": null,
+      "thresholdObservations": [
+        {
+          "description": "Generate an anomaly when the anomaly score is greater than or equal to the chosen value.",
+          "maximum": "1.0",
+          "minimum": "0.0",
+          "name": "Score",
+          "rerun": "NotRequired",
+          "sequenceNumber": 0,
+          "value": "0.6"
+        }
+      ]
+    },
+    "description": "This machine learning model groups the Office Exchange logs on a per-user basis into hourly buckets. We define one\nhour as a session. The model is trained on the previous 7 days of behavior across all regular (non-admin) users.\nIt indicates anomalous user Office Exchange sessions in the last day.\nThis algorithm checks for sufficient volume of data before training the model.\n\nAn autoencoder model is used.\nIts aim is to compress the user Office Exchange sessions into a bottleneck encoding.\nIt then attempts to reconstruct the input sessions as best it can from the bottleneck encoding.\nThe sessions with high reconstruction errors are assumed to be anomalous.\n",
+    "displayName": "Anomalous user activities in Office Exchange",
+    "enabled": true,
+    "frequency": "P1D",
+    "isDefaultSettings": true,
+    "requiredDataConnectors": [
+      {
+        "ConnectorId": "Office365",
+        "DataTypes": [
+          "OfficeActivity (Exchange)"
+        ]
+      }
+    ],
+    "settingsDefinitionId": "16d55bbb-8c54-4c1d-8537-521824e76bb6",
+    "settingsStatus": "Production",
+    "tactics": [
+      "Collection",
+      "Persistence"
+    ],
+    "techniques": [
+      "T1114",
+      "T1213",
+      "T1098",
+      "T1136",
+      "T1137",
+      "T1505",
+      "T1078"
+    ]
+  },
+  "type": "Microsoft.SecurityInsights/securityMLAnalyticsSettings"
+}

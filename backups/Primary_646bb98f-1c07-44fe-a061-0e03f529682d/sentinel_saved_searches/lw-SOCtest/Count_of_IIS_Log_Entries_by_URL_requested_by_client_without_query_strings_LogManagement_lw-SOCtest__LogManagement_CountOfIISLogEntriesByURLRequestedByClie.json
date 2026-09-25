@@ -1,0 +1,11 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/savedSearches/LogManagement(lw-SOCtest)_LogManagement|CountOfIISLogEntriesByURLRequestedByClient",
+  "name": "LogManagement(lw-SOCtest)_LogManagement|CountOfIISLogEntriesByURLRequestedByClient",
+  "properties": {
+    "category": "Log Management",
+    "displayName": "Count of IIS Log Entries by URL requested by client (without query strings)",
+    "query": "search * | extend Type = $table | where Type == W3CIISLog | summarize AggregatedValue = count() by csUriStem\r\n// Oql: Type=W3CIISLog | Measure count() by csUriStem // Args: {OQ: True; WorkspaceId: 00000000-0000-0000-0000-000000000000} // Settings: {PEF: True; SortI: True; SortF: True} // Version: 0.1.122",
+    "version": 2
+  },
+  "type": "Microsoft.OperationalInsights/savedSearches"
+}

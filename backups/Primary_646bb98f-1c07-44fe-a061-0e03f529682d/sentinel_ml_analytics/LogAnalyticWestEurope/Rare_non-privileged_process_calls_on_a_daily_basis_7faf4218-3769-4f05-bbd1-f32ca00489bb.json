@@ -1,0 +1,58 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/7faf4218-3769-4f05-bbd1-f32ca00489bb",
+  "kind": "Anomaly",
+  "name": "7faf4218-3769-4f05-bbd1-f32ca00489bb",
+  "properties": {
+    "anomalySettingsVersion": 0,
+    "anomalyVersion": "3.4.10",
+    "customizableObservations": {
+      "multiSelectObservations": null,
+      "prioritizeExcludeObservations": [
+        {
+          "dataType": "string",
+          "description": "Ignore provided prefixes of Process Name",
+          "exclude": "spotfire,vc_redist",
+          "name": "IgnorePrefixList",
+          "prioritize": "",
+          "rerun": "RerunAlways",
+          "sequenceNumber": 0
+        }
+      ],
+      "singleSelectObservations": null,
+      "singleValueObservations": null,
+      "thresholdObservations": [
+        {
+          "description": "Set the rareness threshold for the anomalies generated. All rarity score values lower than the threshold are flagged as anomalies.",
+          "maximum": "1",
+          "minimum": "0",
+          "name": "RarenessThreshold",
+          "rerun": "NotRequired",
+          "sequenceNumber": 1,
+          "value": "0.1"
+        }
+      ]
+    },
+    "description": "This anomaly algorithm identifies rare non-privileged processes that use limited security tokens created by an user account. The rarity score is the normalized probability of a user executing a process based on the number of users executing that particular process divided by the total number of users in the workspace within the last 21 days. The threshold value for the rarity score scales according to the minimum number of users executing the process to ensure the value of the threshold remains meaningful regardless of sample size. Users accounts that execute processes rarely executed within a workspace may serve as the initial entry point for malicious activity.",
+    "displayName": "Rare non-privileged process calls on a daily basis",
+    "enabled": true,
+    "frequency": "P1D",
+    "isDefaultSettings": true,
+    "requiredDataConnectors": [
+      {
+        "ConnectorId": "SecurityEvents",
+        "DataTypes": [
+          "SecurityEvents"
+        ]
+      }
+    ],
+    "settingsDefinitionId": "7faf4218-3769-4f05-bbd1-f32ca00489bb",
+    "settingsStatus": "Production",
+    "tactics": [
+      "InitialAccess"
+    ],
+    "techniques": [
+      "T1078"
+    ]
+  },
+  "type": "Microsoft.SecurityInsights/securityMLAnalyticsSettings"
+}

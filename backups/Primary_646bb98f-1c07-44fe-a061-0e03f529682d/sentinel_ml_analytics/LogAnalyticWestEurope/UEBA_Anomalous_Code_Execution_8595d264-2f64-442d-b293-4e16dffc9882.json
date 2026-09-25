@@ -1,0 +1,48 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/8595d264-2f64-442d-b293-4e16dffc9882",
+  "kind": "Anomaly",
+  "name": "8595d264-2f64-442d-b293-4e16dffc9882",
+  "properties": {
+    "anomalySettingsVersion": 0,
+    "anomalyVersion": "3.4.21",
+    "customizableObservations": {
+      "multiSelectObservations": null,
+      "prioritizeExcludeObservations": null,
+      "singleSelectObservations": null,
+      "singleValueObservations": null,
+      "thresholdObservations": [
+        {
+          "description": "Generate an anomaly when the anomaly score is greater than the chosen value.",
+          "maximum": "1",
+          "minimum": "0",
+          "name": "Anomaly score threshold",
+          "rerun": "RerunAlways",
+          "sequenceNumber": 0,
+          "value": "0"
+        }
+      ]
+    },
+    "description": "Adversaries may abuse command and script interpreters to execute commands, scripts, or binaries.\nThese interfaces and languages provide ways of interacting with computer systems\nand are a common feature across many different platforms.\n",
+    "displayName": "UEBA Anomalous Code Execution",
+    "enabled": true,
+    "frequency": "P1D",
+    "isDefaultSettings": true,
+    "requiredDataConnectors": [
+      {
+        "ConnectorId": "AzureActivity",
+        "DataTypes": [
+          "AzureActivity"
+        ]
+      }
+    ],
+    "settingsDefinitionId": "8595d264-2f64-442d-b293-4e16dffc9882",
+    "settingsStatus": "Production",
+    "tactics": [
+      "Execution"
+    ],
+    "techniques": [
+      "T1059"
+    ]
+  },
+  "type": "Microsoft.SecurityInsights/securityMLAnalyticsSettings"
+}

@@ -1,0 +1,81 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/54103519-804c-43b2-8713-990b807307f5",
+  "kind": "Scheduled",
+  "name": "54103519-804c-43b2-8713-990b807307f5",
+  "properties": {
+    "alertRuleTemplateName": "7b907bf7-77d4-41d0-a208-5643ff75bf9a",
+    "description": "Often times after the initial compromise the attackers create inbox rules to delete emails that contain certain keywords.\n This is done so as to limit ability to warn compromised users that they\u0027ve been compromised. Below is a sample query that tries to detect this.\nReference: https://www.reddit.com/r/sysadmin/comments/7kyp0a/recent_phishing_attempts_my_experience_and_what/",
+    "displayName": "Malicious Inbox Rule",
+    "enabled": true,
+    "entityMappings": [
+      {
+        "entityType": "Account",
+        "fieldMappings": [
+          {
+            "columnName": "UserId",
+            "identifier": "FullName"
+          },
+          {
+            "columnName": "AccountName",
+            "identifier": "Name"
+          },
+          {
+            "columnName": "AccountUPNSuffix",
+            "identifier": "UPNSuffix"
+          }
+        ]
+      },
+      {
+        "entityType": "Host",
+        "fieldMappings": [
+          {
+            "columnName": "OriginatingServerName",
+            "identifier": "FullName"
+          }
+        ]
+      },
+      {
+        "entityType": "IP",
+        "fieldMappings": [
+          {
+            "columnName": "ClientIPAddress",
+            "identifier": "Address"
+          }
+        ]
+      }
+    ],
+    "eventGroupingSettings": {
+      "aggregationKind": "SingleAlert"
+    },
+    "incidentConfiguration": {
+      "createIncident": true,
+      "groupingConfiguration": {
+        "enabled": false,
+        "groupByAlertDetails": [],
+        "groupByCustomDetails": [],
+        "groupByEntities": [],
+        "lookbackDuration": "PT5H",
+        "matchingMethod": "AllEntities",
+        "reopenClosedIncident": false
+      }
+    },
+    "query": "let Keywords = dynamic([\u0022helpdesk\u0022, \u0022 alert\u0022, \u0022 suspicious\u0022, \u0022fake\u0022, \u0022malicious\u0022, \u0022phishing\u0022, \u0022spam\u0022, \u0022do not click\u0022, \u0022do not open\u0022, \u0022hijacked\u0022, \u0022Fatal\u0022]);\nOfficeActivity\n| where OfficeWorkload =~ \u0022Exchange\u0022 \n| where Operation =~ \u0022New-InboxRule\u0022 and (ResultStatus =~ \u0022True\u0022 or ResultStatus =~ \u0022Succeeded\u0022)\n| where Parameters has \u0022Deleted Items\u0022 or Parameters has \u0022Junk Email\u0022  or Parameters has \u0022DeleteMessage\u0022\n| extend Events=todynamic(Parameters)\n| parse Events  with * \u0022SubjectContainsWords\u0022 SubjectContainsWords \u0027}\u0027*\n| parse Events  with * \u0022BodyContainsWords\u0022 BodyContainsWords \u0027}\u0027*\n| parse Events  with * \u0022SubjectOrBodyContainsWords\u0022 SubjectOrBodyContainsWords \u0027}\u0027*\n| where SubjectContainsWords has_any (Keywords)\n or BodyContainsWords has_any (Keywords)\n or SubjectOrBodyContainsWords has_any (Keywords)\n| extend ClientIPAddress = case( ClientIP has \u0022.\u0022, tostring(split(ClientIP,\u0022:\u0022)[0]), ClientIP has \u0022[\u0022, tostring(trim_start(@\u0027[[]\u0027,tostring(split(ClientIP,\u0022]\u0022)[0]))), ClientIP )\n| extend Keyword = iff(isnotempty(SubjectContainsWords), SubjectContainsWords, (iff(isnotempty(BodyContainsWords),BodyContainsWords,SubjectOrBodyContainsWords )))\n| extend RuleDetail = case(OfficeObjectId contains \u0027/\u0027 , tostring(split(OfficeObjectId, \u0027/\u0027)[-1]) , tostring(split(OfficeObjectId, \u0027\\\\\u0027)[-1]))\n| summarize count(), StartTimeUtc = min(TimeGenerated), EndTimeUtc = max(TimeGenerated) by  Operation, UserId, ClientIPAddress, ResultStatus, Keyword, OriginatingServer, OfficeObjectId, RuleDetail\n| extend AccountName = tostring(split(UserId, \u0022@\u0022)[0]), AccountUPNSuffix = tostring(split(UserId, \u0022@\u0022)[1])\n| extend OriginatingServerName = tostring(split(OriginatingServer, \u0022 \u0022)[0])\n",
+    "queryFrequency": "P1D",
+    "queryPeriod": "P1D",
+    "severity": "Medium",
+    "suppressionDuration": "PT1H",
+    "suppressionEnabled": false,
+    "tactics": [
+      "Persistence",
+      "DefenseEvasion"
+    ],
+    "techniques": [
+      "T1098",
+      "T1078"
+    ],
+    "templateVersion": "2.0.4",
+    "triggerOperator": "GreaterThan",
+    "triggerThreshold": 0
+  },
+  "type": "Microsoft.SecurityInsights/alertRules"
+}

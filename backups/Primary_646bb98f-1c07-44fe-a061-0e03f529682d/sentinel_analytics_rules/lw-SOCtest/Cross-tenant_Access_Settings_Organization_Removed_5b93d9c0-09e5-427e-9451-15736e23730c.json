@@ -1,0 +1,39 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-SOC/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/5b93d9c0-09e5-427e-9451-15736e23730c",
+  "kind": "Scheduled",
+  "name": "5b93d9c0-09e5-427e-9451-15736e23730c",
+  "properties": {
+    "alertRuleTemplateName": null,
+    "description": "Organizations are added in the Cross-tenant Access Settings to control communication inbound or outbound for users and applications. This detection notifies when an Organization is deleted from the Microsoft Entra ID Cross-tenant Access Settings.",
+    "displayName": "Cross-tenant Access Settings Organization Removed",
+    "enabled": true,
+    "incidentConfiguration": {
+      "createIncident": true,
+      "groupingConfiguration": {
+        "enabled": false,
+        "groupByAlertDetails": null,
+        "groupByCustomDetails": null,
+        "groupByEntities": [],
+        "lookbackDuration": "PT5M",
+        "matchingMethod": "AllEntities",
+        "reopenClosedIncident": false
+      }
+    },
+    "query": "SigninLogs\n| where * contains \u0022Global\u0022",
+    "queryFrequency": "PT5M",
+    "queryPeriod": "PT5M",
+    "severity": "Medium",
+    "suppressionDuration": "PT1H",
+    "suppressionEnabled": false,
+    "tactics": [
+      "Persistence",
+      "InitialAccess"
+    ],
+    "techniques": [
+      "T1133"
+    ],
+    "triggerOperator": "GreaterThan",
+    "triggerThreshold": 0
+  },
+  "type": "Microsoft.SecurityInsights/alertRules"
+}

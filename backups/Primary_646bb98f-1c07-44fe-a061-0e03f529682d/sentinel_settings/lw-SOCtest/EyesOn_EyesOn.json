@@ -1,0 +1,9 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/settings/EyesOn",
+  "kind": "EyesOn",
+  "name": "EyesOn",
+  "properties": {
+    "isEnabled": true
+  },
+  "type": "Microsoft.SecurityInsights/settings"
+}

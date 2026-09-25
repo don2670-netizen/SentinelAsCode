@@ -1,0 +1,48 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/3f8fa297-1fbb-4515-98af-b77be2c873a1",
+  "kind": "Anomaly",
+  "name": "3f8fa297-1fbb-4515-98af-b77be2c873a1",
+  "properties": {
+    "anomalySettingsVersion": 0,
+    "anomalyVersion": "3.4.21",
+    "customizableObservations": {
+      "multiSelectObservations": null,
+      "prioritizeExcludeObservations": null,
+      "singleSelectObservations": null,
+      "singleValueObservations": null,
+      "thresholdObservations": [
+        {
+          "description": "Generate an anomaly when the anomaly score is greater than the chosen value.",
+          "maximum": "1",
+          "minimum": "0",
+          "name": "Anomaly score threshold",
+          "rerun": "RerunAlways",
+          "sequenceNumber": 0,
+          "value": "0"
+        }
+      ]
+    },
+    "description": "Adversaries may destroy data and files on specific systems or in large numbers on a network to interrupt availability to systems,\nservices, and network resources. Data destruction is likely to render stored data irrecoverable by forensic techniques through \noverwriting files or data on local and remote drives. \nSentinel UEBA detects anomalies based on dynamic baselines created for each entity across various data inputs.\nEach entity\u00E2\u20AC\u2122s baseline behavior is set according to its own historical activities, \nthose of its peers, and those of the organization as a whole.\nAnomalies can be triggered by the correlation of different attributes such as action type, geo-location, device, resource, ISP, and more.\n",
+    "displayName": "UEBA Anomalous Data Destruction",
+    "enabled": true,
+    "frequency": "P1D",
+    "isDefaultSettings": true,
+    "requiredDataConnectors": [
+      {
+        "ConnectorId": "AzureActivity",
+        "DataTypes": [
+          "AzureActivity"
+        ]
+      }
+    ],
+    "settingsDefinitionId": "3f8fa297-1fbb-4515-98af-b77be2c873a1",
+    "settingsStatus": "Production",
+    "tactics": [
+      "Impact"
+    ],
+    "techniques": [
+      "T1485"
+    ]
+  },
+  "type": "Microsoft.SecurityInsights/securityMLAnalyticsSettings"
+}

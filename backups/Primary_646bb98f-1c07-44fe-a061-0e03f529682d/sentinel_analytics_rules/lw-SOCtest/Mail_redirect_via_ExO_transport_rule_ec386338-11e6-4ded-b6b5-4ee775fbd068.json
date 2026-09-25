@@ -1,0 +1,72 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/ec386338-11e6-4ded-b6b5-4ee775fbd068",
+  "kind": "Scheduled",
+  "name": "ec386338-11e6-4ded-b6b5-4ee775fbd068",
+  "properties": {
+    "alertRuleTemplateName": "500415fb-bba7-4227-a08a-9857fb61b6a7",
+    "description": "Identifies when Exchange Online transport rule configured to forward emails.\nThis could be an adversary mailbox configured to collect mail from multiple user accounts.",
+    "displayName": "Mail redirect via ExO transport rule",
+    "enabled": true,
+    "entityMappings": [
+      {
+        "entityType": "Account",
+        "fieldMappings": [
+          {
+            "columnName": "UserId",
+            "identifier": "FullName"
+          },
+          {
+            "columnName": "AccountName",
+            "identifier": "Name"
+          },
+          {
+            "columnName": "AccountUPNSuffix",
+            "identifier": "UPNSuffix"
+          }
+        ]
+      },
+      {
+        "entityType": "IP",
+        "fieldMappings": [
+          {
+            "columnName": "IPAddress",
+            "identifier": "Address"
+          }
+        ]
+      }
+    ],
+    "eventGroupingSettings": {
+      "aggregationKind": "SingleAlert"
+    },
+    "incidentConfiguration": {
+      "createIncident": true,
+      "groupingConfiguration": {
+        "enabled": false,
+        "groupByAlertDetails": [],
+        "groupByCustomDetails": [],
+        "groupByEntities": [],
+        "lookbackDuration": "PT5H",
+        "matchingMethod": "AllEntities",
+        "reopenClosedIncident": false
+      }
+    },
+    "query": "OfficeActivity\n| where OfficeWorkload == \u0022Exchange\u0022\n| where Operation in~ (\u0022New-TransportRule\u0022, \u0022Set-TransportRule\u0022)\n| mv-apply DynamicParameters = todynamic(Parameters) on (summarize ParsedParameters = make_bag(pack(tostring(DynamicParameters.Name), DynamicParameters.Value)))\n| extend RuleName = case(\n    Operation =~ \u0022Set-TransportRule\u0022, OfficeObjectId,\n    Operation =~ \u0022New-TransportRule\u0022, ParsedParameters.Name,\n    \u0022Unknown\u0022)\n| mv-expand ExpandedParameters = todynamic(Parameters)\n| where ExpandedParameters.Name in~ (\u0022BlindCopyTo\u0022, \u0022RedirectMessageTo\u0022) and isnotempty(ExpandedParameters.Value)\n| extend RedirectTo = ExpandedParameters.Value\n| extend ClientIPValues = extract_all(@\u0027\\[?(::ffff:)?(?P\u003CIPAddress\u003E(\\d\u002B\\.\\d\u002B\\.\\d\u002B\\.\\d\u002B)|[^\\]]\u002B)\\]?([-:](?P\u003CPort\u003E\\d\u002B))?\u0027, dynamic([\u0022IPAddress\u0022, \u0022Port\u0022]), ClientIP)[0]\n| extend From = ParsedParameters.From\n| project TimeGenerated, RedirectTo, IPAddress = tostring(ClientIPValues[0]), Port = tostring(ClientIPValues[1]), UserId, From, Operation, RuleName, Parameters\n| extend AccountName = tostring(split(UserId, \u0022@\u0022)[0]), AccountUPNSuffix = tostring(split(UserId, \u0022@\u0022)[1])\n",
+    "queryFrequency": "PT1H",
+    "queryPeriod": "PT1H",
+    "severity": "Medium",
+    "suppressionDuration": "PT1H",
+    "suppressionEnabled": false,
+    "tactics": [
+      "Collection",
+      "Exfiltration"
+    ],
+    "techniques": [
+      "T1114",
+      "T1020"
+    ],
+    "templateVersion": "2.0.4",
+    "triggerOperator": "GreaterThan",
+    "triggerThreshold": 0
+  },
+  "type": "Microsoft.SecurityInsights/alertRules"
+}

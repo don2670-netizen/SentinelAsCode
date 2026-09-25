@@ -1,0 +1,74 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/627a3653-b4fe-47a1-b399-8de44380b119",
+  "kind": "Scheduled",
+  "name": "627a3653-b4fe-47a1-b399-8de44380b119",
+  "properties": {
+    "alertRuleTemplateName": "91a451e3-178f-41b2-9e5d-da97d75b9971",
+    "description": "This query is looking for rarely seen processes which are launched as a service. Whiltelisted process list need to be updated based on the environment.\nAuthor: Jouni Mikkola\nMore info: https://threathunt.blog/rare-process-launch-as-a-service/",
+    "displayName": "Rare Process as a Service",
+    "enabled": true,
+    "entityMappings": [
+      {
+        "entityType": "Host",
+        "fieldMappings": [
+          {
+            "columnName": "DeviceName",
+            "identifier": "FullName"
+          },
+          {
+            "columnName": "HostName",
+            "identifier": "HostName"
+          },
+          {
+            "columnName": "DnsDomain",
+            "identifier": "DnsDomain"
+          }
+        ]
+      },
+      {
+        "entityType": "Process",
+        "fieldMappings": [
+          {
+            "columnName": "ServiceProcessID",
+            "identifier": "ProcessId"
+          },
+          {
+            "columnName": "ServiceProcessCmdline",
+            "identifier": "CommandLine"
+          }
+        ]
+      }
+    ],
+    "eventGroupingSettings": {
+      "aggregationKind": "SingleAlert"
+    },
+    "incidentConfiguration": {
+      "createIncident": true,
+      "groupingConfiguration": {
+        "enabled": false,
+        "groupByAlertDetails": [],
+        "groupByCustomDetails": [],
+        "groupByEntities": [],
+        "lookbackDuration": "PT5H",
+        "matchingMethod": "AllEntities",
+        "reopenClosedIncident": false
+      }
+    },
+    "query": "let LookupTime = 14d;\nlet WhiteList = pack_array(\n\u0022svchost.exe\u0022,\n\u0022mssense.exe\u0022,\n\u0022msmpeng.exe\u0022,\n\u0022searchindexer.exe\u0022,\n\u0022microsoftedgeupdate.exe\u0022\n);\nlet GetServices = materialize (\nDeviceProcessEvents\n| where TimeGenerated \u003E ago(LookupTime)\n| where InitiatingProcessParentFileName contains \u0022services.exe\u0022\n| where InitiatingProcessFileName !in~(WhiteList)\n| project TimeGenerated, DeviceName, StartedChildProcess = FileName, StartedChildProcessSHA1 = SHA1, StartedChildProcessCmdline = ProcessCommandLine, ServiceProcessSHA1 = InitiatingProcessSHA1, ServiceProcess = InitiatingProcessFileName, ServiceProcessCmdline = InitiatingProcessCommandLine, ServiceProcessID = InitiatingProcessId, ServiceProcessCreationTime = InitiatingProcessCreationTime, ServiceProcessUser = InitiatingProcessAccountName\n);\nGetServices\n| summarize count() by ServiceProcess, DeviceName\n| where count_ \u003C 6 \n| join kind = inner GetServices on ServiceProcess, DeviceName \n| join kind = leftouter ( \nDeviceNetworkEvents \n| where TimeGenerated \u003E ago(LookupTime)\n| where InitiatingProcessParentFileName contains \u0022services.exe\u0022\n| where InitiatingProcessFileName !in~(WhiteList)\n| project TimeGenerated, DeviceName, ServiceProcessSHA1 = InitiatingProcessSHA1, ServiceProcess = InitiatingProcessFileName, ServiceProcessCmdline = InitiatingProcessCommandLine, ServiceProcessID = InitiatingProcessId, ServiceProcessCreationTime = InitiatingProcessCreationTime, ServiceProcessUser = InitiatingProcessAccountName, NetworkAction = ActionType, RemoteIP, RemoteUrl\n) on DeviceName, ServiceProcess, ServiceProcessCmdline, ServiceProcessCreationTime, ServiceProcessID, ServiceProcessUser, ServiceProcessSHA1\n| join kind = leftouter (\nDeviceFileEvents\n| where TimeGenerated \u003E ago(LookupTime)\n| where InitiatingProcessParentFileName contains \u0022services.exe\u0022\n| where InitiatingProcessFileName !in~(WhiteList)\n| project TimeGenerated, DeviceName, ServiceProcessSHA1 = InitiatingProcessSHA1, ServiceProcess = InitiatingProcessFileName, ServiceProcessCmdline = InitiatingProcessCommandLine, ServiceProcessID = InitiatingProcessId, ServiceProcessCreationTime = InitiatingProcessCreationTime, ServiceProcessUser = InitiatingProcessAccountName, FileAction = ActionType, ModifiedFile = FileName, ModifiedFileSHA1 = SHA1, ModifiedFilePath = FolderPath\n) on DeviceName, ServiceProcess, ServiceProcessCmdline, ServiceProcessCreationTime, ServiceProcessID, ServiceProcessUser, ServiceProcessSHA1\n| join kind = leftouter (\nDeviceImageLoadEvents\n| where TimeGenerated \u003E ago(LookupTime)\n| where InitiatingProcessParentFileName contains \u0022services.exe\u0022\n| where InitiatingProcessFileName !in~(WhiteList)\n| project TimeGenerated, DeviceName, ServiceProcessSHA1 = InitiatingProcessSHA1, ServiceProcess = InitiatingProcessFileName, ServiceProcessCmdline = InitiatingProcessCommandLine, ServiceProcessID = InitiatingProcessId, ServiceProcessCreationTime = InitiatingProcessCreationTime, ServiceProcessUser = InitiatingProcessAccountName, LoadedDLL = FileName, LoadedDLLSHA1 = SHA1, LoadedDLLPath = FolderPath\n) on DeviceName, ServiceProcess, ServiceProcessCmdline, ServiceProcessCreationTime, ServiceProcessID, ServiceProcessUser, ServiceProcessSHA1\n| summarize ConnectedAddresses = make_set(RemoteIP, 100000), ConnectedUrls = make_set(RemoteUrl, 100000), FilesModified = make_set(ModifiedFile, 100000),FileModFolderPath = make_set(ModifiedFilePath, 100000),FileModHA1s = make_set(ModifiedFileSHA1, 100000), ChildProcesses = make_set(StartedChildProcess, 100000), ChildCommandlines = make_set(StartedChildProcessCmdline, 100000), DLLsLoaded = make_set(LoadedDLL, 100000), DLLSHA1 = make_set(LoadedDLLSHA1, 100000) by DeviceName, ServiceProcess, ServiceProcessCmdline, ServiceProcessCreationTime, ServiceProcessID, ServiceProcessUser, ServiceProcessSHA1\n| extend HostName = iff(DeviceName has \u0027.\u0027, substring(DeviceName, 0, indexof(DeviceName, \u0027.\u0027)), DeviceName)\n| extend DnsDomain = iff(DeviceName has \u0027.\u0027, substring(DeviceName, indexof(DeviceName, \u0027.\u0027) \u002B 1), \u0022\u0022)\n",
+    "queryFrequency": "P1D",
+    "queryPeriod": "P14D",
+    "severity": "Medium",
+    "suppressionDuration": "PT1H",
+    "suppressionEnabled": false,
+    "tactics": [
+      "Persistence"
+    ],
+    "techniques": [
+      "T1543"
+    ],
+    "templateVersion": "1.0.0",
+    "triggerOperator": "GreaterThan",
+    "triggerThreshold": 0
+  },
+  "type": "Microsoft.SecurityInsights/alertRules"
+}

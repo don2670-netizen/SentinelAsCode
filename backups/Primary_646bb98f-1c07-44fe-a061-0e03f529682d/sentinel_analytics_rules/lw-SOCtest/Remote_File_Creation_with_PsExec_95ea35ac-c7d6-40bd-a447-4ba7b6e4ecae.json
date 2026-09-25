@@ -1,0 +1,61 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/95ea35ac-c7d6-40bd-a447-4ba7b6e4ecae",
+  "kind": "Scheduled",
+  "name": "95ea35ac-c7d6-40bd-a447-4ba7b6e4ecae",
+  "properties": {
+    "alertRuleTemplateName": "35ab0d58-baab-4154-87ed-fa2f69797e9e",
+    "description": "This query was originally published in the threat analytics report, Ryuk ransomware. There is also a related blog.\nRyuk is human-operated ransomware. Much like DoppelPaymer ransomware, Ryuk is spread manually, often on networks that are already infected with Trickbot.\nRyuk operators use PsExec to manually spread the ransomware to other devices.\nThe following query detects remote file creation events that might indicate an active attack.\nThe See also section below lists links to other queries associated with Ryuk ransomware.\nReferences:\nhttps://www.microsoft.com/security/blog/2020/03/05/human-operated-ransomware-attacks-a-preventable-disaster/\nhttps://www.microsoft.com/en-us/wdsi/threats/malware-encyclopedia-description?Name=Ransom:Win32/Ryuk.AA\nhttps://www.microsoft.com/security/blog/2020/03/05/human-operated-ransomware-attacks-a-preventable-disaster/\nhttps://docs.microsoft.com/sysinternals/downloads/psexec",
+    "displayName": "Remote File Creation with PsExec",
+    "enabled": true,
+    "entityMappings": [
+      {
+        "entityType": "Host",
+        "fieldMappings": [
+          {
+            "columnName": "DeviceName",
+            "identifier": "FullName"
+          },
+          {
+            "columnName": "HostName",
+            "identifier": "HostName"
+          },
+          {
+            "columnName": "DnsDomain",
+            "identifier": "DnsDomain"
+          }
+        ]
+      }
+    ],
+    "eventGroupingSettings": {
+      "aggregationKind": "SingleAlert"
+    },
+    "incidentConfiguration": {
+      "createIncident": true,
+      "groupingConfiguration": {
+        "enabled": false,
+        "groupByAlertDetails": [],
+        "groupByCustomDetails": [],
+        "groupByEntities": [],
+        "lookbackDuration": "PT5H",
+        "matchingMethod": "AllEntities",
+        "reopenClosedIncident": false
+      }
+    },
+    "query": "// Find PsExec creating multiple files on remote machines in a 10-minute window\nDeviceFileEvents\n// Looking for PsExec by accepteula command flag\n| where InitiatingProcessCommandLine has \u0022accepteula\u0022\n// Remote machines and file is exe\n| where FolderPath has \u0022\\\\\\\\\u0022 and FileName endswith \u0022.exe\u0022\n| extend Exe = countof(InitiatingProcessCommandLine, \u0022.exe\u0022)\n// Checking to see if command line has 2 .exe or .bat\n| where InitiatingProcessCommandLine !has \u0022.ps1\u0022 and Exe \u003E 1 or\nInitiatingProcessCommandLine has \u0022.bat\u0022\n// Exclusions: Remove the following line to widen scope of AHQ\n| where not(InitiatingProcessCommandLine has_any(\u0022batch\u0022, \u0022auditpol\u0022,\n\u0022script\u0022, \u0022scripts\u0022, \u0022illusive\u0022, \u0022rebootrequired\u0022))\n| summarize FileCount = dcount(FolderPath), make_set(SHA1, 100000), make_set(FolderPath, 100000),\nmake_set(FileName, 100000), make_set(InitiatingProcessCommandLine, 100000) by DeviceId, DeviceName,\nTimeWindow=bin(TimeGenerated, 10m), InitiatingProcessFileName\n| where FileCount \u003E 4\n| extend HostName = iff(DeviceName has \u0027.\u0027, substring(DeviceName, 0, indexof(DeviceName, \u0027.\u0027)), DeviceName)\n| extend DnsDomain = iff(DeviceName has \u0027.\u0027, substring(DeviceName, indexof(DeviceName, \u0027.\u0027) \u002B 1), \u0022\u0022)\n",
+    "queryFrequency": "PT1H",
+    "queryPeriod": "PT1H",
+    "severity": "High",
+    "suppressionDuration": "PT1H",
+    "suppressionEnabled": false,
+    "tactics": [
+      "LateralMovement"
+    ],
+    "techniques": [
+      "T1570"
+    ],
+    "templateVersion": "1.0.0",
+    "triggerOperator": "GreaterThan",
+    "triggerThreshold": 0
+  },
+  "type": "Microsoft.SecurityInsights/alertRules"
+}

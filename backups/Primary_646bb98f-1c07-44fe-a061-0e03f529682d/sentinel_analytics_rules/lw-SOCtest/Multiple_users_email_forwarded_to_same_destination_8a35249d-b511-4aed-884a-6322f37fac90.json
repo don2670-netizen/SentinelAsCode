@@ -1,0 +1,72 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/8a35249d-b511-4aed-884a-6322f37fac90",
+  "kind": "Scheduled",
+  "name": "8a35249d-b511-4aed-884a-6322f37fac90",
+  "properties": {
+    "alertRuleTemplateName": "871ba14c-88ef-48aa-ad38-810f26760ca3",
+    "description": "Identifies when multiple (more than one) users mailboxes are configured to forward to the same destination. \nThis could be an attacker-controlled destination mailbox configured to collect mail from multiple compromised user accounts.",
+    "displayName": "Multiple users email forwarded to same destination",
+    "enabled": true,
+    "entityMappings": [
+      {
+        "entityType": "Account",
+        "fieldMappings": [
+          {
+            "columnName": "UserId",
+            "identifier": "FullName"
+          },
+          {
+            "columnName": "AccountName",
+            "identifier": "Name"
+          },
+          {
+            "columnName": "AccountUPNSuffix",
+            "identifier": "UPNSuffix"
+          }
+        ]
+      },
+      {
+        "entityType": "IP",
+        "fieldMappings": [
+          {
+            "columnName": "ClientIP",
+            "identifier": "Address"
+          }
+        ]
+      }
+    ],
+    "eventGroupingSettings": {
+      "aggregationKind": "SingleAlert"
+    },
+    "incidentConfiguration": {
+      "createIncident": true,
+      "groupingConfiguration": {
+        "enabled": false,
+        "groupByAlertDetails": [],
+        "groupByCustomDetails": [],
+        "groupByEntities": [],
+        "lookbackDuration": "PT5H",
+        "matchingMethod": "AllEntities",
+        "reopenClosedIncident": false
+      }
+    },
+    "query": "let queryfrequency = 1d;\nlet queryperiod = 7d;\nOfficeActivity\n| where TimeGenerated \u003E ago(queryperiod)\n| where OfficeWorkload =~ \u0022Exchange\u0022\n//| where Operation in (\u0022Set-Mailbox\u0022, \u0022New-InboxRule\u0022, \u0022Set-InboxRule\u0022)\n| where Parameters has_any (\u0022ForwardTo\u0022, \u0022RedirectTo\u0022, \u0022ForwardingSmtpAddress\u0022)\n| mv-apply DynamicParameters = todynamic(Parameters) on (summarize ParsedParameters = make_bag(bag_pack(tostring(DynamicParameters.Name), DynamicParameters.Value)))\n| evaluate bag_unpack(ParsedParameters, columnsConflict=\u0027replace_source\u0027)\n| extend DestinationMailAddress = tolower(case(\n    isnotempty(column_ifexists(\u0022ForwardTo\u0022, \u0022\u0022)), column_ifexists(\u0022ForwardTo\u0022, \u0022\u0022),\n    isnotempty(column_ifexists(\u0022RedirectTo\u0022, \u0022\u0022)), column_ifexists(\u0022RedirectTo\u0022, \u0022\u0022),\n    isnotempty(column_ifexists(\u0022ForwardingSmtpAddress\u0022, \u0022\u0022)), trim_start(@\u0022smtp:\u0022, column_ifexists(\u0022ForwardingSmtpAddress\u0022, \u0022\u0022)),\n    \u0022\u0022))\n| where isnotempty(DestinationMailAddress)\n| mv-expand split(DestinationMailAddress, \u0022;\u0022)\n| extend ClientIPValues = extract_all(@\u0027\\[?(::ffff:)?(?P\u003CIPAddress\u003E(\\d\u002B\\.\\d\u002B\\.\\d\u002B\\.\\d\u002B)|[^\\]]\u002B)\\]?([-:](?P\u003CPort\u003E\\d\u002B))?\u0027, dynamic([\u0022IPAddress\u0022, \u0022Port\u0022]), ClientIP)[0]\n| extend ClientIP = tostring(ClientIPValues[0]), Port = tostring(ClientIPValues[1])\n| summarize StartTime = min(TimeGenerated), EndTime = max(TimeGenerated), DistinctUserCount = dcount(UserId), UserId = make_set(UserId, 250), Ports = make_set(Port, 250), EventCount = count() by tostring(DestinationMailAddress), ClientIP\n| where DistinctUserCount \u003E 1 and EndTime \u003E ago(queryfrequency)\n| mv-expand UserId to typeof(string)\n| extend AccountName = tostring(split(UserId, \u0022@\u0022)[0]), AccountUPNSuffix = tostring(split(UserId, \u0022@\u0022)[1])\n",
+    "queryFrequency": "P1D",
+    "queryPeriod": "P7D",
+    "severity": "Medium",
+    "suppressionDuration": "PT1H",
+    "suppressionEnabled": false,
+    "tactics": [
+      "Collection",
+      "Exfiltration"
+    ],
+    "techniques": [
+      "T1114",
+      "T1020"
+    ],
+    "templateVersion": "2.0.3",
+    "triggerOperator": "GreaterThan",
+    "triggerThreshold": 0
+  },
+  "type": "Microsoft.SecurityInsights/alertRules"
+}

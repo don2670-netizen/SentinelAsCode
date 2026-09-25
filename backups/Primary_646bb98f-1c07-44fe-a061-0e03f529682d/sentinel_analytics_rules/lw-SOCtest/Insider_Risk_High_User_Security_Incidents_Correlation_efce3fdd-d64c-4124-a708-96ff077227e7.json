@@ -1,0 +1,63 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/efce3fdd-d64c-4124-a708-96ff077227e7",
+  "kind": "Scheduled",
+  "name": "efce3fdd-d64c-4124-a708-96ff077227e7",
+  "properties": {
+    "alertRuleTemplateName": "28a75d10-9b75-4192-9863-e452c3ad24db",
+    "description": "This alert joins SecurityAlerts to SecurityIncidents to associate Security Alerts and Incidents with user accounts. This aligns all Microsoft Alerting Products with Microsoft Incident Generating Products (Microsoft Sentinel, M365 Defender) for a count of user security incidents over time. The default threshold is 5 security incidents, and this is customizable per the organization\u0027s requirements. Results include UserPrincipalName (UPN), SecurityIncident, LastIncident, ProductName, LastObservedTime, and Previous Incidents. There is an option for configuration of correlations against Microsoft Sentinel watchlists. For more information, see [Investigate incidents with Microsoft Sentinel]( https://docs.microsoft.com/azure/sentinel/investigate-cases).",
+    "displayName": "Insider Risk_High User Security Incidents Correlation",
+    "enabled": true,
+    "entityMappings": [
+      {
+        "entityType": "Account",
+        "fieldMappings": [
+          {
+            "columnName": "UPN",
+            "identifier": "FullName"
+          },
+          {
+            "columnName": "AccountName",
+            "identifier": "Name"
+          },
+          {
+            "columnName": "AccountUPNSuffix",
+            "identifier": "UPNSuffix"
+          }
+        ]
+      }
+    ],
+    "eventGroupingSettings": {
+      "aggregationKind": "SingleAlert"
+    },
+    "incidentConfiguration": {
+      "createIncident": true,
+      "groupingConfiguration": {
+        "enabled": true,
+        "groupByAlertDetails": [],
+        "groupByCustomDetails": [],
+        "groupByEntities": [
+          "Account"
+        ],
+        "lookbackDuration": "P1D",
+        "matchingMethod": "Selected",
+        "reopenClosedIncident": true
+      }
+    },
+    "query": "let PreviousIncidents =\nSecurityIncident\n| summarize hint.strategy = shuffle arg_max(LastModifiedTime, *) by IncidentNumber\n| mv-expand AlertIds\n| extend AlertId = tostring(AlertIds)\n| join kind= innerunique ( \n          SecurityAlert \n          )\n          on $left.AlertId == $right.SystemAlertId\n| summarize hint.strategy = shuffle arg_max(TimeGenerated, *), NumberOfUpdates = count() by SystemAlertId\n| mv-expand todynamic(Entities)\n| where Entities[\u0022Type\u0022] =~ \u0022account\u0022\n| extend Name = tostring(tolower(Entities[\u0022Name\u0022])), NTDomain = tostring(Entities[\u0022NTDomain\u0022]), UPNSuffix = tostring(Entities[\u0022UPNSuffix\u0022]), AadUserId = tostring(Entities[\u0022AadUserId\u0022]), AadTenantId = tostring(Entities[\u0022AadTenantId\u0022]), \n          Sid = tostring(Entities[\u0022Sid\u0022]), IsDomainJoined = tobool(Entities[\u0022IsDomainJoined\u0022]), Host = tostring(Entities[\u0022Host\u0022])\n| extend UPN = iff(Name != \u0022\u0022 and UPNSuffix != \u0022\u0022, strcat(Name, \u0022@\u0022, UPNSuffix), \u0022\u0022)\n| extend Href_ = tostring(parse_json(ExtendedLinks)[0].Href)\n| where UPN \u003C\u003E \u0022\u0022\n| summarize PreviousIncidents = make_set(IncidentNumber) by UPN;\nlet LastTimeObserved =\nSecurityIncident\n| summarize hint.strategy = shuffle arg_max(LastModifiedTime, *) by IncidentNumber\n| mv-expand AlertIds\n| extend AlertId = tostring(AlertIds)\n| join kind= innerunique ( \n          SecurityAlert \n          )\n          on $left.AlertId == $right.SystemAlertId\n| summarize hint.strategy = shuffle arg_max(TimeGenerated, *), NumberOfUpdates = count() by SystemAlertId\n| mv-expand todynamic(Entities)\n| where Entities[\u0022Type\u0022] =~ \u0022account\u0022\n| extend Name = tostring(tolower(Entities[\u0022Name\u0022])), NTDomain = tostring(Entities[\u0022NTDomain\u0022]), UPNSuffix = tostring(Entities[\u0022UPNSuffix\u0022]), AadUserId = tostring(Entities[\u0022AadUserId\u0022]), AadTenantId = tostring(Entities[\u0022AadTenantId\u0022]), \n          Sid = tostring(Entities[\u0022Sid\u0022]), IsDomainJoined = tobool(Entities[\u0022IsDomainJoined\u0022]), Host = tostring(Entities[\u0022Host\u0022])\n| extend UPN = iff(Name != \u0022\u0022 and UPNSuffix != \u0022\u0022, strcat(Name, \u0022@\u0022, UPNSuffix), \u0022\u0022)\n| extend Href_ = tostring(parse_json(ExtendedLinks)[0].Href)\n| where UPN \u003C\u003E \u0022\u0022\n| summarize arg_max(TimeGenerated, IncidentName) by UPN;\n  SecurityIncident\n| summarize hint.strategy = shuffle arg_max(LastModifiedTime, *) by IncidentNumber\n| mv-expand AlertIds\n| extend AlertId = tostring(AlertIds)\n| join kind= innerunique ( \n          SecurityAlert \n          )\n          on $left.AlertId == $right.SystemAlertId\n| summarize hint.strategy = shuffle arg_max(TimeGenerated, *), NumberOfUpdates = count() by SystemAlertId\n| mv-expand todynamic(Entities)\n| where Entities[\u0022Type\u0022] =~ \u0022account\u0022\n| extend Name = tostring(tolower(Entities[\u0022Name\u0022])), NTDomain = tostring(Entities[\u0022NTDomain\u0022]), UPNSuffix = tostring(Entities[\u0022UPNSuffix\u0022]), AadUserId = tostring(Entities[\u0022AadUserId\u0022]), AadTenantId = tostring(Entities[\u0022AadTenantId\u0022]), \n          Sid = tostring(Entities[\u0022Sid\u0022]), IsDomainJoined = tobool(Entities[\u0022IsDomainJoined\u0022]), Host = tostring(Entities[\u0022Host\u0022])\n| extend UPN = iff(Name != \u0022\u0022 and UPNSuffix != \u0022\u0022, strcat(Name, \u0022@\u0022, UPNSuffix), \u0022\u0022)\n| extend Href_ = tostring(parse_json(ExtendedLinks)[0].Href)\n| where UPN \u003C\u003E \u0022\u0022\n| summarize count() by UPN, IncidentName, IncidentNumber, IncidentUrl, Severity, ProductName\n| extend SecurityIncidents = count_\n| where SecurityIncidents \u003E 5 //Adjust \u0026 Tune within Organzational Requirements\n| join (LastTimeObserved) on UPN\n| project-rename LastObserved = TimeGenerated, LastIncident = IncidentNumber\n| project-away IncidentName, count_, UPN1, IncidentName1, Severity, IncidentUrl\n| join kind=inner (PreviousIncidents) on UPN\n// | lookup kind=inner _GetWatchlist(\u0027\u003CYour Watchlist Name\u003E\u0027) on $left.UPN == $right.SearchKey\n| project UPN, SecurityIncidents, LastIncident, ProductName, LastObserved, PreviousIncidents\n| sort by SecurityIncidents desc\n| extend AccountName = tostring(split(UPN, \u0022@\u0022)[0]), AccountUPNSuffix = tostring(split(UPN, \u0022@\u0022)[1])\n",
+    "queryFrequency": "P7D",
+    "queryPeriod": "P7D",
+    "severity": "High",
+    "suppressionDuration": "PT1H",
+    "suppressionEnabled": false,
+    "tactics": [
+      "Execution"
+    ],
+    "techniques": [
+      "T1204"
+    ],
+    "templateVersion": "1.1.2",
+    "triggerOperator": "GreaterThan",
+    "triggerThreshold": 0
+  },
+  "type": "Microsoft.SecurityInsights/alertRules"
+}

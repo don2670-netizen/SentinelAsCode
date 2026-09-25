@@ -1,0 +1,17 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/summarylogs/5ab552c4-c1b3-4860-ba90-d0ba00dc4fec",
+  "name": "5ab552c4-c1b3-4860-ba90-d0ba00dc4fec",
+  "properties": {
+    "description": "ramal_summaryrules_CL",
+    "displayName": "ramal_summaryrules_CL",
+    "isActive": true,
+    "provisioningState": "Succeeded",
+    "ruleDefinition": {
+      "binSize": 1440,
+      "destinationTable": "ramal_summaryrules_CL",
+      "query": "SigninLogs\r\n| where UserDisplayName contains \u0022Global\u0022\r\n| summarize by UserDisplayName, IPAddress, ResultType",
+      "timeSelector": "TimeGenerated"
+    },
+    "ruleType": "User"
+  }
+}

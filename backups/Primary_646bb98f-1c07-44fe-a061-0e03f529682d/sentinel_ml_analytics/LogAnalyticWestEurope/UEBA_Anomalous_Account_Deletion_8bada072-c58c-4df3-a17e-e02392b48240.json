@@ -1,0 +1,48 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/8bada072-c58c-4df3-a17e-e02392b48240",
+  "kind": "Anomaly",
+  "name": "8bada072-c58c-4df3-a17e-e02392b48240",
+  "properties": {
+    "anomalySettingsVersion": 0,
+    "anomalyVersion": "3.4.21",
+    "customizableObservations": {
+      "multiSelectObservations": null,
+      "prioritizeExcludeObservations": null,
+      "singleSelectObservations": null,
+      "singleValueObservations": null,
+      "thresholdObservations": [
+        {
+          "description": "Generate an anomaly when the anomaly score is greater than the chosen value.",
+          "maximum": "1",
+          "minimum": "0",
+          "name": "Anomaly score threshold",
+          "rerun": "RerunAlways",
+          "sequenceNumber": 0,
+          "value": "0"
+        }
+      ]
+    },
+    "description": "Adversaries may interrupt availability of system and network resources by inhibiting access to accounts utilized by legitimate users. Accounts may be deleted, locked, or manipulated (ex: changed credentials) to remove access to accounts.\nSentinel UEBA detects anomalies based on dynamic baselines created for each entity across various data inputs. Each entity\u00E2\u20AC\u2122s baseline behavior is set according to its own historical activities, those of its peers, and those of the organization as a whole. Anomalies can be triggered by the correlation of different attributes such as action type, geo-location, device, resource, ISP, and more.\nSupported data sources: Azure Audit (Core Directory/UserManagement/Delete user, Core Directory/Device/Delete user, Core Directory/UserManagement/Delete user)\n",
+    "displayName": "UEBA Anomalous Account Deletion",
+    "enabled": true,
+    "frequency": "P1D",
+    "isDefaultSettings": true,
+    "requiredDataConnectors": [
+      {
+        "ConnectorId": "AzureActiveDirectory",
+        "DataTypes": [
+          "AuditLogs"
+        ]
+      }
+    ],
+    "settingsDefinitionId": "8bada072-c58c-4df3-a17e-e02392b48240",
+    "settingsStatus": "Production",
+    "tactics": [
+      "Impact"
+    ],
+    "techniques": [
+      "T1531"
+    ]
+  },
+  "type": "Microsoft.SecurityInsights/securityMLAnalyticsSettings"
+}

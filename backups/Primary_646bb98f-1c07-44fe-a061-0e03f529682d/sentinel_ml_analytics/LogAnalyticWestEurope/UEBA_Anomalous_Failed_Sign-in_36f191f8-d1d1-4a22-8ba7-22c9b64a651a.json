@@ -1,0 +1,54 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/36f191f8-d1d1-4a22-8ba7-22c9b64a651a",
+  "kind": "Anomaly",
+  "name": "36f191f8-d1d1-4a22-8ba7-22c9b64a651a",
+  "properties": {
+    "anomalySettingsVersion": 0,
+    "anomalyVersion": "3.4.21",
+    "customizableObservations": {
+      "multiSelectObservations": null,
+      "prioritizeExcludeObservations": null,
+      "singleSelectObservations": null,
+      "singleValueObservations": null,
+      "thresholdObservations": [
+        {
+          "description": "Generate an anomaly when the anomaly score is greater than the chosen value.",
+          "maximum": "1",
+          "minimum": "0",
+          "name": "Anomaly score threshold",
+          "rerun": "RerunAlways",
+          "sequenceNumber": 0,
+          "value": "0.5"
+        }
+      ]
+    },
+    "description": "Adversaries with no prior knowledge of legitimate credentials within the system or environment may guess passwords to attempt access to accounts.\nSentinel UEBA detects anomalies based on dynamic baselines created for each entity across various data inputs. Each entity\u00E2\u20AC\u2122s baseline behavior is set according to its own historical activities, those of its peers, and those of the organization as a whole. Anomalies can be triggered by the correlation of different attributes such as action type, geo-location, device, resource, ISP, and more.\nSupported data sources: Azure Sign-in, Windows security logs (Events 4624, 4625, 4672, 4648)\n",
+    "displayName": "UEBA Anomalous Failed Sign-in",
+    "enabled": true,
+    "frequency": "P1D",
+    "isDefaultSettings": true,
+    "requiredDataConnectors": [
+      {
+        "ConnectorId": "AzureActiveDirectory",
+        "DataTypes": [
+          "SigninLogs"
+        ]
+      },
+      {
+        "ConnectorId": "SecurityEvents",
+        "DataTypes": [
+          "SecurityEvents"
+        ]
+      }
+    ],
+    "settingsDefinitionId": "36f191f8-d1d1-4a22-8ba7-22c9b64a651a",
+    "settingsStatus": "Production",
+    "tactics": [
+      "CredentialAccess"
+    ],
+    "techniques": [
+      "T1110"
+    ]
+  },
+  "type": "Microsoft.SecurityInsights/securityMLAnalyticsSettings"
+}

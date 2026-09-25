@@ -1,0 +1,38 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-SOC/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/6e3c118d-907c-4506-adf6-37e409b8e01c",
+  "kind": "Scheduled",
+  "name": "6e3c118d-907c-4506-adf6-37e409b8e01c",
+  "properties": {
+    "alertRuleTemplateName": "b9d2eebc-5dcb-4888-8165-900db44443ab",
+    "description": "2This query detects potential attempts by non-computer accounts (non domain controllers) to retrieve/synchronize an active directory object leveraging directory replication services (DRS).\nA Domain Controller (computer account) would usually be performing these actions in a domain environment. Another detection rule can be created to cover domain controllers accounts doing at rare times.\nA domain user with privileged permissions to use directory replication services is rare.",
+    "displayName": "Non Domain Controller Active Directory Replication",
+    "enabled": true,
+    "incidentConfiguration": {
+      "createIncident": true,
+      "groupingConfiguration": {
+        "enabled": false,
+        "groupByAlertDetails": null,
+        "groupByCustomDetails": null,
+        "groupByEntities": [],
+        "lookbackDuration": "PT5M",
+        "matchingMethod": "AllEntities",
+        "reopenClosedIncident": false
+      }
+    },
+    "query": "// Enter a reference list of hostnames for your DC servers\n//comment2\n//let DCServersList = dynamic ([\u0022DC01.simulandlabs.com\u0022,\u0022DC02.simulandlabs.com\u0022]);\nSecurityEvent\n//| where Computer in (DCServersList)\n| where EventID == 4662 and ObjectServer == \u0027DS\u0027\n| where AccountType != \u0027Machine\u0027\n| where Properties has \u00271131f6aa-9c07-11d1-f79f-00c04fc2dcd2\u0027 //DS-Replication-Get-Changes\n    or Properties has \u00271131f6ad-9c07-11d1-f79f-00c04fc2dcd2\u0027 //DS-Replication-Get-Changes-All\n    or Properties has \u002789e95b76-444d-4c62-991a-0facbeda640c\u0027 //DS-Replication-Get-Changes-In-Filtered-Set\n| project TimeGenerated, Account, Activity, Properties, SubjectLogonId, Computer\n| join kind=leftouter\n(\n    SecurityEvent\n    //| where Computer in (DCServersList)\n    | where EventID == 4624 and LogonType == 2\n    | where AccountType != \u0027Machine\u0027\n    | project TargetLogonId, IpAddress\n)\non $left.SubjectLogonId == $right.TargetLogonId\n| project-reorder TimeGenerated, Computer, Account, IpAddress\n| extend HostName = tostring(split(Computer, \u0022.\u0022)[0]), DomainIndex = toint(indexof(Computer, \u0027.\u0027))\n| extend HostNameDomain = iff(DomainIndex != -1, substring(Computer, DomainIndex \u002B 1), Computer)\n| extend AccountName = tostring(split(Account, \u0022\\\\\u0022)[0]), AccountNTDomain = tostring(split(Account, \u0022\\\\\u0022)[1])",
+    "queryFrequency": "PT5M",
+    "queryPeriod": "PT5M",
+    "severity": "High",
+    "suppressionDuration": "PT1H",
+    "suppressionEnabled": false,
+    "tactics": [
+      "CredentialAccess"
+    ],
+    "techniques": [
+      "T1003"
+    ],
+    "triggerOperator": "GreaterThan",
+    "triggerThreshold": 0
+  },
+  "type": "Microsoft.SecurityInsights/alertRules"
+}

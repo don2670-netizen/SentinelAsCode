@@ -1,0 +1,43 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/AutomationRules/a3e6eb74-9f81-45f1-a489-e40162bdaefc",
+  "name": "a3e6eb74-9f81-45f1-a489-e40162bdaefc",
+  "properties": {
+    "actions": [
+      {
+        "actionConfiguration": {
+          "description": null,
+          "title": "test"
+        },
+        "actionType": "AddIncidentTask",
+        "order": 1
+      }
+    ],
+    "createdBy": {
+      "email": null,
+      "name": "Global",
+      "objectId": "0e5ec069-8d97-4d0b-a210-c5277f11644f",
+      "userPrincipalName": "Global@safis.dk"
+    },
+    "createdTimeUtc": "2026-04-04T11:20:51Z",
+    "displayName": "testautoms",
+    "order": 5,
+    "triggeringLogic": {
+      "conditions": [
+        {
+          "conditionProperties": {
+            "operator": "Contains",
+            "propertyName": "IncidentRelatedAnalyticRuleIds",
+            "propertyValues": [
+              "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/a366a8be-1633-43d2-b4b0-b3d6de94567d"
+            ]
+          },
+          "conditionType": "Property"
+        }
+      ],
+      "isEnabled": true,
+      "triggersOn": "Incidents",
+      "triggersWhen": "Created"
+    }
+  },
+  "type": "Microsoft.SecurityInsights/AutomationRules"
+}

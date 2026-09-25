@@ -1,0 +1,48 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/8a602940-4153-4045-a741-3bf15591ae29",
+  "kind": "Anomaly",
+  "name": "8a602940-4153-4045-a741-3bf15591ae29",
+  "properties": {
+    "anomalySettingsVersion": 0,
+    "anomalyVersion": "3.4.10",
+    "customizableObservations": {
+      "multiSelectObservations": null,
+      "prioritizeExcludeObservations": null,
+      "singleSelectObservations": null,
+      "singleValueObservations": null,
+      "thresholdObservations": [
+        {
+          "description": "Generate an anomaly when score is greater than the chosen value",
+          "maximum": "1",
+          "minimum": "0",
+          "name": "Score",
+          "rerun": "NotRequired",
+          "sequenceNumber": 1,
+          "value": "0.4"
+        }
+      ]
+    },
+    "description": "This algorithm detects an unusually high volume of failed login attempts to each computer. The model is trained on the previous 21 days of security event ID 4625 on a computer. It indicates anomalous high volume of failed login attempts in the last day.",
+    "displayName": "Attempted computer bruteforce",
+    "enabled": true,
+    "frequency": "P1D",
+    "isDefaultSettings": true,
+    "requiredDataConnectors": [
+      {
+        "ConnectorId": "SecurityEvents",
+        "DataTypes": [
+          "SecurityEvents"
+        ]
+      }
+    ],
+    "settingsDefinitionId": "8a602940-4153-4045-a741-3bf15591ae29",
+    "settingsStatus": "Production",
+    "tactics": [
+      "CredentialAccess"
+    ],
+    "techniques": [
+      "T1110"
+    ]
+  },
+  "type": "Microsoft.SecurityInsights/securityMLAnalyticsSettings"
+}

@@ -1,0 +1,78 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/326f2c07-ee9d-49c8-9b19-389f0b221c17",
+  "kind": "Scheduled",
+  "name": "326f2c07-ee9d-49c8-9b19-389f0b221c17",
+  "properties": {
+    "alertRuleTemplateName": "2a1dc4c2-a8d6-4a0e-8539-9b971c851195",
+    "description": "Background Intelligent Transfer Service (BITS) is a way to reliably download files from webservers or SMB servers. \nThis service is commonly used for legitimate purposes, but can also be used as part of a malware downloader. \nAdditionally, bitsadmin can be used to upload files and therefore can be used for data exfiltration. This\nquery will identify use of bitsadmin.exe for either purpose and will identify directionality file transfer\ndirectionality.",
+    "displayName": "Bitsadmin Activity",
+    "enabled": true,
+    "entityMappings": [
+      {
+        "entityType": "Host",
+        "fieldMappings": [
+          {
+            "columnName": "DeviceName",
+            "identifier": "FullName"
+          },
+          {
+            "columnName": "HostName",
+            "identifier": "HostName"
+          },
+          {
+            "columnName": "DnsDomain",
+            "identifier": "DnsDomain"
+          }
+        ]
+      },
+      {
+        "entityType": "Process",
+        "fieldMappings": [
+          {
+            "columnName": "ProcessId",
+            "identifier": "ProcessId"
+          },
+          {
+            "columnName": "ProcessCommandLine",
+            "identifier": "CommandLine"
+          }
+        ]
+      }
+    ],
+    "eventGroupingSettings": {
+      "aggregationKind": "SingleAlert"
+    },
+    "incidentConfiguration": {
+      "createIncident": true,
+      "groupingConfiguration": {
+        "enabled": false,
+        "groupByAlertDetails": [],
+        "groupByCustomDetails": [],
+        "groupByEntities": [],
+        "lookbackDuration": "PT5H",
+        "matchingMethod": "AllEntities",
+        "reopenClosedIncident": false
+      }
+    },
+    "query": "DeviceProcessEvents\n| where \n    (FileName =~ \u0022bitsadmin.exe\u0022 or column_ifexists(\u0027ProcessVersionInfoOriginalFileName\u0027,\u0027ColumnNotAvailable\u0027) =~ \u0027bitsadmin.exe\u0027)\n    and ProcessCommandLine has_any (\u0027/Transfer\u0027,\u0027/AddFile\u0027, \u0027/AddFileSet\u0027,\u0027/AddFileWithRanges\u0027)\n| extend \n    ParsedCommandLine = parse_command_line(ProcessCommandLine,\u0027windows\u0027)\n| extend     \n    RemoteUrl = tostring(ParsedCommandLine[-2]),\n    LocalFile= tostring(ParsedCommandLine[-1]),\n    Direction = iff(ProcessCommandLine has \u0022/Upload\u0022, \u0027Upload\u0027, \u0027Download\u0027)\n| project-reorder \n    TimeGenerated,\n    DeviceId,\n    DeviceName,\n    Direction,\n    RemoteUrl,\n    LocalFile,\n    InitiatingProcessFolderPath,\n    InitiatingProcessAccountDomain,\n    InitiatingProcessAccountName,\n    InitiatingProcessSHA256,\n    ProcessId,\n    ProcessCommandLine\n| extend HostName = iff(DeviceName has \u0027.\u0027, substring(DeviceName, 0, indexof(DeviceName, \u0027.\u0027)), DeviceName)\n| extend DnsDomain = iff(DeviceName has \u0027.\u0027, substring(DeviceName, indexof(DeviceName, \u0027.\u0027) \u002B 1), \u0022\u0022)\n",
+    "queryFrequency": "PT1H",
+    "queryPeriod": "PT1H",
+    "severity": "Medium",
+    "suppressionDuration": "PT1H",
+    "suppressionEnabled": false,
+    "tactics": [
+      "Persistence",
+      "CommandAndControl",
+      "Exfiltration"
+    ],
+    "techniques": [
+      "T1197",
+      "T1105",
+      "T1048"
+    ],
+    "templateVersion": "1.0.0",
+    "triggerOperator": "GreaterThan",
+    "triggerThreshold": 0
+  },
+  "type": "Microsoft.SecurityInsights/alertRules"
+}

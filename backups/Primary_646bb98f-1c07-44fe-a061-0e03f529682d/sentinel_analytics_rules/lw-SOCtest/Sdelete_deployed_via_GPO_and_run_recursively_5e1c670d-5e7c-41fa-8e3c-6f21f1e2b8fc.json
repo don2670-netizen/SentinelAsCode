@@ -1,0 +1,78 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/5e1c670d-5e7c-41fa-8e3c-6f21f1e2b8fc",
+  "kind": "Scheduled",
+  "name": "5e1c670d-5e7c-41fa-8e3c-6f21f1e2b8fc",
+  "properties": {
+    "alertRuleTemplateName": "d9f28fdf-abc8-4f1a-a7e7-1aaec87a2fc5",
+    "description": "This query looks for the Sdelete process being run recursively after being deployed to a host via GPO. Attackers could use this technique to deploy Sdelete to multiple host and delete data on them.",
+    "displayName": "Sdelete deployed via GPO and run recursively",
+    "enabled": true,
+    "entityMappings": [
+      {
+        "entityType": "Account",
+        "fieldMappings": [
+          {
+            "columnName": "TargetAccount",
+            "identifier": "FullName"
+          },
+          {
+            "columnName": "AccountName",
+            "identifier": "Name"
+          },
+          {
+            "columnName": "AccountNTDomain",
+            "identifier": "NTDomain"
+          }
+        ]
+      },
+      {
+        "entityType": "Host",
+        "fieldMappings": [
+          {
+            "columnName": "Computer",
+            "identifier": "FullName"
+          },
+          {
+            "columnName": "HostName",
+            "identifier": "HostName"
+          },
+          {
+            "columnName": "HostNameDomain",
+            "identifier": "DnsDomain"
+          }
+        ]
+      }
+    ],
+    "eventGroupingSettings": {
+      "aggregationKind": "SingleAlert"
+    },
+    "incidentConfiguration": {
+      "createIncident": true,
+      "groupingConfiguration": {
+        "enabled": false,
+        "groupByAlertDetails": [],
+        "groupByCustomDetails": [],
+        "groupByEntities": [],
+        "lookbackDuration": "PT5H",
+        "matchingMethod": "AllEntities",
+        "reopenClosedIncident": false
+      }
+    },
+    "query": "SecurityEvent\n  | where EventID == 4688\n  | where Process =~ \u0022svchost.exe\u0022\n  | where CommandLine has \u0022-k GPSvcGroup\u0022 or CommandLine has \u0022-s gpsvc\u0022\n  | extend timekey = bin(TimeGenerated, 1m)\n  | project timekey, NewProcessId, Computer\n  | join kind=inner (SecurityEvent\n  | where EventID == 4688\n  | where Process =~ \u0022sdelete.exe\u0022 or CommandLine has \u0022sdelete\u0022\n  | where ParentProcessName endswith \u0022svchost.exe\u0022\n  | where CommandLine has_all (\u0022-s\u0022, \u0022-r\u0022)\n  | extend newProcess = Process\n  | extend timekey = bin(TimeGenerated, 1m)\n  ) on $left.NewProcessId == $right.ProcessId, timekey, Computer\n  | extend HostName = tostring(split(Computer, \u0022.\u0022)[0]), DomainIndex = toint(indexof(Computer, \u0027.\u0027))\n  | extend HostNameDomain = iff(DomainIndex != -1, substring(Computer, DomainIndex \u002B 1), Computer)\n  | extend AccountName = tostring(split(TargetAccount, @\u0027\\\u0027)[1]), AccountNTDomain = tostring(split(TargetAccount, @\u0027\\\u0027)[0])\n",
+    "queryFrequency": "P1D",
+    "queryPeriod": "P1D",
+    "severity": "Medium",
+    "suppressionDuration": "PT1H",
+    "suppressionEnabled": false,
+    "tactics": [
+      "Impact"
+    ],
+    "techniques": [
+      "T1485"
+    ],
+    "templateVersion": "1.0.2",
+    "triggerOperator": "GreaterThan",
+    "triggerThreshold": 0
+  },
+  "type": "Microsoft.SecurityInsights/alertRules"
+}

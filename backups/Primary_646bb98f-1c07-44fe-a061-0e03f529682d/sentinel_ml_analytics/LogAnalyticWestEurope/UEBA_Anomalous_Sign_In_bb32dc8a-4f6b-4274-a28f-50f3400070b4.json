@@ -1,0 +1,54 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/bb32dc8a-4f6b-4274-a28f-50f3400070b4",
+  "kind": "Anomaly",
+  "name": "bb32dc8a-4f6b-4274-a28f-50f3400070b4",
+  "properties": {
+    "anomalySettingsVersion": 0,
+    "anomalyVersion": "3.4.19",
+    "customizableObservations": {
+      "multiSelectObservations": null,
+      "prioritizeExcludeObservations": null,
+      "singleSelectObservations": null,
+      "singleValueObservations": null,
+      "thresholdObservations": [
+        {
+          "description": "Generate an anomaly when the anomaly score is greater than the chosen value.",
+          "maximum": "1",
+          "minimum": "0",
+          "name": "Anomaly score threshold",
+          "rerun": "RerunAlways",
+          "sequenceNumber": 0,
+          "value": "0.5"
+        }
+      ]
+    },
+    "description": "Adversaries may steal the credentials of a specific user or service account using Credential\nAccess techniques or capture credentials earlier in their reconnaissance process through\nsocial engineering for means of gaining Persistence. Sentinel UEBA detects anomalies based on dynamic baselines created for each entity across various data inputs. Each entity\u0027s baseline behavior is set according to its own historical activities, those of its peers, and those of the organization as a whole. Anomalies can be triggered by the correlation of different attributes such as action type, geo-location, device, resource, ISP, and more.\n",
+    "displayName": "UEBA Anomalous Sign In",
+    "enabled": true,
+    "frequency": "P1D",
+    "isDefaultSettings": true,
+    "requiredDataConnectors": [
+      {
+        "ConnectorId": "AzureActiveDirectory",
+        "DataTypes": [
+          "SigninLogs"
+        ]
+      },
+      {
+        "ConnectorId": "SecurityEvents",
+        "DataTypes": [
+          "SecurityEvents"
+        ]
+      }
+    ],
+    "settingsDefinitionId": "bb32dc8a-4f6b-4274-a28f-50f3400070b4",
+    "settingsStatus": "Production",
+    "tactics": [
+      "InitialAccess"
+    ],
+    "techniques": [
+      "T1078"
+    ]
+  },
+  "type": "Microsoft.SecurityInsights/securityMLAnalyticsSettings"
+}

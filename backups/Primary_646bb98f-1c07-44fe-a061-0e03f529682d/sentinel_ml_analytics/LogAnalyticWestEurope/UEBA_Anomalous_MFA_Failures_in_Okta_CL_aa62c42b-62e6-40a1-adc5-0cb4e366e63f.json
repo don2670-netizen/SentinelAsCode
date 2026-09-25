@@ -1,0 +1,50 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/aa62c42b-62e6-40a1-adc5-0cb4e366e63f",
+  "kind": "Anomaly",
+  "name": "aa62c42b-62e6-40a1-adc5-0cb4e366e63f",
+  "properties": {
+    "anomalySettingsVersion": 0,
+    "anomalyVersion": "1.0.16",
+    "customizableObservations": {
+      "multiSelectObservations": null,
+      "prioritizeExcludeObservations": null,
+      "singleSelectObservations": null,
+      "singleValueObservations": null,
+      "thresholdObservations": [
+        {
+          "description": "Generate an anomaly when the anomaly score is greater than the chosen value.",
+          "maximum": "1",
+          "minimum": "0",
+          "name": "Anomaly score threshold",
+          "rerun": "RerunAlways",
+          "sequenceNumber": 0,
+          "value": "0"
+        }
+      ]
+    },
+    "description": "This anomaly highlights unusual patterns of failed multi-factor authentication (MFA) attempts in Okta. These anomalies may result from account misuse, credential stuffing, or improper use of trusted device mechanisms, and often reflect early-stage adversary behaviors such as testing stolen credentials or probing identity safeguards",
+    "displayName": "UEBA Anomalous MFA Failures in Okta_CL",
+    "enabled": true,
+    "frequency": "P1D",
+    "isDefaultSettings": true,
+    "requiredDataConnectors": [
+      {
+        "ConnectorId": "OktaSSO",
+        "DataTypes": [
+          "Okta_CL"
+        ]
+      }
+    ],
+    "settingsDefinitionId": "aa62c42b-62e6-40a1-adc5-0cb4e366e63f",
+    "settingsStatus": "Production",
+    "tactics": [
+      "Persistence",
+      "PrivilegeEscalation"
+    ],
+    "techniques": [
+      "T1078",
+      "T1556"
+    ]
+  },
+  "type": "Microsoft.SecurityInsights/securityMLAnalyticsSettings"
+}

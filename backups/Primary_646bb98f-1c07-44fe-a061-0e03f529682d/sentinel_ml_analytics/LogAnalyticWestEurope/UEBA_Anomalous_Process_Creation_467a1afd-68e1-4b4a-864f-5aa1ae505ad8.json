@@ -1,0 +1,48 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/467a1afd-68e1-4b4a-864f-5aa1ae505ad8",
+  "kind": "Anomaly",
+  "name": "467a1afd-68e1-4b4a-864f-5aa1ae505ad8",
+  "properties": {
+    "anomalySettingsVersion": 0,
+    "anomalyVersion": "3.4.21",
+    "customizableObservations": {
+      "multiSelectObservations": null,
+      "prioritizeExcludeObservations": null,
+      "singleSelectObservations": null,
+      "singleValueObservations": null,
+      "thresholdObservations": [
+        {
+          "description": "Generate an anomaly when the anomaly score is greater than the chosen value.",
+          "maximum": "1",
+          "minimum": "0",
+          "name": "Anomaly score threshold",
+          "rerun": "RerunAlways",
+          "sequenceNumber": 0,
+          "value": "0"
+        }
+      ]
+    },
+    "description": "Adversaries may create or modify system-level processes to repeatedly execute malicious payloads as part of persistence. When operating systems boot up, they can start processes that perform background system functions",
+    "displayName": "UEBA Anomalous Process Creation",
+    "enabled": true,
+    "frequency": "P1D",
+    "isDefaultSettings": true,
+    "requiredDataConnectors": [
+      {
+        "ConnectorId": "SecurityEvents",
+        "DataTypes": [
+          "SecurityEvents"
+        ]
+      }
+    ],
+    "settingsDefinitionId": "467a1afd-68e1-4b4a-864f-5aa1ae505ad8",
+    "settingsStatus": "Production",
+    "tactics": [
+      "DefenseEvasion"
+    ],
+    "techniques": [
+      "T1562"
+    ]
+  },
+  "type": "Microsoft.SecurityInsights/securityMLAnalyticsSettings"
+}

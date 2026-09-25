@@ -1,0 +1,11 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/savedSearches/LogManagement(lw-SOCtest)_LogManagement|EventsWithStartedinEventID",
+  "name": "LogManagement(lw-SOCtest)_LogManagement|EventsWithStartedinEventID",
+  "properties": {
+    "category": "Log Management",
+    "displayName": "Count of Events containing the word \u0022started\u0022 grouped by EventID",
+    "query": "search in (Event) \u0022started\u0022 | summarize AggregatedValue = count() by EventID\r\n// Oql: Type=Event \u0022started\u0022 | Measure count() by EventID // Args: {OQ: True; WorkspaceId: 00000000-0000-0000-0000-000000000000} // Settings: {PTT: True; SortI: True; SortF: True} // Version: 0.1.122",
+    "version": 2
+  },
+  "type": "Microsoft.OperationalInsights/savedSearches"
+}

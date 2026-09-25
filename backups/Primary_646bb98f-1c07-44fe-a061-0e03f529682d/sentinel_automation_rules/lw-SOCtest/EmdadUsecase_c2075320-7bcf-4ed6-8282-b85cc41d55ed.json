@@ -1,0 +1,53 @@
+{
+  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/AutomationRules/c2075320-7bcf-4ed6-8282-b85cc41d55ed",
+  "name": "c2075320-7bcf-4ed6-8282-b85cc41d55ed",
+  "properties": {
+    "actions": [
+      {
+        "actionConfiguration": {
+          "classification": null,
+          "classificationComment": null,
+          "classificationReason": null,
+          "labels": null,
+          "owner": {
+            "assignedTo": "Emdad",
+            "email": null,
+            "objectId": null,
+            "userPrincipalName": null
+          },
+          "severity": null,
+          "status": null
+        },
+        "actionType": "ModifyProperties",
+        "order": 1
+      }
+    ],
+    "createdBy": {
+      "email": null,
+      "name": "External application - MSentinelApi",
+      "objectId": "13823fce-0e32-4439-9f3a-53cef20935a6",
+      "userPrincipalName": null
+    },
+    "createdTimeUtc": "2026-04-07T19:16:10Z",
+    "displayName": "EmdadUsecase",
+    "order": 1,
+    "triggeringLogic": {
+      "conditions": [
+        {
+          "conditionProperties": {
+            "operator": "Contains",
+            "propertyName": "IncidentRelatedAnalyticRuleIds",
+            "propertyValues": [
+              "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/256c986d-bed8-4605-b7c7-ffb97e6b90d3"
+            ]
+          },
+          "conditionType": "Property"
+        }
+      ],
+      "isEnabled": true,
+      "triggersOn": "Incidents",
+      "triggersWhen": "Created"
+    }
+  },
+  "type": "Microsoft.SecurityInsights/AutomationRules"
+}

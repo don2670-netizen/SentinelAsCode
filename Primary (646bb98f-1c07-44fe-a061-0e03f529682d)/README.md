@@ -5,6 +5,7 @@
 | Tenant-id | `646bb98f-1c07-44fe-a061-0e03f529682d` |
 | Microsoft Sentinel | `LogAnalyticWestEurope`, `lw-SOCtest` |
 | Defender XDR | ja |
+| Elastic Security | – |
 
 Kundens Sentinel- og Defender-konfiguration som kode. Én YAML-fil pr. objekt; `git log <fil>` er objektets versionshistorik.
 

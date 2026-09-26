@@ -5,6 +5,7 @@
 | Tenant-id | `2a56070d-4717-49f3-a6ae-a6b61552d631` |
 | Microsoft Sentinel | – |
 | Defender XDR | ja |
+| Elastic Security | – |
 
 Kundens Sentinel- og Defender-konfiguration som kode. Én YAML-fil pr. objekt; `git log <fil>` er objektets versionshistorik.
 

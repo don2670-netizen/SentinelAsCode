@@ -1,5 +1,5 @@
 # Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Analytics rules
-# Malicious Inbox Rule (Ramal)
+# Malicious Inbox Rule (Ramal1)
 # Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
 id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/54103519-804c-43b2-8713-990b807307f5"
 kind: Scheduled
@@ -10,7 +10,7 @@ properties:
     Often times after the initial compromise the attackers create inbox rules to delete emails that contain certain keywords.
      This is done so as to limit ability to warn compromised users that they've been compromised. Below is a sample query that tries to detect this.
     Reference: https://www.reddit.com/r/sysadmin/comments/7kyp0a/recent_phishing_attempts_my_experience_and_what/
-  displayName: Malicious Inbox Rule (Ramal)
+  displayName: Malicious Inbox Rule (Ramal1)
   enabled: true
   entityMappings:
     - entityType: Account

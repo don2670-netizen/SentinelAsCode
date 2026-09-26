@@ -1,0 +1,104 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · LogAnalyticWestEurope · Anomaly rules
+# Anomalous user/app activities in Azure audit logs
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/3dccf381-2bb2-40c6-81a0-ab878bdf323f"
+kind: Anomaly
+name: "3dccf381-2bb2-40c6-81a0-ab878bdf323f"
+properties:
+  anomalySettingsVersion: 0
+  anomalyVersion: "1.0.6"
+  customizableObservations:
+    multiSelectObservations:
+      - description: Include only anomalies where the top reason is one of these values.
+        name: Top reason for high anomaly score
+        rerun: RerunAlways
+        sequenceNumber: 0
+        supportedValues:
+          - Number of operations
+          - Number of failed operations
+          - "Number of \"interesting\" operations"
+          - "Number of \"interesting\" failed operations"
+          - "Fraction of operations that are \"interesting\""
+          - Fraction of failed operations
+          - "Fraction of \"interesting\" operations that failed"
+          - Distinct number of operations
+          - Distinct number of Azure AD operation types
+          - Distinct number of categories
+          - "Distinct number of categories with \"interesting\" operations"
+          - "Distinct number of \"interesting\" operations"
+          - "Distinct number of \"interesting\" app management operations"
+          - "Distinct number of \"interesting\" device operations"
+          - "Distinct number of \"interesting\" directory management operations"
+          - "Distinct number of \"interesting\" group management operations"
+          - "Distinct number of \"interesting\" role management operations"
+          - "Distinct number of \"interesting\" user management operations"
+        supportedValuesKql: null
+        values:
+          - Number of operations
+          - Number of failed operations
+          - "Number of \"interesting\" operations"
+          - "Number of \"interesting\" failed operations"
+          - "Fraction of operations that are \"interesting\""
+          - Fraction of failed operations
+          - "Fraction of \"interesting\" operations that failed"
+          - Distinct number of operations
+          - Distinct number of Azure AD operation types
+          - Distinct number of categories
+          - "Distinct number of categories with \"interesting\" operations"
+          - "Distinct number of \"interesting\" operations"
+          - "Distinct number of \"interesting\" app management operations"
+          - "Distinct number of \"interesting\" device operations"
+          - "Distinct number of \"interesting\" directory management operations"
+          - "Distinct number of \"interesting\" group management operations"
+          - "Distinct number of \"interesting\" role management operations"
+          - "Distinct number of \"interesting\" user management operations"
+        valuesKql: null
+    prioritizeExcludeObservations: null
+    singleSelectObservations: null
+    singleValueObservations: null
+    thresholdObservations:
+      - description: Generate an anomaly when the anomaly score is greater than or equal to the chosen value.
+        maximum: "1.0"
+        minimum: "0.0"
+        name: Score
+        rerun: NotRequired
+        sequenceNumber: 0
+        value: "0.6"
+  description: |
+    This autoencoder model identifies anomalous user/app Azure sessions in audit logs for the last day.
+    We define 10 minutes to be the length of a session.
+    It groups the Azure audit logs on a per-user/app basis into sessions.
+    It compresses these user/app Azure sessions into a bottleneck encoding.
+    It then reconstructs the input sessions as best it can from the bottleneck encoding.
+    If the sessions have high reconstruction errors, they are assumed to be anomalous.
+    The model is trained on the previous 21 days of behavior across all users and apps.
+    This algorithm checks for sufficient volume of data before training the model.
+  displayName: Anomalous user/app activities in Azure audit logs
+  enabled: true
+  frequency: P1D
+  isDefaultSettings: true
+  requiredDataConnectors:
+    - ConnectorId: AzureActiveDirectory
+      DataTypes:
+        - AuditLogs
+  settingsDefinitionId: "3dccf381-2bb2-40c6-81a0-ab878bdf323f"
+  settingsStatus: Production
+  tactics:
+    - InitialAccess
+    - Persistence
+    - PrivilegeEscalation
+    - Discovery
+    - Collection
+  techniques:
+    - T1190
+    - T1078
+    - T1098
+    - T1136
+    - T1484
+    - T1087
+    - T1538
+    - T1526
+    - T1069
+    - T1518
+    - T1530
+type: Microsoft.SecurityInsights/securityMLAnalyticsSettings

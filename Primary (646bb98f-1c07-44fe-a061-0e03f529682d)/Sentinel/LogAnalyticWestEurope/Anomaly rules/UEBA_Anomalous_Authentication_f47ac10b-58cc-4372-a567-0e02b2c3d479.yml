@@ -1,0 +1,42 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · LogAnalyticWestEurope · Anomaly rules
+# UEBA Anomalous Authentication
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/f47ac10b-58cc-4372-a567-0e02b2c3d479"
+kind: Anomaly
+name: f47ac10b-58cc-4372-a567-0e02b2c3d479
+properties:
+  anomalySettingsVersion: 0
+  anomalyVersion: "1.0.15"
+  customizableObservations:
+    multiSelectObservations: null
+    prioritizeExcludeObservations: null
+    singleSelectObservations: null
+    singleValueObservations: null
+    thresholdObservations:
+      - description: Generate an anomaly when the anomaly score is greater than the chosen value.
+        maximum: "1"
+        minimum: "0"
+        name: Anomaly score threshold
+        rerun: RerunAlways
+        sequenceNumber: 0
+        value: "0"
+  description: "This anomaly detects unusual authentication activity across signals from Microsoft Defender for Endpoint and Azure AD, including device logons, managed identity sign-ins, and service principal authentications from Azure Active Directory. These anomalies may suggest credential misuse, non-human identity abuse, or lateral movement attempts outside typical access patterns."
+  displayName: UEBA Anomalous Authentication
+  enabled: true
+  frequency: P1D
+  isDefaultSettings: true
+  requiredDataConnectors:
+    - ConnectorId: AzureActiveDirectory
+      DataTypes:
+        - AADServicePrincipalSignInLogs
+        - AADManagedIdentitySignInLogs
+    - ConnectorId: MicrosoftThreatProtection
+      DataTypes:
+        - DeviceLogonEvents
+  settingsDefinitionId: f47ac10b-58cc-4372-a567-0e02b2c3d479
+  settingsStatus: Production
+  tactics:
+    - InitialAccess
+  techniques:
+    - T1078
+type: Microsoft.SecurityInsights/securityMLAnalyticsSettings

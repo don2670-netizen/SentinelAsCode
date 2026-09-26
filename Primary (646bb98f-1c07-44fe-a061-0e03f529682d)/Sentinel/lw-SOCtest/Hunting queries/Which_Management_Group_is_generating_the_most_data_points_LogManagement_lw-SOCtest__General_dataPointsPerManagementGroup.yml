@@ -1,0 +1,11 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Hunting queries
+# Which Management Group is generating the most data points?
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/savedSearches/LogManagement(lw-SOCtest)_General|dataPointsPerManagementGroup"
+name: "LogManagement(lw-SOCtest)_General|dataPointsPerManagementGroup"
+properties:
+  category: General Exploration
+  displayName: "Which Management Group is generating the most data points?"
+  query: "search * | summarize AggregatedValue = count() by ManagementGroupName\r\n// Oql: * | Measure count() by ManagementGroupName // Args: {OQ: True; WorkspaceId: 00000000-0000-0000-0000-000000000000} // Settings: {PTT: True; SortI: True; SortF: True} // Version: 0.1.122"
+  version: 2
+type: Microsoft.OperationalInsights/savedSearches

@@ -1,0 +1,46 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · LogAnalyticWestEurope · Anomaly rules
+# Excessive upload via Palo Alto GlobalProtect
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/d0bd9611-2fc1-42cb-af4e-793b6f28ba92"
+kind: Anomaly
+name: d0bd9611-2fc1-42cb-af4e-793b6f28ba92
+properties:
+  anomalySettingsVersion: 0
+  anomalyVersion: "3.4.10"
+  customizableObservations:
+    multiSelectObservations: null
+    prioritizeExcludeObservations: null
+    singleSelectObservations: null
+    singleValueObservations: null
+    thresholdObservations:
+      - description: Generate an anomaly when score is greater than the chosen value
+        maximum: "1"
+        minimum: "0"
+        name: Score
+        rerun: NotRequired
+        sequenceNumber: 0
+        value: "0.87"
+  description: |
+    This algorithm detects unusually high volume of upload per user account via Palo Alto VPN solution.
+    The model is trained on the previous 14 days of the VPN logs.
+    It indicates anomalous high volume of upload in the last day.
+  displayName: Excessive upload via Palo Alto GlobalProtect
+  enabled: true
+  frequency: P1D
+  isDefaultSettings: true
+  requiredDataConnectors:
+    - ConnectorId: PaloAltoNetworks
+      DataTypes:
+        - CommonSecurityLog (PaloAlto)
+  settingsDefinitionId: d0bd9611-2fc1-42cb-af4e-793b6f28ba92
+  settingsStatus: Production
+  tactics:
+    - Exfiltration
+  techniques:
+    - T1030
+    - T1041
+    - T1011
+    - T1567
+    - T1029
+    - T1537
+type: Microsoft.SecurityInsights/securityMLAnalyticsSettings

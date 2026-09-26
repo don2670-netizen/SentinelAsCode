@@ -1,0 +1,41 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Watchlists
+# IOC
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: /subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/Watchlists/IOC
+name: IOC
+properties:
+  created: "2026-08-26T20:03:23.3135785+00:00"
+  createdBy:
+    name: "0038f661-58a7-4c1a-8af0-77bd2d12f25a"
+    objectId: e3d38192-c13d-4112-a7d4-814fc63ed056
+  displayName: IOC
+  isDeleted: false
+  itemsSearchKey: value
+  labels: []
+  numberOfLinesToSkip: 0
+  provider: GitLab Defender IoC Sync
+  source: GitLab CI/CD - iocs.csv
+  tenantId: "646bb98f-1c07-44fe-a061-0e03f529682d"
+  updatedBy:
+    name: "0038f661-58a7-4c1a-8af0-77bd2d12f25a"
+    objectId: e3d38192-c13d-4112-a7d4-814fc63ed056
+  watchlistAlias: IOC
+  watchlistId: "804db3fa-9e72-4515-bc44-1688fcf25aa5"
+  watchlistKind: Regular
+  watchlistType: watchlist
+type: Microsoft.SecurityInsights/Watchlists
+x-items:
+  - action: AlertAndBlock
+    added_by: "Afg Afg <don2670@gmail.com>"
+    description: "Skadeligt URL link | GTI: 0/91 malicious | Reputation: 0 | Land: US | Sidst set: 2026-08-29 | https://www.virustotal.com/gui/ip-address/159.132.99.2"
+    severity: Medium
+    title: Malicious URL
+    type: IpAddress
+    value: "159.132.99.2"
+  - action: Warn
+    added_by: "Afg Afg <don2670@gmail.com>"
+    description: "Skadelig SHA1 hash | GTI: 44/77 malicious | Malware: trojan.nukesped/downstock | Reputation: -11 | Type: Win32 EXE (2.0 MB) | Navne: setup.exe, Install, Setup.exe | Signeret: Trading Technologies International, Inc.; Go Daddy Secure Ce | Tags: overlay, checks-user-input, peexe, revoked-cert, runtime-modules | YARA: SUSP_APT_MAL_VEILEDSIGNAL_Backdoor_Apr23, APT_NK_MAL_M_Hunting_VEILEDSIGNAL_6, APT_NK_MAL_M_Hunting_VEILEDSIGNAL_1 | Sandbox: Zenbox: harmless | Først set: 2023-04-24 | Sidst set: 2026-04-10 | https://www.virustotal.com/gui/file/00a43d64f9b5187a1e1f922b99b09b77"
+    severity: High
+    title: Suspicious File
+    type: FileMd5
+    value: "00a43d64f9b5187a1e1f922b99b09b77"

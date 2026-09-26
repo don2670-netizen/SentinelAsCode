@@ -1,0 +1,38 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · LogAnalyticWestEurope · Anomaly rules
+# UEBA Anomalous Account Manipulation
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/1de6460f-30dc-4e8c-8086-8100d8e2b461"
+kind: Anomaly
+name: "1de6460f-30dc-4e8c-8086-8100d8e2b461"
+properties:
+  anomalySettingsVersion: 0
+  anomalyVersion: "3.4.21"
+  customizableObservations:
+    multiSelectObservations: null
+    prioritizeExcludeObservations: null
+    singleSelectObservations: null
+    singleValueObservations: null
+    thresholdObservations:
+      - description: Generate an anomaly when the anomaly score is greater than the chosen value.
+        maximum: "1"
+        minimum: "0"
+        name: Anomaly score threshold
+        rerun: RerunAlways
+        sequenceNumber: 0
+        value: "0"
+  description: "Adversaries may manipulate accounts to maintain access to victim systems. These actions include adding new accounts to high privilleged groups. Dragonfly 2.0, for example, added newly created accounts to the administrators group to maintain elevated access. The query below generates an output of all high Blast Radius users performing \"Update user\" (name change) to privileged role, or ones that changed users for the first time. Sentinel UEBA detects anomalies based on dynamic baselines created for each entity across various data inputs. Each entityâ€™s baseline behavior is set according to its own historical activities, those of its peers, and those of the organization as a whole. Anomalies can be triggered by the correlation of different attributes such as action type, geo-location, device, resource, ISP, and more."
+  displayName: UEBA Anomalous Account Manipulation
+  enabled: true
+  frequency: P1D
+  isDefaultSettings: true
+  requiredDataConnectors:
+    - ConnectorId: AzureActiveDirectory
+      DataTypes:
+        - AuditLogs
+  settingsDefinitionId: "1de6460f-30dc-4e8c-8086-8100d8e2b461"
+  settingsStatus: Production
+  tactics:
+    - Persistence
+  techniques:
+    - T1098
+type: Microsoft.SecurityInsights/securityMLAnalyticsSettings

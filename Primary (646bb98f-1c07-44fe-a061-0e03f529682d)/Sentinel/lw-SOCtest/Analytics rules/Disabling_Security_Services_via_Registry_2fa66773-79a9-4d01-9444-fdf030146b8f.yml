@@ -1,0 +1,66 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Analytics rules
+# Disabling Security Services via Registry
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/2fa66773-79a9-4d01-9444-fdf030146b8f"
+kind: Scheduled
+name: "2fa66773-79a9-4d01-9444-fdf030146b8f"
+properties:
+  alertRuleTemplateName: "32b29155-3fd3-4a9e-a0ca-a67e2593b60b"
+  description: This query checks for processes modifying the registry to disable security features. This is a common technique used by threat actors for defence evasion.
+  displayName: Disabling Security Services via Registry
+  enabled: true
+  entityMappings:
+    - entityType: Host
+      fieldMappings:
+        - columnName: DeviceName
+          identifier: FullName
+        - columnName: HostName
+          identifier: HostName
+        - columnName: DnsDomain
+          identifier: DnsDomain
+    - entityType: Account
+      fieldMappings:
+        - columnName: AccountUpn
+          identifier: FullName
+        - columnName: AccountName
+          identifier: Name
+        - columnName: AccountDomain
+          identifier: NTDomain
+    - entityType: Process
+      fieldMappings:
+        - columnName: ProcessId
+          identifier: ProcessId
+        - columnName: ProcessCommandLine
+          identifier: CommandLine
+  eventGroupingSettings:
+    aggregationKind: SingleAlert
+  incidentConfiguration:
+    createIncident: true
+    groupingConfiguration:
+      enabled: false
+      groupByAlertDetails: []
+      groupByCustomDetails: []
+      groupByEntities: []
+      lookbackDuration: PT5H
+      matchingMethod: AllEntities
+      reopenClosedIncident: false
+  query: |
+    DeviceProcessEvents
+    | where InitiatingProcessCommandLine has_all(@'"reg"', 'add', @'"HKLM\SOFTWARE\Policies\', '/v','/t', 'REG_DWORD', '/d', '/f')
+      and InitiatingProcessCommandLine has_any('DisableRealtimeMonitoring', 'UseTPMKey', 'UseTPMKeyPIN', 'UseAdvancedStartup', 
+      'EnableBDEWithNoTPM', 'RecoveryKeyMessageSource')
+    | extend HostName = iff(DeviceName has '.', substring(DeviceName, 0, indexof(DeviceName, '.')), DeviceName)
+    | extend DnsDomain = iff(DeviceName has '.', substring(DeviceName, indexof(DeviceName, '.') + 1), "")
+  queryFrequency: PT1H
+  queryPeriod: PT1H
+  severity: Medium
+  suppressionDuration: PT1H
+  suppressionEnabled: false
+  tactics:
+    - DefenseEvasion
+  techniques:
+    - T1562
+  templateVersion: "1.0.0"
+  triggerOperator: GreaterThan
+  triggerThreshold: 0
+type: Microsoft.SecurityInsights/alertRules

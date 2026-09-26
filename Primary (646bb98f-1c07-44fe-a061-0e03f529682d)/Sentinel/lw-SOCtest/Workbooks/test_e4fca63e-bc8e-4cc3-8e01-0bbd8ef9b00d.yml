@@ -1,0 +1,22 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Workbooks
+# test
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: /subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourcegroups/rg-soc/providers/microsoft.insights/workbooks/e4fca63e-bc8e-4cc3-8e01-0bbd8ef9b00d
+identity:
+  type: None
+kind: shared
+location: germanywestcentral
+name: e4fca63e-bc8e-4cc3-8e01-0bbd8ef9b00d
+properties:
+  category: sentinel
+  displayName: test
+  revision: "182442ffce044fc59a68a0dfdb972fe3"
+  serializedData: "{\"version\":\"Notebook/1.0\",\"items\":[{\"type\":1,\"content\":{\"json\":\"## New workbook\\n---\\n\\nWelcome to your new workbook.  This area will display text formatted as markdown.\\n\\n\\nWe've included a basic analytics query to get you started. Use the `Edit` button below each section to configure it or add more sections.\"},\"name\":\"text - 2\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"union withsource=_TableName *\\n| summarize Count=count() by _TableName\\n| render barchart\",\"size\":1,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\"},\"name\":\"query - 2\"}],\"isLocked\":true,\"fallbackResourceIds\":[\"/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourcegroups/rg-soc/providers/microsoft.operationalinsights/workspaces/lw-soctest\"],\"fromTemplateId\":\"sentinel-UserWorkbook\"}"
+  sourceId: /subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourcegroups/rg-soc/providers/microsoft.operationalinsights/workspaces/lw-soctest
+  storageUri: null
+  tags: null
+  userId: "86fd46dd-a0df-4ade-ad91-8ec4d6e31b21"
+  version: Notebook/1.0
+tags:
+  hidden-title: test
+type: microsoft.insights/workbooks

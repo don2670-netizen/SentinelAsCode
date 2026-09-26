@@ -1,0 +1,79 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Analytics rules
+# Office Policy Tampering
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/91b556e1-2810-46e7-bd0e-8ef9b675e621"
+kind: Scheduled
+name: "91b556e1-2810-46e7-bd0e-8ef9b675e621"
+properties:
+  alertRuleTemplateName: fbd72eb8-087e-466b-bd54-1ca6ea08c6d3
+  description: |-
+    Identifies if any tampering is done to either auditlog, ATP Safelink, SafeAttachment, AntiPhish or Dlp policy. 
+    An adversary may use this technique to evade detection or avoid other policy based defenses.
+    References: https://docs.microsoft.com/powershell/module/exchange/advanced-threat-protection/remove-antiphishrule?view=exchange-ps.
+  displayName: Office Policy Tampering
+  enabled: true
+  entityMappings:
+    - entityType: Account
+      fieldMappings:
+        - columnName: UserId
+          identifier: FullName
+        - columnName: AccountName
+          identifier: Name
+        - columnName: AccountUPNSuffix
+          identifier: UPNSuffix
+    - entityType: IP
+      fieldMappings:
+        - columnName: ClientIP
+          identifier: Address
+  eventGroupingSettings:
+    aggregationKind: SingleAlert
+  incidentConfiguration:
+    createIncident: true
+    groupingConfiguration:
+      enabled: false
+      groupByAlertDetails: []
+      groupByCustomDetails: []
+      groupByEntities: []
+      lookbackDuration: PT5H
+      matchingMethod: AllEntities
+      reopenClosedIncident: false
+  query: |
+    let opList = OfficeActivity 
+    | summarize by Operation
+    //| where Operation startswith "Remove-" or Operation startswith "Disable-"
+    | where Operation has_any ("Remove", "Disable")
+    | where Operation contains "AntiPhish" or Operation contains "SafeAttachment" or Operation contains "SafeLinks" or Operation contains "Dlp" or Operation contains "Audit"
+    | summarize make_set(Operation, 500);
+    OfficeActivity
+    // Only admin or global-admin can disable/remove policy
+    | where RecordType =~ "ExchangeAdmin"
+    | where UserType in~ ("Admin","DcAdmin")
+    // Pass in interesting Operation list
+    | where Operation in~ (opList)
+    | extend ClientIPOnly = case( 
+    ClientIP has ".", tostring(split(ClientIP,":")[0]), 
+    ClientIP has "[", tostring(trim_start(@'[[]',tostring(split(ClientIP,"]")[0]))),
+    ClientIP
+    )  
+    | extend Port = case(
+    ClientIP has ".", (split(ClientIP,":")[1]),
+    ClientIP has "[", tostring(split(ClientIP,"]:")[1]),
+    ClientIP
+    )
+    | summarize StartTimeUtc = min(TimeGenerated), EndTimeUtc = max(TimeGenerated), OperationCount = count() by Operation, UserType, UserId, ClientIP = ClientIPOnly, Port, ResultStatus, Parameters
+    | extend AccountName = tostring(split(UserId, "@")[0]), AccountUPNSuffix = tostring(split(UserId, "@")[1])
+  queryFrequency: P1D
+  queryPeriod: P1D
+  severity: Medium
+  suppressionDuration: PT1H
+  suppressionEnabled: false
+  tactics:
+    - Persistence
+    - DefenseEvasion
+  techniques:
+    - T1098
+    - T1562
+  templateVersion: "2.0.3"
+  triggerOperator: GreaterThan
+  triggerThreshold: 0
+type: Microsoft.SecurityInsights/alertRules

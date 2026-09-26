@@ -1,0 +1,107 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · LogAnalyticWestEurope · Anomaly rules
+# Anomalous scanning activity
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/2bb167bf-3951-435b-a932-8b03bfde0a2b"
+kind: Anomaly
+name: "2bb167bf-3951-435b-a932-8b03bfde0a2b"
+properties:
+  anomalySettingsVersion: 0
+  anomalyVersion: "3.4.11"
+  customizableObservations:
+    multiSelectObservations:
+      - description: Include only these specific device actions
+        name: Device action
+        rerun: RerunAlways
+        sequenceNumber: 0
+        supportedValues:
+          - accept
+          - allow
+          - start
+        supportedValuesKql: null
+        values:
+          - accept
+          - allow
+          - start
+        valuesKql: null
+    prioritizeExcludeObservations:
+      - dataType: string
+        description: "Provide a comma separated list to exclude specific ports from source data. This should be within double quotes, example: \"53, 67, 80, 8080, 123, 137, 138, 443, 445, 3389\""
+        exclude: "53,67,80,8080,123,137,138,443,445,3389"
+        name: Exclude ports
+        prioritize: null
+        rerun: RerunAlways
+        sequenceNumber: 0
+    singleSelectObservations: null
+    singleValueObservations: null
+    thresholdObservations:
+      - description: The minimum distinct destination IP count per hour required for inclusion. Default is 600. This is an OR condition with destination port count.
+        maximum: "60000000"
+        minimum: "1"
+        name: Destination IP count
+        rerun: RerunAlways
+        sequenceNumber: 0
+        value: "600"
+      - description: The minimum distinct destination port count per hour required for inclusion. Default is 600. This is an OR condition with destination IP count.
+        maximum: "60000000"
+        minimum: "1"
+        name: Destination port count
+        rerun: RerunAlways
+        sequenceNumber: 1
+        value: "600"
+      - description: "The distinct source IP (always 1) to distinct destination IP count with a default minimum ratio of 1.00 or lower (converted to Base 10 to the -4 power of original value). This is an OR condition with port ratio."
+        maximum: "1.00"
+        minimum: "0.00"
+        name: IP ratio
+        rerun: RerunAlways
+        sequenceNumber: 2
+        value: "1.00"
+      - description: "The distinct source port to distinct destination port count with a default minimum ratio of 1.00 or lower (converted to Base 10 to the -4 power of original value). This is an OR condition with IP Ratio."
+        maximum: "1.00"
+        minimum: "0.00"
+        name: Port ratio
+        rerun: RerunAlways
+        sequenceNumber: 3
+        value: "1.00"
+  description: |
+    The Scanning Activity anomaly is looking to determine if there is potential port scanning anomaly in an environment coming from a single source IP to one or more destination IPs.  
+    The algorithm takes into account whether the IP is public, meaning external, or private, meaning internal, and the event is marked accordingly. Only private to public or public 
+    to private is considered at this time. Scanning activity can indicate an attacker attempting to determine available services in an environment that can be potentially 
+    exploited and used for ingress or lateral movement.
+    A high number of source ports and high number of destination ports from a single source IP to either a single or multiple destination IP or IPs can be interesting and indicate 
+    anomalous scanning. Additionally, if there is a high ratio of destination IPs to the single source IP this can indicate anomalous scanning.
+    Configuration details -
+    Job run default is daily, with hourly bins
+    The algorithm uses the following defaults to limit the results based on hourly bins, each is configurable
+    -> Included device actions - accept, allow, start
+    -> Excluded ports - 53, 67, 80, 8080, 123, 137, 138, 443, 445, 3389
+    -> Distinct destination port count >= 600
+    -> Distinct source port count >= 600
+    -> Distinct source port count divided by distinct destination port, ratio converted to percent >= 99.99
+    -> Source IP (always 1) divided by destination IP, ratio converted to percent >= 99.99
+  displayName: Anomalous scanning activity
+  enabled: true
+  frequency: P1D
+  isDefaultSettings: true
+  requiredDataConnectors:
+    - ConnectorId: PaloAltoNetworks
+      DataTypes:
+        - CommonSecurityLog (PaloAlto)
+    - ConnectorId: Zscaler
+      DataTypes:
+        - CommonSecurityLog (Zscaler)
+    - ConnectorId: CEF
+      DataTypes:
+        - CommonSecurityLog
+    - ConnectorId: CheckPoint
+      DataTypes:
+        - CommonSecurityLog (CheckPoint)
+    - ConnectorId: Fortinet
+      DataTypes:
+        - CommonSecurityLog (Fortinet)
+  settingsDefinitionId: "2bb167bf-3951-435b-a932-8b03bfde0a2b"
+  settingsStatus: Production
+  tactics:
+    - Discovery
+  techniques:
+    - T1046
+type: Microsoft.SecurityInsights/securityMLAnalyticsSettings

@@ -1,0 +1,66 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Analytics rules
+# Exchange AuditLog Disabled
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/964292c1-6ce9-459c-9c9f-fe24d986055b"
+kind: Scheduled
+name: "964292c1-6ce9-459c-9c9f-fe24d986055b"
+properties:
+  alertRuleTemplateName: "194dd92e-d6e7-4249-85a5-273350a7f5ce"
+  description: Identifies when the exchange audit logging has been disabled which may be an adversary attempt to evade detection or avoid other defenses.
+  displayName: Exchange AuditLog Disabled
+  enabled: true
+  entityMappings:
+    - entityType: Account
+      fieldMappings:
+        - columnName: UserId
+          identifier: FullName
+        - columnName: AccountName
+          identifier: Name
+        - columnName: AccountUPNSuffix
+          identifier: UPNSuffix
+    - entityType: Account
+      fieldMappings:
+        - columnName: AccountNTDomain
+          identifier: Name
+    - entityType: IP
+      fieldMappings:
+        - columnName: ClientIP
+          identifier: Address
+  eventGroupingSettings:
+    aggregationKind: SingleAlert
+  incidentConfiguration:
+    createIncident: true
+    groupingConfiguration:
+      enabled: false
+      groupByAlertDetails: []
+      groupByCustomDetails: []
+      groupByEntities: []
+      lookbackDuration: PT5H
+      matchingMethod: AllEntities
+      reopenClosedIncident: false
+  query: |
+    OfficeActivity
+    | where OfficeWorkload =~ "Exchange" 
+    | where UserType in~ ("Admin","DcAdmin")
+    // Only admin or global-admin can disable audit logging
+    | where Operation =~ "Set-AdminAuditLogConfig"
+    | extend AdminAuditLogEnabledValue = tostring(parse_json(tostring(parse_json(tostring(array_slice(parse_json(Parameters),3,3)))[0])).Value)
+    | where AdminAuditLogEnabledValue =~ "False"
+    | summarize StartTimeUtc = min(TimeGenerated), EndTimeUtc = max(TimeGenerated), OperationCount = count() by Operation, UserType, UserId, ClientIP, ResultStatus, Parameters, AdminAuditLogEnabledValue
+    | extend AccountName = iff(UserId contains '@', tostring(split(UserId, '@')[0]), UserId)
+    | extend AccountUPNSuffix = iff(UserId contains '@', tostring(split(UserId, '@')[1]), '')
+    | extend AccountName = iff(UserId contains '\\', tostring(split(UserId, '\\')[1]), AccountName)
+    | extend AccountNTDomain = iff(UserId contains '\\', tostring(split(UserId, '\\')[0]), '')
+  queryFrequency: P1D
+  queryPeriod: P1D
+  severity: Medium
+  suppressionDuration: PT1H
+  suppressionEnabled: false
+  tactics:
+    - DefenseEvasion
+  techniques:
+    - T1562
+  templateVersion: "2.0.6"
+  triggerOperator: GreaterThan
+  triggerThreshold: 0
+type: Microsoft.SecurityInsights/alertRules

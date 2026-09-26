@@ -1,0 +1,16 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Summary rules
+# ramal_summaryrules_CL
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: /subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/summarylogs/5ab552c4-c1b3-4860-ba90-d0ba00dc4fec
+name: "5ab552c4-c1b3-4860-ba90-d0ba00dc4fec"
+properties:
+  description: ramal_summaryrules_CL
+  displayName: ramal_summaryrules_CL
+  isActive: true
+  provisioningState: Succeeded
+  ruleDefinition:
+    binSize: 1440
+    destinationTable: ramal_summaryrules_CL
+    query: "SigninLogs\r\n| where UserDisplayName contains \"Global\"\r\n| summarize by UserDisplayName, IPAddress, ResultType"
+    timeSelector: TimeGenerated
+  ruleType: User

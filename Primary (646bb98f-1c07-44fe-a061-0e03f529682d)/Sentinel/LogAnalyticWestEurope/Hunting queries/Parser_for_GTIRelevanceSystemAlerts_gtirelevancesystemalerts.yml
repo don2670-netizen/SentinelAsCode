@@ -1,0 +1,82 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · LogAnalyticWestEurope · Hunting queries
+# Parser for GTIRelevanceSystemAlerts
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: /subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/LogAnalyticWestEurope/savedSearches/gtirelevancesystemalerts
+name: gtirelevancesystemalerts
+properties:
+  category: Microsoft Sentinel Parser
+  displayName: Parser for GTIRelevanceSystemAlerts
+  functionAlias: GTIRelevanceSystemAlerts
+  query: |
+    let GTIRelevanceSystemAlerts = view () {
+        RelevanceSystemAlerts_CL
+        | extend
+            AlertId   = tostring(split(name, "/")[-1]),
+            AlertName = tostring(name),
+            ETag      = tostring(etag),
+            State     = tostring(state),
+            DisplayName   = tostring(displayName),
+            FindingCount  = tostring(findingCount),
+            AiSummary     = tostring(aiSummary),
+            Findings      = todynamic(findings),
+            AuditCreateTime  = todatetime(audit_createTime),
+            AuditUpdateTime  = todatetime(audit_updateTime),
+            AuditCreator     = tostring(audit_creator),
+            AuditUpdater     = tostring(audit_updater),
+            DetailType       = tostring(detail_detailType),
+            DataLeakSeverity = tostring(detail_dataLeak_severity),
+            DataLeakDiscoveryDocumentIds             = todynamic(detail_dataLeak_discoveryDocumentIds),
+            InsiderThreatSeverity                    = tostring(detail_insiderThreat_severity),
+            InsiderThreatDiscoveryDocumentIds        = todynamic(detail_insiderThreat_discoveryDocumentIds),
+            InitialAccessBrokerSeverity              = tostring(detail_initialAccessBroker_severity),
+            InitialAccessBrokerDiscoveryDocumentIds  = todynamic(detail_initialAccessBroker_discoveryDocumentIds),
+            IsRelevant              = tobool(relevanceAnalysis_relevant),
+            RelevanceLevel          = replace_string(tostring(relevanceAnalysis_relevanceLevel), "RELEVANCE_LEVEL_", ""),
+            RelevanceConfidence     = replace_string(tostring(relevanceAnalysis_confidence), "CONFIDENCE_LEVEL_", ""),
+            RelevanceReasoning      = tostring(relevanceAnalysis_reasoning),
+            RelevanceEvidenceCommonThemes   = todynamic(relevanceAnalysis_evidence_commonThemes),
+            RelevanceEvidenceDistinctThemes = todynamic(relevanceAnalysis_evidence_distinctThemes),
+            SeverityLevel      = replace_string(tostring(severityAnalysis_severityLevel), "SEVERITY_LEVEL_", ""),
+            SeverityConfidence = replace_string(tostring(severityAnalysis_confidence), "CONFIDENCE_LEVEL_", ""),
+            SeverityReasoning  = tostring(severityAnalysis_reasoning),
+            PriorityLevel      = replace_string(tostring(priorityAnalysis_priorityLevel), "PRIORITY_LEVEL_", ""),
+            PriorityReasoning  = tostring(priorityAnalysis_reasoning)
+        | project
+            TimeGenerated,
+            AlertId,
+            AlertName,
+            ETag,
+            State,
+            DisplayName,
+            FindingCount,
+            AiSummary,
+            Findings,
+            AuditCreateTime,
+            AuditUpdateTime,
+            AuditCreator,
+            AuditUpdater,
+            DetailType,
+            DataLeakSeverity,
+            DataLeakDiscoveryDocumentIds,
+            InsiderThreatSeverity,
+            InsiderThreatDiscoveryDocumentIds,
+            InitialAccessBrokerSeverity,
+            InitialAccessBrokerDiscoveryDocumentIds,
+            IsRelevant,
+            RelevanceLevel,
+            RelevanceConfidence,
+            RelevanceReasoning,
+            RelevanceEvidenceCommonThemes,
+            RelevanceEvidenceDistinctThemes,
+            SeverityLevel,
+            SeverityConfidence,
+            SeverityReasoning,
+            PriorityLevel,
+            PriorityReasoning
+    };
+    GTIRelevanceSystemAlerts
+  tags:
+    - name: description
+      value: ""
+  version: 2
+type: Microsoft.OperationalInsights/savedSearches

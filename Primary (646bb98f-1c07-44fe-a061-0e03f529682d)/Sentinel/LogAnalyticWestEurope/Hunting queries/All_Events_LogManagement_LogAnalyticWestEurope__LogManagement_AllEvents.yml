@@ -1,0 +1,11 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · LogAnalyticWestEurope · Hunting queries
+# All Events
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/LogAnalyticWestEurope/savedSearches/LogManagement(LogAnalyticWestEurope)_LogManagement|AllEvents"
+name: "LogManagement(LogAnalyticWestEurope)_LogManagement|AllEvents"
+properties:
+  category: Log Management
+  displayName: All Events
+  query: "Event | sort by TimeGenerated desc\r\n// Oql: Type=Event // Args: {OQ: True; WorkspaceId: 00000000-0000-0000-0000-000000000000} // Settings: {PTT: True; SortI: True; SortF: True} // Version: 0.1.122"
+  version: 2
+type: Microsoft.OperationalInsights/savedSearches

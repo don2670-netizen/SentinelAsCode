@@ -1,0 +1,75 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Analytics rules
+# Remote File Creation with PsExec
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/95ea35ac-c7d6-40bd-a447-4ba7b6e4ecae"
+kind: Scheduled
+name: "95ea35ac-c7d6-40bd-a447-4ba7b6e4ecae"
+properties:
+  alertRuleTemplateName: "35ab0d58-baab-4154-87ed-fa2f69797e9e"
+  description: |-
+    This query was originally published in the threat analytics report, Ryuk ransomware. There is also a related blog.
+    Ryuk is human-operated ransomware. Much like DoppelPaymer ransomware, Ryuk is spread manually, often on networks that are already infected with Trickbot.
+    Ryuk operators use PsExec to manually spread the ransomware to other devices.
+    The following query detects remote file creation events that might indicate an active attack.
+    The See also section below lists links to other queries associated with Ryuk ransomware.
+    References:
+    https://www.microsoft.com/security/blog/2020/03/05/human-operated-ransomware-attacks-a-preventable-disaster/
+    https://www.microsoft.com/en-us/wdsi/threats/malware-encyclopedia-description?Name=Ransom:Win32/Ryuk.AA
+    https://www.microsoft.com/security/blog/2020/03/05/human-operated-ransomware-attacks-a-preventable-disaster/
+    https://docs.microsoft.com/sysinternals/downloads/psexec
+  displayName: Remote File Creation with PsExec
+  enabled: true
+  entityMappings:
+    - entityType: Host
+      fieldMappings:
+        - columnName: DeviceName
+          identifier: FullName
+        - columnName: HostName
+          identifier: HostName
+        - columnName: DnsDomain
+          identifier: DnsDomain
+  eventGroupingSettings:
+    aggregationKind: SingleAlert
+  incidentConfiguration:
+    createIncident: true
+    groupingConfiguration:
+      enabled: false
+      groupByAlertDetails: []
+      groupByCustomDetails: []
+      groupByEntities: []
+      lookbackDuration: PT5H
+      matchingMethod: AllEntities
+      reopenClosedIncident: false
+  query: |
+    // Find PsExec creating multiple files on remote machines in a 10-minute window
+    DeviceFileEvents
+    // Looking for PsExec by accepteula command flag
+    | where InitiatingProcessCommandLine has "accepteula"
+    // Remote machines and file is exe
+    | where FolderPath has "\\\\" and FileName endswith ".exe"
+    | extend Exe = countof(InitiatingProcessCommandLine, ".exe")
+    // Checking to see if command line has 2 .exe or .bat
+    | where InitiatingProcessCommandLine !has ".ps1" and Exe > 1 or
+    InitiatingProcessCommandLine has ".bat"
+    // Exclusions: Remove the following line to widen scope of AHQ
+    | where not(InitiatingProcessCommandLine has_any("batch", "auditpol",
+    "script", "scripts", "illusive", "rebootrequired"))
+    | summarize FileCount = dcount(FolderPath), make_set(SHA1, 100000), make_set(FolderPath, 100000),
+    make_set(FileName, 100000), make_set(InitiatingProcessCommandLine, 100000) by DeviceId, DeviceName,
+    TimeWindow=bin(TimeGenerated, 10m), InitiatingProcessFileName
+    | where FileCount > 4
+    | extend HostName = iff(DeviceName has '.', substring(DeviceName, 0, indexof(DeviceName, '.')), DeviceName)
+    | extend DnsDomain = iff(DeviceName has '.', substring(DeviceName, indexof(DeviceName, '.') + 1), "")
+  queryFrequency: PT1H
+  queryPeriod: PT1H
+  severity: High
+  suppressionDuration: PT1H
+  suppressionEnabled: false
+  tactics:
+    - LateralMovement
+  techniques:
+    - T1570
+  templateVersion: "1.0.0"
+  triggerOperator: GreaterThan
+  triggerThreshold: 0
+type: Microsoft.SecurityInsights/alertRules

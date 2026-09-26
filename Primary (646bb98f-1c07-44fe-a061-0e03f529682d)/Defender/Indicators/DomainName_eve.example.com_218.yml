@@ -1,0 +1,33 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Defender · Indicators
+# DomainName eve.example.com
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+action: Warn
+additionalInfo: null
+application: SocHub
+bypassDurationHours: null
+category: 1
+certificateInfo: null
+createdBy: "87ef5ae8-a9a0-4526-a74a-aaa8866fe10b"
+createdByDisplayName: Logicapppsincidnetscount
+createdBySource: PublicApi
+creationTimeDateTimeUtc: "2026-09-25T21:40:11.517684Z"
+description: exAMPLE
+educateUrl: null
+expirationTime: "2026-12-24T00:00:00Z"
+externalId: null
+generateAlert: false
+historicalDetection: false
+id: "218"
+indicatorType: DomainName
+indicatorValue: eve.example.com
+lastUpdatedBy: null
+lookBackPeriod: null
+mitreTechniques: []
+notificationBody: null
+notificationId: null
+rbacGroupIds: []
+rbacGroupNames: []
+recommendedActions: "TLP:AMBER"
+severity: High
+title: exAMPLE
+version: null

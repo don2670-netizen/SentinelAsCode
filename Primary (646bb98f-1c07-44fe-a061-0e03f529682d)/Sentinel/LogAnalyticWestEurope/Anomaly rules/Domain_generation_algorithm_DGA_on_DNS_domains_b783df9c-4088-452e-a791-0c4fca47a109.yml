@@ -1,0 +1,47 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · LogAnalyticWestEurope · Anomaly rules
+# Domain generation algorithm (DGA) on DNS domains
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/b783df9c-4088-452e-a791-0c4fca47a109"
+kind: Anomaly
+name: b783df9c-4088-452e-a791-0c4fca47a109
+properties:
+  anomalySettingsVersion: 0
+  anomalyVersion: "1.0.13"
+  customizableObservations:
+    multiSelectObservations: null
+    prioritizeExcludeObservations:
+      - dataType: string
+        description: "Give comma separated TLDs to exclude from source data within double quotes, example: \".lan, .home\""
+        exclude: ".lan, .home"
+        name: Top level domain
+        prioritize: null
+        rerun: RerunAlways
+        sequenceNumber: 0
+    singleSelectObservations: null
+    singleValueObservations: null
+    thresholdObservations:
+      - description: Generate an anomaly when the anomaly score is greater than or equal to the chosen value.
+        maximum: "1.0"
+        minimum: "0.0"
+        name: Score
+        rerun: NotRequired
+        sequenceNumber: 0
+        value: "0.9"
+  description: |
+    This machine learning model indicates potential DGA domains in the second-level-domain (SLD) from the last day in the DNS logs.
+    The algorithm applies to the DNS records that resolve to IPv4 and IPv6 addresses.
+  displayName: Domain generation algorithm (DGA) on DNS domains
+  enabled: true
+  frequency: P1D
+  isDefaultSettings: true
+  requiredDataConnectors:
+    - ConnectorId: DNS
+      DataTypes:
+        - DnsEvents
+  settingsDefinitionId: b783df9c-4088-452e-a791-0c4fca47a109
+  settingsStatus: Production
+  tactics:
+    - CommandAndControl
+  techniques:
+    - T1568
+type: Microsoft.SecurityInsights/securityMLAnalyticsSettings

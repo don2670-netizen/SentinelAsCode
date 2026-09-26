@@ -1,0 +1,61 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Analytics rules
+# GitHub Signin Burst from Multiple Locations
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/7e0c58f6-a175-48dd-a256-19ac1b745486"
+kind: Scheduled
+name: "7e0c58f6-a175-48dd-a256-19ac1b745486"
+properties:
+  alertRuleTemplateName: d3980830-dd9d-40a5-911f-76b44dfdce16
+  description: |-
+    This detection triggers when there is a Signin burst from multiple locations in GitHub (Entra ID SSO).
+     This detection is based on configurable threshold which can be prone to false positives. To view the anomaly based equivalent of thie detection, please see here https://github.com/Azure/Azure-Sentinel/blob/master/Solutions/Microsoft%20Entra%20ID/Analytic%20Rules/AnomalousUserAppSigninLocationIncrease-detection.yaml. 
+  displayName: GitHub Signin Burst from Multiple Locations
+  enabled: true
+  entityMappings:
+    - entityType: Account
+      fieldMappings:
+        - columnName: UserPrincipalName
+          identifier: FullName
+        - columnName: Name
+          identifier: Name
+        - columnName: UPNSuffix
+          identifier: UPNSuffix
+  eventGroupingSettings:
+    aggregationKind: SingleAlert
+  incidentConfiguration:
+    createIncident: true
+    groupingConfiguration:
+      enabled: false
+      groupByAlertDetails: []
+      groupByCustomDetails: []
+      groupByEntities: []
+      lookbackDuration: PT5H
+      matchingMethod: AllEntities
+      reopenClosedIncident: false
+  query: |
+    let locationThreshold = 1;
+    let aadFunc = (tableName:string){
+    table(tableName)
+    | where AppDisplayName =~ "GitHub.com"
+    | where ResultType == 0
+    | summarize CountOfLocations = dcount(Location), Locations = make_set(Location,100), BurstStartTime = min(TimeGenerated), BurstEndTime = max(TimeGenerated) by UserPrincipalName, Type
+    | where CountOfLocations > locationThreshold
+    | extend timestamp = BurstStartTime
+    };
+    let aadSignin = aadFunc("SigninLogs");
+    let aadNonInt = aadFunc("AADNonInteractiveUserSignInLogs");
+    union isfuzzy=true aadSignin, aadNonInt
+    | extend Name = tostring(split(UserPrincipalName,'@',0)[0]), UPNSuffix = tostring(split(UserPrincipalName,'@',1)[0])
+  queryFrequency: PT1H
+  queryPeriod: PT1H
+  severity: Medium
+  suppressionDuration: PT1H
+  suppressionEnabled: false
+  tactics:
+    - CredentialAccess
+  techniques:
+    - T1110
+  templateVersion: "1.0.3"
+  triggerOperator: GreaterThan
+  triggerThreshold: 0
+type: Microsoft.SecurityInsights/alertRules

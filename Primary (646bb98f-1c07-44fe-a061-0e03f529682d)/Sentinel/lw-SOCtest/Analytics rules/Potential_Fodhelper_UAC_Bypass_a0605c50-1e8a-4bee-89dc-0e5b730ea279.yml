@@ -1,0 +1,69 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Analytics rules
+# Potential Fodhelper UAC Bypass
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/a0605c50-1e8a-4bee-89dc-0e5b730ea279"
+kind: Scheduled
+name: a0605c50-1e8a-4bee-89dc-0e5b730ea279
+properties:
+  alertRuleTemplateName: "56f3f35c-3aca-4437-a1fb-b7a84dc4af00"
+  description: "This detection looks for the steps required to conduct a UAC bypass using Fodhelper.exe. By default this detection looks for the setting of the required registry keys and the invoking of the process within 1 hour - this can be tweaked as required."
+  displayName: Potential Fodhelper UAC Bypass
+  enabled: true
+  entityMappings:
+    - entityType: Host
+      fieldMappings:
+        - columnName: Computer
+          identifier: FullName
+        - columnName: HostName
+          identifier: HostName
+        - columnName: HostNameDomain
+          identifier: DnsDomain
+    - entityType: Account
+      fieldMappings:
+        - columnName: TargetAccount
+          identifier: FullName
+        - columnName: AccountName
+          identifier: Name
+        - columnName: AccountNTDomain
+          identifier: NTDomain
+  eventGroupingSettings:
+    aggregationKind: SingleAlert
+  incidentConfiguration:
+    createIncident: true
+    groupingConfiguration:
+      enabled: false
+      groupByAlertDetails: []
+      groupByCustomDetails: []
+      groupByEntities: []
+      lookbackDuration: PT5H
+      matchingMethod: AllEntities
+      reopenClosedIncident: false
+  query: |
+    SecurityEvent
+      | where EventID == 4657
+      | parse ObjectName with "\\REGISTRY\\" KeyPrefix "\\" RegistryKey
+      | project-reorder RegistryKey
+      | where RegistryKey has "Software\\Classes\\ms-settings\\shell\\open\\command"
+      | extend TimeKey = bin(TimeGenerated, 1h)
+      | join (
+      SecurityEvent
+      | where EventID == 4688
+      | where Process =~ "fodhelper.exe"
+      | where ParentProcessName endswith "cmd.exe" or ParentProcessName endswith "powershell.exe" or ParentProcessName endswith "powershell_ise.exe"
+      | extend TimeKey = bin(TimeGenerated, 1h)) on TimeKey, Computer
+      | extend HostName = tostring(split(Computer, ".")[0]), DomainIndex = toint(indexof(Computer, '.'))
+      | extend HostNameDomain = iff(DomainIndex != -1, substring(Computer, DomainIndex + 1), Computer)
+      | extend AccountName = tostring(split(TargetAccount, @'\')[1]), AccountNTDomain = tostring(split(TargetAccount, @'\')[0])
+  queryFrequency: PT2H
+  queryPeriod: PT2H
+  severity: Medium
+  suppressionDuration: PT1H
+  suppressionEnabled: false
+  tactics:
+    - PrivilegeEscalation
+  techniques:
+    - T1548
+  templateVersion: "1.0.2"
+  triggerOperator: GreaterThan
+  triggerThreshold: 0
+type: Microsoft.SecurityInsights/alertRules

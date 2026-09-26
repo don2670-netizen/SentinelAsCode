@@ -1,0 +1,75 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · LogAnalyticWestEurope · Anomaly rules
+# Detect machine generated network beaconing behavior
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/622844c2-fc11-4efc-91e6-c05b06ab3008"
+kind: Anomaly
+name: "622844c2-fc11-4efc-91e6-c05b06ab3008"
+properties:
+  anomalySettingsVersion: 0
+  anomalyVersion: "3.4.10"
+  customizableObservations:
+    multiSelectObservations: null
+    prioritizeExcludeObservations: null
+    singleSelectObservations: null
+    singleValueObservations: null
+    thresholdObservations:
+      - description: Suppress anomalies when degree of source IPs is greater than the chosen value
+        maximum: "1000"
+        minimum: "10"
+        name: Degree of source IPs
+        rerun: RerunAlways
+        sequenceNumber: 1
+        value: "25"
+      - description: Suppress anomalies when daily event count is less than the chosen value
+        maximum: "1000"
+        minimum: "10"
+        name: Daily event count threshold
+        rerun: RerunAlways
+        sequenceNumber: 2
+        value: "30"
+      - description: Suppress anomalies when time delta in seconds between network connections is less than the chosen value
+        maximum: "1000"
+        minimum: "10"
+        name: Time delta threshold in seconds
+        rerun: RerunAlways
+        sequenceNumber: 3
+        value: "60"
+      - description: Generate an anomaly when percent beaconing is greater than the chosen value
+        maximum: "100"
+        minimum: "50"
+        name: Percent beaconing threshold
+        rerun: RerunAlways
+        sequenceNumber: 4
+        value: "75"
+  description: |
+    This algorithm identifies beaconing patterns from network traffic connection logs based on recurrent time delta patterns.
+    Any network connection towards the untrusted public networks at repetitive time delta is an indication of malware callbacks or data exfiltration attempts. 
+    The anomaly will calculate time delta between consecutive network connection between same source and destination ip as well as count (Connections in time-delta sequence) of 
+    time-delta sequence between same source and destination. Percentage of beaconing is calculated between connections in time-delta sequence against total connections in a day.
+  displayName: Detect machine generated network beaconing behavior
+  enabled: true
+  frequency: P1D
+  isDefaultSettings: true
+  requiredDataConnectors:
+    - ConnectorId: PaloAltoNetworks
+      DataTypes:
+        - CommonSecurityLog (PaloAlto)
+  settingsDefinitionId: "622844c2-fc11-4efc-91e6-c05b06ab3008"
+  settingsStatus: Production
+  tactics:
+    - CommandAndControl
+  techniques:
+    - T1001
+    - T1008
+    - T1071
+    - T1090
+    - T1095
+    - T1102
+    - T1104
+    - T1132
+    - T1205
+    - T1568
+    - T1571
+    - T1572
+    - T1573
+type: Microsoft.SecurityInsights/securityMLAnalyticsSettings

@@ -1,0 +1,41 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Automation rules
+# test
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/AutomationRules/e2e6e460-8f99-4c68-b30f-928aa205d456"
+name: e2e6e460-8f99-4c68-b30f-928aa205d456
+properties:
+  actions:
+    - actionConfiguration:
+        classification: null
+        classificationComment: null
+        classificationReason: null
+        labels: null
+        owner:
+          assignedTo: Ramal
+          email: null
+          objectId: null
+          userPrincipalName: null
+        severity: null
+        status: null
+      actionType: ModifyProperties
+      order: 1
+  createdBy:
+    email: null
+    name: External application - MSentinelApi
+    objectId: "13823fce-0e32-4439-9f3a-53cef20935a6"
+    userPrincipalName: null
+  createdTimeUtc: "2026-04-29T08:37:14Z"
+  displayName: test
+  order: 1
+  triggeringLogic:
+    conditions:
+      - conditionProperties:
+          operator: Contains
+          propertyName: IncidentRelatedAnalyticRuleIds
+          propertyValues:
+            - "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/5b93d9c0-09e5-427e-9451-15736e23730c"
+        conditionType: Property
+    isEnabled: true
+    triggersOn: Incidents
+    triggersWhen: Created
+type: Microsoft.SecurityInsights/AutomationRules

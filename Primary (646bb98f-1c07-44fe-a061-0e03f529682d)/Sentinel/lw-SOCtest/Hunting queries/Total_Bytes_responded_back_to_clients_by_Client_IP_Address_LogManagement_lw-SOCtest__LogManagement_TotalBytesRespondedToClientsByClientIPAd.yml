@@ -1,0 +1,11 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Hunting queries
+# Total Bytes responded back to clients by Client IP Address
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/savedSearches/LogManagement(lw-SOCtest)_LogManagement|TotalBytesRespondedToClientsByClientIPAddress"
+name: "LogManagement(lw-SOCtest)_LogManagement|TotalBytesRespondedToClientsByClientIPAddress"
+properties:
+  category: Log Management
+  displayName: Total Bytes responded back to clients by Client IP Address
+  query: "search * | extend Type = $table | where Type == W3CIISLog | summarize AggregatedValue = sum(scBytes) by cIP\r\n// Oql: Type=W3CIISLog | Measure Sum(scBytes) by cIP // Args: {OQ: True; WorkspaceId: 00000000-0000-0000-0000-000000000000} // Settings: {PEF: True; SortI: True; SortF: True} // Version: 0.1.122"
+  version: 2
+type: Microsoft.OperationalInsights/savedSearches

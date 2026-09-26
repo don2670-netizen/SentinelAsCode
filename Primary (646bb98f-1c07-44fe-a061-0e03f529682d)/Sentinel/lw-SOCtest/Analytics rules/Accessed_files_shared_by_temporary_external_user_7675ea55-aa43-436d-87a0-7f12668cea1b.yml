@@ -1,0 +1,101 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Analytics rules
+# Accessed files shared by temporary external user
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/7675ea55-aa43-436d-87a0-7f12668cea1b"
+kind: Scheduled
+name: "7675ea55-aa43-436d-87a0-7f12668cea1b"
+properties:
+  alertRuleTemplateName: bff058b2-500e-4ae5-bb49-a5b1423cbd5b
+  description: "This detection identifies when an external user is added to a Team or Teams chat and shares a file which is accessed by many users (>10) and the users is removed within short period of time. This might be an indicator of suspicious activity."
+  displayName: Accessed files shared by temporary external user
+  enabled: true
+  entityMappings:
+    - entityType: Account
+      fieldMappings:
+        - columnName: MemberAdded
+          identifier: FullName
+        - columnName: MemberAddedAccountName
+          identifier: Name
+        - columnName: MemberAddedAccountUPNSuffix
+          identifier: UPNSuffix
+    - entityType: Account
+      fieldMappings:
+        - columnName: UserWhoAdded
+          identifier: FullName
+        - columnName: UserWhoAddedAccountName
+          identifier: Name
+        - columnName: UserWhoAddedAccountUPNSuffix
+          identifier: UPNSuffix
+    - entityType: Account
+      fieldMappings:
+        - columnName: UserWhoDeleted
+          identifier: FullName
+        - columnName: UserWhoDeletedAccountName
+          identifier: Name
+        - columnName: UserWhoDeletedAccountUPNSuffix
+          identifier: UPNSuffix
+    - entityType: IP
+      fieldMappings:
+        - columnName: ClientIP
+          identifier: Address
+  eventGroupingSettings:
+    aggregationKind: SingleAlert
+  incidentConfiguration:
+    createIncident: true
+    groupingConfiguration:
+      enabled: false
+      groupByAlertDetails: []
+      groupByCustomDetails: []
+      groupByEntities: []
+      lookbackDuration: PT5H
+      matchingMethod: AllEntities
+      reopenClosedIncident: false
+  query: |
+    let fileAccessThrehold = 10;
+    OfficeActivity
+    | where OfficeWorkload =~ "MicrosoftTeams"
+    | where Operation =~ "MemberAdded"
+    | extend MemberAdded = tostring(parse_json(Members)[0].UPN)
+    | where MemberAdded contains ("#EXT#")
+    | project TimeAdded=TimeGenerated, Operation, MemberAdded, UserWhoAdded = UserId, TeamName
+    | join kind = inner (
+      OfficeActivity
+      | where OfficeWorkload =~ "MicrosoftTeams"
+      | where Operation =~ "MemberRemoved"
+      | extend MemberAdded = tostring(parse_json(Members)[0].UPN)
+      | where MemberAdded contains ("#EXT#")
+      | project TimeDeleted=TimeGenerated, Operation, MemberAdded, UserWhoDeleted = UserId, TeamName
+      ) on MemberAdded
+    | where TimeDeleted > TimeAdded
+    | join kind=inner (
+      OfficeActivity
+      | where RecordType == "SharePointFileOperation"
+      | where SourceRelativeUrl has "Microsoft Teams Chat Files"
+      | where Operation == "FileUploaded"
+      | extend MemberAdded = UserId
+      | join kind = inner (
+          OfficeActivity
+          | where RecordType == "SharePointFileOperation"
+          | where Operation  == "FileAccessed"
+          | where SourceRelativeUrl has "Microsoft Teams Chat Files"
+          | summarize FileAccessCount = count() by OfficeObjectId
+          | where FileAccessCount > fileAccessThrehold
+          ) on $left.OfficeObjectId == $right.OfficeObjectId
+      )on MemberAdded
+    | project-away MemberAdded1, MemberAdded2, OfficeObjectId1, Operation1, Operation2, TeamName1, TeamName2
+    | extend MemberAddedAccountName = tostring(split(MemberAdded, "@")[0]), MemberAddedAccountUPNSuffix = tostring(split(MemberAdded, "@")[1])
+    | extend UserWhoAddedAccountName = tostring(split(UserWhoAdded, "@")[0]), UserWhoAddedAccountUPNSuffix = tostring(split(UserWhoAdded, "@")[1])
+    | extend UserWhoDeletedAccountName = tostring(split(UserWhoDeleted, "@")[0]), UserWhoDeletedAccountUPNSuffix = tostring(split(UserWhoDeleted, "@")[1])
+  queryFrequency: PT1H
+  queryPeriod: PT1H
+  severity: Low
+  suppressionDuration: PT1H
+  suppressionEnabled: false
+  tactics:
+    - InitialAccess
+  techniques:
+    - T1566
+  templateVersion: "2.1.1"
+  triggerOperator: GreaterThan
+  triggerThreshold: 0
+type: Microsoft.SecurityInsights/alertRules

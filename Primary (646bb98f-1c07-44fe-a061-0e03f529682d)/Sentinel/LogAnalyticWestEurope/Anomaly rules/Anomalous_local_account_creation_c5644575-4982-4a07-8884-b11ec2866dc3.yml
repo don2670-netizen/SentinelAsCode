@@ -1,0 +1,48 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · LogAnalyticWestEurope · Anomaly rules
+# Anomalous local account creation
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/c5644575-4982-4a07-8884-b11ec2866dc3"
+kind: Anomaly
+name: c5644575-4982-4a07-8884-b11ec2866dc3
+properties:
+  anomalySettingsVersion: 0
+  anomalyVersion: "3.4.10"
+  customizableObservations:
+    multiSelectObservations: null
+    prioritizeExcludeObservations:
+      - dataType: string
+        description: "Enter comma separated source usernames to be suppressed while triggering anomalies. This should be within double quotes and is case sensitive, example: \"srcdomain1\\\\account1, srcdomain2\\\\account2\""
+        exclude: "srcdomain1\\account1, srcdomain1\\account1"
+        name: Source user allowlist
+        prioritize: null
+        rerun: RerunAlways
+        sequenceNumber: 0
+      - dataType: string
+        description: "Enter comma separated destination usernames to be suppressed while triggering anomalies. This should be within double quotes and is case sensitive, example: \"account1, account2\""
+        exclude: account1, account2
+        name: Destination user allowlist
+        prioritize: null
+        rerun: RerunAlways
+        sequenceNumber: 1
+    singleSelectObservations: null
+    singleValueObservations: null
+    thresholdObservations: null
+  description: |
+    This algorithm is to detect anomalous local account creation on windows systems. Adversaries may create local accounts to maintain access to victim systems.
+    This algorithm analyzes historical local account creation activity (14 days) by users and compare with current day to find similar activity from the users who were not 
+    previously seen in historical activity. You can further customize the allowlist to filter known users from triggering this anomaly.
+  displayName: Anomalous local account creation
+  enabled: true
+  frequency: P1D
+  isDefaultSettings: true
+  requiredDataConnectors:
+    - ConnectorId: SecurityEvents
+      DataTypes:
+        - SecurityEvents
+  settingsDefinitionId: c5644575-4982-4a07-8884-b11ec2866dc3
+  settingsStatus: Production
+  tactics:
+    - Persistence
+  techniques:
+    - T1136
+type: Microsoft.SecurityInsights/securityMLAnalyticsSettings

@@ -1,0 +1,61 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Analytics rules
+# Rare and potentially high-risk Office operations
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/3e54c3ee-c292-440b-b094-92083a250de1"
+kind: Scheduled
+name: "3e54c3ee-c292-440b-b094-92083a250de1"
+properties:
+  alertRuleTemplateName: "957cb240-f45d-4491-9ba5-93430a3c08be"
+  description: Identifies Office operations that are typically rare and can provide capabilities useful to attackers.
+  displayName: Rare and potentially high-risk Office operations
+  enabled: true
+  entityMappings:
+    - entityType: Account
+      fieldMappings:
+        - columnName: UserId
+          identifier: FullName
+        - columnName: AccountName
+          identifier: Name
+        - columnName: AccountUPNSuffix
+          identifier: UPNSuffix
+    - entityType: IP
+      fieldMappings:
+        - columnName: ClientIP
+          identifier: Address
+    - entityType: CloudApplication
+      fieldMappings:
+        - columnName: AppId
+          identifier: AppId
+  eventGroupingSettings:
+    aggregationKind: SingleAlert
+  incidentConfiguration:
+    createIncident: true
+    groupingConfiguration:
+      enabled: false
+      groupByAlertDetails: []
+      groupByCustomDetails: []
+      groupByEntities: []
+      lookbackDuration: PT5H
+      matchingMethod: AllEntities
+      reopenClosedIncident: false
+  query: |
+    OfficeActivity
+    | where Operation in~ ( "Add-MailboxPermission", "Add-MailboxFolderPermission", "Set-Mailbox", "New-ManagementRoleAssignment", "New-InboxRule", "Set-InboxRule", "Set-TransportRule")
+    and not(UserId has_any ('NT AUTHORITY\\SYSTEM (Microsoft.Exchange.ServiceHost)', 'NT AUTHORITY\\SYSTEM (Microsoft.Exchange.AdminApi.NetCore)', 'NT AUTHORITY\\SYSTEM (w3wp)', 'devilfish-applicationaccount') and Operation in~ ( "Add-MailboxPermission", "Set-Mailbox"))
+    | extend ClientIPOnly = tostring(extract_all(@'\[?(::ffff:)?(?P<IPAddress>(\d+\.\d+\.\d+\.\d+)|[^\]]+)\]?', dynamic(["IPAddress"]), ClientIP)[0])
+    | extend AccountName = tostring(split(UserId, "@")[0]), AccountUPNSuffix = tostring(split(UserId, "@")[1])
+  queryFrequency: P1D
+  queryPeriod: P1D
+  severity: Low
+  suppressionDuration: PT1H
+  suppressionEnabled: false
+  tactics:
+    - Persistence
+    - Collection
+  techniques:
+    - T1098
+    - T1114
+  templateVersion: "2.0.5"
+  triggerOperator: GreaterThan
+  triggerThreshold: 0
+type: Microsoft.SecurityInsights/alertRules

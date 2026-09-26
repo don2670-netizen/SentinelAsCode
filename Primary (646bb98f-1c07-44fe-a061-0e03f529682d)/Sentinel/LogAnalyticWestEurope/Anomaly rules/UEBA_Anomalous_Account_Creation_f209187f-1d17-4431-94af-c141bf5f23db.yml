@@ -1,0 +1,41 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · LogAnalyticWestEurope · Anomaly rules
+# UEBA Anomalous Account Creation
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/f209187f-1d17-4431-94af-c141bf5f23db"
+kind: Anomaly
+name: f209187f-1d17-4431-94af-c141bf5f23db
+properties:
+  anomalySettingsVersion: 0
+  anomalyVersion: "3.4.21"
+  customizableObservations:
+    multiSelectObservations: null
+    prioritizeExcludeObservations: null
+    singleSelectObservations: null
+    singleValueObservations: null
+    thresholdObservations:
+      - description: Generate an anomaly when the anomaly score is greater than the chosen value.
+        maximum: "1"
+        minimum: "0"
+        name: Anomaly score threshold
+        rerun: RerunAlways
+        sequenceNumber: 0
+        value: "0"
+  description: |
+    Adversaries may create an account to maintain access to victim systems. With a sufficient level of access,
+    creating such accounts may be used to establish secondary credentialed access
+    that do not require persistent remote access tools to be deployed on the system.
+  displayName: UEBA Anomalous Account Creation
+  enabled: true
+  frequency: P1D
+  isDefaultSettings: true
+  requiredDataConnectors:
+    - ConnectorId: AzureActiveDirectory
+      DataTypes:
+        - AuditLogs
+  settingsDefinitionId: f209187f-1d17-4431-94af-c141bf5f23db
+  settingsStatus: Production
+  tactics:
+    - Persistence
+  techniques:
+    - T1136
+type: Microsoft.SecurityInsights/securityMLAnalyticsSettings

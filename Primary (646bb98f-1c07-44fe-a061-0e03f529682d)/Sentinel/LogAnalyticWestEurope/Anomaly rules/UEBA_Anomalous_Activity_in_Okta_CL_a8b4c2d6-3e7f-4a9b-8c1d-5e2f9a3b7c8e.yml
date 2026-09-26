@@ -1,0 +1,40 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · LogAnalyticWestEurope · Anomaly rules
+# UEBA Anomalous Activity in Okta_CL
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/a8b4c2d6-3e7f-4a9b-8c1d-5e2f9a3b7c8e"
+kind: Anomaly
+name: a8b4c2d6-3e7f-4a9b-8c1d-5e2f9a3b7c8e
+properties:
+  anomalySettingsVersion: 0
+  anomalyVersion: "1.0.16"
+  customizableObservations:
+    multiSelectObservations: null
+    prioritizeExcludeObservations: null
+    singleSelectObservations: null
+    singleValueObservations: null
+    thresholdObservations:
+      - description: Generate an anomaly when the anomaly score is greater than the chosen value.
+        maximum: "1"
+        minimum: "0"
+        name: Anomaly score threshold
+        rerun: RerunAlways
+        sequenceNumber: 0
+        value: "0"
+  description: "This anomaly detects unexpected authentication activity or security-related configuration changes in Okta, including modifications to sign-on rules, MFA enforcement, or administrative privileges. Such activity may indicate attempts to alter identity security controls or maintain access through privileged changes."
+  displayName: UEBA Anomalous Activity in Okta_CL
+  enabled: true
+  frequency: P1D
+  isDefaultSettings: true
+  requiredDataConnectors:
+    - ConnectorId: OktaSSO
+      DataTypes:
+        - Okta_CL
+  settingsDefinitionId: a8b4c2d6-3e7f-4a9b-8c1d-5e2f9a3b7c8e
+  settingsStatus: Production
+  tactics:
+    - Persistence
+    - PrivilegeEscalation
+  techniques:
+    - T1098
+    - T1556
+type: Microsoft.SecurityInsights/securityMLAnalyticsSettings

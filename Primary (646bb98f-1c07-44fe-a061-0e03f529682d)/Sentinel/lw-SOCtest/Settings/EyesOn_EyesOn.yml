@@ -1,0 +1,9 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Settings
+# EyesOn
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: /subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/settings/EyesOn
+kind: EyesOn
+name: EyesOn
+properties:
+  isEnabled: true
+type: Microsoft.SecurityInsights/settings

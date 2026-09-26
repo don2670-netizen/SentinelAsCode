@@ -1,0 +1,33 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Defender · Indicators
+# IpAddress 159.132.99.2
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+action: Block
+additionalInfo: null
+application: null
+bypassDurationHours: null
+category: 1
+certificateInfo: null
+createdBy: "0038f661-58a7-4c1a-8af0-77bd2d12f25a"
+createdByDisplayName: GitLab Defender IoC Sync
+createdBySource: PublicApi
+creationTimeDateTimeUtc: "2026-08-29T20:46:20.4991426Z"
+description: "Skadeligt URL link | GTI: 0/91 malicious | Reputation: 0 | Land: US | Sidst set: 2026-08-29 | https://www.virustotal.com/gui/ip-address/159.132.99.2 | Tilføjet af Afg Afg <don2670@gmail.com>"
+educateUrl: null
+expirationTime: null
+externalId: null
+generateAlert: true
+historicalDetection: false
+id: "216"
+indicatorType: IpAddress
+indicatorValue: "159.132.99.2"
+lastUpdatedBy: "0038f661-58a7-4c1a-8af0-77bd2d12f25a"
+lookBackPeriod: null
+mitreTechniques: []
+notificationBody: null
+notificationId: null
+rbacGroupIds: []
+rbacGroupNames: []
+recommendedActions: null
+severity: Medium
+title: Malicious URL
+version: null

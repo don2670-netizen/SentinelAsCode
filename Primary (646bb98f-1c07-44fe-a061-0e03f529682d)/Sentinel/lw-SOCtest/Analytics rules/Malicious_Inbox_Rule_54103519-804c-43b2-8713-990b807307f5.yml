@@ -1,0 +1,77 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Analytics rules
+# Malicious Inbox Rule
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/54103519-804c-43b2-8713-990b807307f5"
+kind: Scheduled
+name: "54103519-804c-43b2-8713-990b807307f5"
+properties:
+  alertRuleTemplateName: "7b907bf7-77d4-41d0-a208-5643ff75bf9a"
+  description: |-
+    Often times after the initial compromise the attackers create inbox rules to delete emails that contain certain keywords.
+     This is done so as to limit ability to warn compromised users that they've been compromised. Below is a sample query that tries to detect this.
+    Reference: https://www.reddit.com/r/sysadmin/comments/7kyp0a/recent_phishing_attempts_my_experience_and_what/
+  displayName: Malicious Inbox Rule
+  enabled: true
+  entityMappings:
+    - entityType: Account
+      fieldMappings:
+        - columnName: UserId
+          identifier: FullName
+        - columnName: AccountName
+          identifier: Name
+        - columnName: AccountUPNSuffix
+          identifier: UPNSuffix
+    - entityType: Host
+      fieldMappings:
+        - columnName: OriginatingServerName
+          identifier: FullName
+    - entityType: IP
+      fieldMappings:
+        - columnName: ClientIPAddress
+          identifier: Address
+  eventGroupingSettings:
+    aggregationKind: SingleAlert
+  incidentConfiguration:
+    createIncident: true
+    groupingConfiguration:
+      enabled: false
+      groupByAlertDetails: []
+      groupByCustomDetails: []
+      groupByEntities: []
+      lookbackDuration: PT5H
+      matchingMethod: AllEntities
+      reopenClosedIncident: false
+  query: |
+    let Keywords = dynamic(["helpdesk", " alert", " suspicious", "fake", "malicious", "phishing", "spam", "do not click", "do not open", "hijacked", "Fatal"]);
+    OfficeActivity
+    | where OfficeWorkload =~ "Exchange" 
+    | where Operation =~ "New-InboxRule" and (ResultStatus =~ "True" or ResultStatus =~ "Succeeded")
+    | where Parameters has "Deleted Items" or Parameters has "Junk Email"  or Parameters has "DeleteMessage"
+    | extend Events=todynamic(Parameters)
+    | parse Events  with * "SubjectContainsWords" SubjectContainsWords '}'*
+    | parse Events  with * "BodyContainsWords" BodyContainsWords '}'*
+    | parse Events  with * "SubjectOrBodyContainsWords" SubjectOrBodyContainsWords '}'*
+    | where SubjectContainsWords has_any (Keywords)
+     or BodyContainsWords has_any (Keywords)
+     or SubjectOrBodyContainsWords has_any (Keywords)
+    | extend ClientIPAddress = case( ClientIP has ".", tostring(split(ClientIP,":")[0]), ClientIP has "[", tostring(trim_start(@'[[]',tostring(split(ClientIP,"]")[0]))), ClientIP )
+    | extend Keyword = iff(isnotempty(SubjectContainsWords), SubjectContainsWords, (iff(isnotempty(BodyContainsWords),BodyContainsWords,SubjectOrBodyContainsWords )))
+    | extend RuleDetail = case(OfficeObjectId contains '/' , tostring(split(OfficeObjectId, '/')[-1]) , tostring(split(OfficeObjectId, '\\')[-1]))
+    | summarize count(), StartTimeUtc = min(TimeGenerated), EndTimeUtc = max(TimeGenerated) by  Operation, UserId, ClientIPAddress, ResultStatus, Keyword, OriginatingServer, OfficeObjectId, RuleDetail
+    | extend AccountName = tostring(split(UserId, "@")[0]), AccountUPNSuffix = tostring(split(UserId, "@")[1])
+    | extend OriginatingServerName = tostring(split(OriginatingServer, " ")[0])
+  queryFrequency: P1D
+  queryPeriod: P1D
+  severity: Medium
+  suppressionDuration: PT1H
+  suppressionEnabled: false
+  tactics:
+    - Persistence
+    - DefenseEvasion
+  techniques:
+    - T1098
+    - T1078
+  templateVersion: "2.0.4"
+  triggerOperator: GreaterThan
+  triggerThreshold: 0
+type: Microsoft.SecurityInsights/alertRules

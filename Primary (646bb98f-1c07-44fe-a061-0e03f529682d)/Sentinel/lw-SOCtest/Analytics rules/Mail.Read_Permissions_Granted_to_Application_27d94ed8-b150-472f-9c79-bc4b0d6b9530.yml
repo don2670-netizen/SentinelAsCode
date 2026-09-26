@@ -1,0 +1,100 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Analytics rules
+# Mail.Read Permissions Granted to Application
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/27d94ed8-b150-472f-9c79-bc4b0d6b9530"
+kind: Scheduled
+name: "27d94ed8-b150-472f-9c79-bc4b0d6b9530"
+properties:
+  alertRuleTemplateName: "2560515c-07d1-434e-87fb-ebe3af267760"
+  description: "This query look for applications that have been granted (Delegated or App/Role) permissions to Read Mail (Permissions field has Mail.Read) and subsequently has been consented to. This can help identify applications that have been abused to gain access to mailboxes."
+  displayName: Mail.Read Permissions Granted to Application
+  enabled: true
+  entityMappings:
+    - entityType: Account
+      fieldMappings:
+        - columnName: InitiatingUserPrincipalName
+          identifier: FullName
+        - columnName: Name
+          identifier: Name
+        - columnName: UPNSuffix
+          identifier: UPNSuffix
+    - entityType: Account
+      fieldMappings:
+        - columnName: InitiatingAadUserId
+          identifier: AadUserId
+    - entityType: Account
+      fieldMappings:
+        - columnName: InitiatingAppServicePrincipalId
+          identifier: AadUserId
+    - entityType: IP
+      fieldMappings:
+        - columnName: InitiatingIpAddress
+          identifier: Address
+  eventGroupingSettings:
+    aggregationKind: SingleAlert
+  incidentConfiguration:
+    createIncident: true
+    groupingConfiguration:
+      enabled: false
+      groupByAlertDetails: []
+      groupByCustomDetails: []
+      groupByEntities: []
+      lookbackDuration: PT5H
+      matchingMethod: AllEntities
+      reopenClosedIncident: false
+  query: |
+    AuditLogs
+    | where Category =~ "ApplicationManagement"
+    | where ActivityDisplayName has_any ("Add delegated permission grant","Add app role assignment to service principal")  
+    | where Result =~ "success"
+    | where tostring(InitiatedBy.user.userPrincipalName) has "@" or tostring(InitiatedBy.app.displayName) has "@"
+    | mv-apply TargetResource = TargetResources on 
+      (
+          where TargetResource.type =~ "ServicePrincipal" and array_length(TargetResource.modifiedProperties) > 0 and isnotnull(TargetResource.displayName)
+          | extend props = TargetResource.modifiedProperties,
+                   Type = tostring(TargetResource.type),
+                   PermissionsAddedTo = tostring(TargetResource.displayName)
+      )
+    | mv-apply Property = props on 
+      (
+          where Property.displayName =~ "DelegatedPermissionGrant.Scope"
+          | extend DisplayName = tostring(Property.displayName), Permissions = trim('"',tostring(Property.newValue))
+      )
+    | where Permissions has_any ("Mail.Read", "Mail.ReadWrite")
+    | mv-apply AdditionalDetail = AdditionalDetails on 
+      (
+          where AdditionalDetail.key =~ "User-Agent"
+          | extend InitiatingUserAgent = tostring(AdditionalDetail.value)
+      )
+    | extend InitiatingAppName = tostring(InitiatedBy.app.displayName)
+    | extend InitiatingAppServicePrincipalId = tostring(InitiatedBy.app.servicePrincipalId)
+    | extend InitiatingUserPrincipalName = tostring(InitiatedBy.user.userPrincipalName)
+    | extend InitiatingAadUserId = tostring(InitiatedBy.user.id)
+    | extend InitiatingIpAddress = tostring(iff(isnotempty(InitiatedBy.user.ipAddress), InitiatedBy.user.ipAddress, InitiatedBy.app.ipAddress))
+    | project-away props, TargetResource, AdditionalDetail, Property
+    | join kind=leftouter(
+      AuditLogs
+      | where ActivityDisplayName has "Consent to application"
+      | mv-apply TargetResource = TargetResources on 
+          (
+              where TargetResource.type =~ "ServicePrincipal"
+              | extend AppName = tostring(TargetResource.displayName),
+                       AppId = tostring(TargetResource.id)
+          )
+    | project AppName, AppId, CorrelationId) on CorrelationId
+    | project-away CorrelationId1
+    | project-reorder TimeGenerated, OperationName, InitiatingUserPrincipalName, InitiatingAadUserId, InitiatingAppName, InitiatingAppServicePrincipalId, InitiatingIpAddress, InitiatingUserAgent, PermissionsAddedTo, Permissions, AppName, AppId, CorrelationId
+    | extend Name = tostring(split(InitiatingUserPrincipalName,'@',0)[0]), UPNSuffix = tostring(split(InitiatingUserPrincipalName,'@',1)[0])
+  queryFrequency: P1D
+  queryPeriod: P1D
+  severity: Medium
+  suppressionDuration: PT1H
+  suppressionEnabled: false
+  tactics:
+    - Persistence
+  techniques:
+    - T1098
+  templateVersion: "1.0.4"
+  triggerOperator: GreaterThan
+  triggerThreshold: 0
+type: Microsoft.SecurityInsights/alertRules

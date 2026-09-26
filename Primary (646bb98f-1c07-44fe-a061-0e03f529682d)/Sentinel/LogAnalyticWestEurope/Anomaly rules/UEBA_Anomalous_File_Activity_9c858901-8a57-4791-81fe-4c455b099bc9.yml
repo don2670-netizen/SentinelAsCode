@@ -1,0 +1,45 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · LogAnalyticWestEurope · Anomaly rules
+# UEBA Anomalous File Activity
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/9c858901-8a57-4791-81fe-4c455b099bc9"
+kind: Anomaly
+name: "9c858901-8a57-4791-81fe-4c455b099bc9"
+properties:
+  anomalySettingsVersion: 0
+  anomalyVersion: "1.0.16"
+  customizableObservations:
+    multiSelectObservations: null
+    prioritizeExcludeObservations: null
+    singleSelectObservations: null
+    singleValueObservations: null
+    thresholdObservations:
+      - description: Generate an anomaly when the anomaly score is greater than the chosen value.
+        maximum: "1"
+        minimum: "0"
+        name: Anomaly score threshold
+        rerun: RerunAlways
+        sequenceNumber: 0
+        value: "0"
+  description: "This anomaly detects unusual file activity across Microsoft 365 and endpoint environments, including SharePoint, OneDrive, and Windows devices. It may indicate data exfiltration, insider threats, or unauthorized access to sensitive files by analyzing patterns across Office activity logs and Defender for Endpoint file events."
+  displayName: UEBA Anomalous File Activity
+  enabled: true
+  frequency: P1D
+  isDefaultSettings: true
+  requiredDataConnectors:
+    - ConnectorId: MicrosoftThreatProtection
+      DataTypes:
+        - DeviceFileEvents
+    - ConnectorId: Office365
+      DataTypes:
+        - OfficeActivity (SharePoint)
+        - OfficeActivity (Exchange)
+        - OfficeActivity (Teams)
+  settingsDefinitionId: "9c858901-8a57-4791-81fe-4c455b099bc9"
+  settingsStatus: Production
+  tactics:
+    - Exfiltration
+    - Collection
+  techniques:
+    - T1530
+    - T1567
+type: Microsoft.SecurityInsights/securityMLAnalyticsSettings

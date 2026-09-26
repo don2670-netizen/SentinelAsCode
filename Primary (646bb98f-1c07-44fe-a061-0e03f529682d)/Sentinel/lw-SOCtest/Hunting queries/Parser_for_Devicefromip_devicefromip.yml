@@ -1,0 +1,28 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Hunting queries
+# Parser for Devicefromip
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: /subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/savedSearches/devicefromip
+name: devicefromip
+properties:
+  category: Microsoft Sentinel Parser
+  displayName: Parser for Devicefromip
+  functionAlias: Devicefromip
+  query: |
+    let DeviceFromIP2 = (T:(IP:string), Timestamp:datetime = datetime(null))
+    {
+    let t = coalesce(Timestamp, now());
+    let lastReportIds = DeviceNetworkInfo 
+        | where Timestamp between(max_of(t - 1d, ago(30d)) .. t)
+        | summarize arg_max(Timestamp, ReportId) by DeviceId;
+    let adapters = DeviceNetworkInfo
+        | where Timestamp between(max_of(t - 1d, ago(30d)) .. t)
+        | lookup kind = inner lastReportIds on ReportId, DeviceId
+        | mv-expand todynamic(IPAddresses)
+        | project DeviceId, IP = tostring(IPAddresses.IPAddress);
+    T | join adapters on IP | project-away IP1
+    };
+  tags:
+    - name: description
+      value: ""
+  version: 2
+type: Microsoft.OperationalInsights/savedSearches

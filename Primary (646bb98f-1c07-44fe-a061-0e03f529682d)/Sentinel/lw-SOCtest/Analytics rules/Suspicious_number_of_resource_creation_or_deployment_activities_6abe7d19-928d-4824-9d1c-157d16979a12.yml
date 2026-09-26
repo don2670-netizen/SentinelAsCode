@@ -1,0 +1,80 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Analytics rules
+# Suspicious number of resource creation or deployment activities
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/6abe7d19-928d-4824-9d1c-157d16979a12"
+kind: Scheduled
+name: "6abe7d19-928d-4824-9d1c-157d16979a12"
+properties:
+  alertRuleTemplateName: "361dd1e3-1c11-491e-82a3-bb2e44ac36ba"
+  description: "Indicates when an anomalous number of VM creations or deployment activities occur in Azure via the AzureActivity log. This query generates the baseline pattern of cloud resource creation by an individual and generates an anomaly when any unusual spike is detected. These anomalies from unusual or privileged users could be an indication of a cloud infrastructure takedown by an adversary."
+  displayName: Suspicious number of resource creation or deployment activities
+  enabled: true
+  entityMappings:
+    - entityType: Account
+      fieldMappings:
+        - columnName: Caller
+          identifier: FullName
+        - columnName: Name
+          identifier: Name
+        - columnName: UPNSuffix
+          identifier: UPNSuffix
+    - entityType: Account
+      fieldMappings:
+        - columnName: AadUserId
+          identifier: AadUserId
+    - entityType: IP
+      fieldMappings:
+        - columnName: CallerIpAddress
+          identifier: Address
+  eventGroupingSettings:
+    aggregationKind: SingleAlert
+  incidentConfiguration:
+    createIncident: true
+    groupingConfiguration:
+      enabled: false
+      groupByAlertDetails: []
+      groupByCustomDetails: []
+      groupByEntities: []
+      lookbackDuration: PT5H
+      matchingMethod: AllEntities
+      reopenClosedIncident: false
+  query: |
+    let szOperationNames = dynamic(["microsoft.compute/virtualMachines/write", "microsoft.resources/deployments/write"]);
+    let starttime = 7d;
+    let endtime = 1d;
+    let timeframe = 1d;
+    let TimeSeriesData =
+    AzureActivity
+    | where TimeGenerated between (startofday(ago(starttime)) .. startofday(now()))
+    | where OperationNameValue in~ (szOperationNames)
+    | project TimeGenerated, Caller 
+    | make-series Total = count() on TimeGenerated from startofday(ago(starttime)) to startofday(now()) step timeframe by Caller; 
+    TimeSeriesData
+    | extend (anomalies, score, baseline) = series_decompose_anomalies(Total, 3, -1, 'linefit')
+    | mv-expand Total to typeof(double), TimeGenerated to typeof(datetime), anomalies to typeof(double), score to typeof(double), baseline to typeof(long) 
+    | where TimeGenerated >= startofday(ago(endtime))
+    | where anomalies > 0 and baseline > 0
+    | project Caller, TimeGenerated, Total, baseline, anomalies, score
+    | join (AzureActivity
+    | where TimeGenerated > startofday(ago(endtime)) 
+    | where OperationNameValue in~ (szOperationNames)
+    | summarize make_set(OperationNameValue,100), make_set(_ResourceId,100), make_set(CallerIpAddress,100) by bin(TimeGenerated, timeframe), Caller
+    ) on TimeGenerated, Caller
+    | mv-expand CallerIpAddress=set_CallerIpAddress
+    | project-away Caller1
+    | extend Name = iif(Caller has '@',tostring(split(Caller,'@',0)[0]),"")
+    | extend UPNSuffix = iif(Caller has '@',tostring(split(Caller,'@',1)[0]),"")
+    | extend AadUserId = iif(Caller !has '@',Caller,"")
+  queryFrequency: P1D
+  queryPeriod: P7D
+  severity: Medium
+  suppressionDuration: PT1H
+  suppressionEnabled: false
+  tactics:
+    - Impact
+  techniques:
+    - T1496
+  templateVersion: "2.0.4"
+  triggerOperator: GreaterThan
+  triggerThreshold: 0
+type: Microsoft.SecurityInsights/alertRules

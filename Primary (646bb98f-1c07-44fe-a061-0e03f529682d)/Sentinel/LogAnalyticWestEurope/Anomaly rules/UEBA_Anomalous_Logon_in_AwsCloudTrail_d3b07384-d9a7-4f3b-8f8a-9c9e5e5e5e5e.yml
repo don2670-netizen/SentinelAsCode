@@ -1,0 +1,38 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · LogAnalyticWestEurope · Anomaly rules
+# UEBA Anomalous Logon in AwsCloudTrail
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/d3b07384-d9a7-4f3b-8f8a-9c9e5e5e5e5e"
+kind: Anomaly
+name: d3b07384-d9a7-4f3b-8f8a-9c9e5e5e5e5e
+properties:
+  anomalySettingsVersion: 0
+  anomalyVersion: "1.0.16"
+  customizableObservations:
+    multiSelectObservations: null
+    prioritizeExcludeObservations: null
+    singleSelectObservations: null
+    singleValueObservations: null
+    thresholdObservations:
+      - description: Generate an anomaly when the anomaly score is greater than the chosen value.
+        maximum: "1"
+        minimum: "0"
+        name: Anomaly score threshold
+        rerun: RerunAlways
+        sequenceNumber: 0
+        value: "0"
+  description: "This anomaly detects unusual logon activity in AWS services based on CloudTrail events such as ConsoleLogin and other authentication-related attributes associated. Anomalies are determined by deviations in user behavior based on attributes like geolocation, device fingerprint, ISP, and access method, and may indicate unauthorized access attempts or potential policy violations"
+  displayName: UEBA Anomalous Logon in AwsCloudTrail
+  enabled: true
+  frequency: P1D
+  isDefaultSettings: true
+  requiredDataConnectors:
+    - ConnectorId: AWS
+      DataTypes:
+        - AWSCloudTrail
+  settingsDefinitionId: d3b07384-d9a7-4f3b-8f8a-9c9e5e5e5e5e
+  settingsStatus: Production
+  tactics:
+    - InitialAccess
+  techniques:
+    - T1078
+type: Microsoft.SecurityInsights/securityMLAnalyticsSettings

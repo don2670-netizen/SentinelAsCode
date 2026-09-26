@@ -1,0 +1,79 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · LogAnalyticWestEurope · Anomaly rules
+# Unusual network volume anomaly
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/95514e77-1b23-4f05-817c-ae363c53aad3"
+kind: Anomaly
+name: "95514e77-1b23-4f05-817c-ae363c53aad3"
+properties:
+  anomalySettingsVersion: 0
+  anomalyVersion: "3.4.10"
+  customizableObservations:
+    multiSelectObservations: null
+    prioritizeExcludeObservations: null
+    singleSelectObservations:
+      - description: Select device vendor reporting network connection logs to CommonSecurityLog
+        name: Device vendor
+        rerun: RerunAlways
+        sequenceNumber: 1
+        supportedValues:
+          - Akamai
+          - Aruba Networks
+          - Check Point
+          - Dell
+          - Forcepoint
+          - Fortinet
+          - McAfee
+          - Palo Alto Networks
+          - SonicWall
+          - Trend Micro
+          - Vectra Networks
+          - Zscaler
+        supportedValuesKql: null
+        value: Palo Alto Networks
+    singleValueObservations: null
+    thresholdObservations:
+      - description: Suppress anomalies when hourly event count is less than the chosen value
+        maximum: "10000"
+        minimum: "10"
+        name: Hourly event count threshold
+        rerun: RerunAlways
+        sequenceNumber: 1
+        value: "10"
+      - description: Generate an anomaly when score is greater than the chosen value
+        maximum: "1"
+        minimum: "0"
+        name: Score
+        rerun: RerunAlways
+        sequenceNumber: 2
+        value: ".98"
+  description: |
+    This algorithm is to detect unusually high volume of connections in network logs. 
+    It uses time series to decompose the data into seasonal, trend and residual components to 
+    calculate baseline. Any sudden large deviation from the historical baseline is considered as anomalous activity.
+  displayName: Unusual network volume anomaly
+  enabled: true
+  frequency: P1D
+  isDefaultSettings: true
+  requiredDataConnectors:
+    - ConnectorId: PaloAltoNetworks
+      DataTypes:
+        - CommonSecurityLog (PaloAlto)
+    - ConnectorId: Zscaler
+      DataTypes:
+        - CommonSecurityLog (Zscaler)
+    - ConnectorId: CEF
+      DataTypes:
+        - CommonSecurityLog
+    - ConnectorId: CheckPoint
+      DataTypes:
+        - CommonSecurityLog (CheckPoint)
+    - ConnectorId: Fortinet
+      DataTypes:
+        - CommonSecurityLog (Fortinet)
+  settingsDefinitionId: "95514e77-1b23-4f05-817c-ae363c53aad3"
+  settingsStatus: Production
+  tactics:
+    - Exfiltration
+  techniques:
+    - T1030
+type: Microsoft.SecurityInsights/securityMLAnalyticsSettings

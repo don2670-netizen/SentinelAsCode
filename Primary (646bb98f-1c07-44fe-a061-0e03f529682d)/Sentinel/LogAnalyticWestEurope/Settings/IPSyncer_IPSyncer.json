@@ -1,9 +1,0 @@
-{
-  "id": "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/LogAnalyticWestEurope/providers/Microsoft.SecurityInsights/settings/IPSyncer",
-  "kind": "IPSyncer",
-  "name": "IPSyncer",
-  "properties": {
-    "isEnabled": true
-  },
-  "type": "Microsoft.SecurityInsights/settings"
-}

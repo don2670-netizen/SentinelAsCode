@@ -1,0 +1,55 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · LogAnalyticWestEurope · Anomaly rules
+# Potential domain generation algorithm (DGA) on next-level DNS Domains
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/7e38a3e4-ccb9-4c73-b4ee-290b3bed077c"
+kind: Anomaly
+name: "7e38a3e4-ccb9-4c73-b4ee-290b3bed077c"
+properties:
+  anomalySettingsVersion: 0
+  anomalyVersion: "3.4.1"
+  customizableObservations:
+    multiSelectObservations: null
+    prioritizeExcludeObservations:
+      - dataType: string
+        description: "Give comma separated suffixes to exclude from source data within double quotes, example: \".lan, .home\""
+        exclude: ".lan, .home"
+        name: Domain suffixes
+        prioritize: null
+        rerun: RerunAlways
+        sequenceNumber: 0
+    singleSelectObservations: null
+    singleValueObservations: null
+    thresholdObservations:
+      - description: Generate an anomaly when the anomaly score (probability that the domain is DGA) is greater than or equal to the chosen value.
+        maximum: "1.0"
+        minimum: "0.0"
+        name: Score
+        rerun: RerunAlways
+        sequenceNumber: 0
+        value: "0.9"
+      - description: "DGA attacks tend to come from a small number of distinct IP addresses. Define a threshold value for the number of distinct IP addresses a second-level domain accesses, above which that domain will be filtered out as noise. For example, if the threshold is 30, only anomalies in which the distinct number of IP addresses accessing the second-level domain is less than or equal to 30 will be included in your results. Our default value is a result of our own data studies but you can use the Observables provided to help you adjust your threshold value."
+        maximum: "100"
+        minimum: "5"
+        name: Distinct IP filter
+        rerun: RerunAlways
+        sequenceNumber: 0
+        value: "30"
+  description: |
+    This machine learning model indicates the next-level domains (third-level and up)
+    of the domain names from the last day of DNS logs are unusual. They could potentially be the output of a domain generation
+    algorithm (DGA). The anomaly applies to the DNS records that resolve to IPv4 and IPv6 addresses.
+  displayName: Potential domain generation algorithm (DGA) on next-level DNS Domains
+  enabled: true
+  frequency: P1D
+  isDefaultSettings: true
+  requiredDataConnectors:
+    - ConnectorId: DNS
+      DataTypes:
+        - DnsEvents
+  settingsDefinitionId: "7e38a3e4-ccb9-4c73-b4ee-290b3bed077c"
+  settingsStatus: Production
+  tactics:
+    - CommandAndControl
+  techniques:
+    - T1568
+type: Microsoft.SecurityInsights/securityMLAnalyticsSettings

@@ -1,0 +1,11 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Hunting queries
+# Average HTTP Request time by HTTP Method
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/savedSearches/LogManagement(lw-SOCtest)_LogManagement|AverageHTTPRequestTimeHTTPMethod"
+name: "LogManagement(lw-SOCtest)_LogManagement|AverageHTTPRequestTimeHTTPMethod"
+properties:
+  category: Log Management
+  displayName: Average HTTP Request time by HTTP Method
+  query: "search * | extend Type = $table | where Type == W3CIISLog | summarize AggregatedValue = avg(TimeTaken) by csMethod\r\n// Oql: Type=W3CIISLog | Measure Avg(TimeTaken) by csMethod // Args: {OQ: True; WorkspaceId: 00000000-0000-0000-0000-000000000000} // Settings: {PEF: True; SortI: True; SortF: True} // Version: 0.1.122"
+  version: 2
+type: Microsoft.OperationalInsights/savedSearches

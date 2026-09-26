@@ -1,0 +1,108 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Analytics rules
+# Linked Malicious Storage Artifacts
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/b79f7dc3-6c5b-40f4-9a3d-05d37e80ecb7"
+kind: Scheduled
+name: b79f7dc3-6c5b-40f4-9a3d-05d37e80ecb7
+properties:
+  alertRuleTemplateName: b9e3b9f8-a406-4151-9891-e5ff1ddd8c1d
+  description: This query identifies the additional files uploaded by the same IP address which triggered a malware alert for malicious content upload on Azure Blob or File Storage Container.
+  displayName: Linked Malicious Storage Artifacts
+  enabled: true
+  entityMappings:
+    - entityType: IP
+      fieldMappings:
+        - columnName: AttackerIP
+          identifier: Address
+    - entityType: FileHash
+      fieldMappings:
+        - columnName: HashAlgorithm
+          identifier: Algorithm
+        - columnName: LinkedMaliciousFileHash
+          identifier: Value
+  eventGroupingSettings:
+    aggregationKind: SingleAlert
+  incidentConfiguration:
+    createIncident: true
+    groupingConfiguration:
+      enabled: false
+      groupByAlertDetails: []
+      groupByCustomDetails: []
+      groupByEntities: []
+      lookbackDuration: PT5H
+      matchingMethod: AllEntities
+      reopenClosedIncident: false
+  query: |
+    //Collect the alert events
+    let alertData = SecurityAlert
+    | where DisplayName has "Potential malware uploaded to"
+    | extend Entities = parse_json(Entities)
+    | mv-expand Entities;
+    //Parse the IP address data
+    let ipData = alertData
+    | where Entities['Type'] =~ "ip"
+    | extend AttackerIP = tostring(Entities['Address']), AttackerCountry = tostring(Entities['Location']['CountryName']);
+    //Parse the file data
+    let FileData = alertData
+    | where Entities['Type'] =~ "file"
+    | extend MaliciousFileDirectory = tostring(Entities['Directory']), MaliciousFileName = tostring(Entities['Name']), MaliciousFileHashes = tostring(Entities['FileHashes']);
+    //Combine the File and IP data together
+    ipData
+    | join (FileData) on VendorOriginalId
+    | summarize by TimeGenerated, AttackerIP, AttackerCountry, DisplayName, ResourceId, AlertType, MaliciousFileDirectory, MaliciousFileName, MaliciousFileHashes
+    //Create a type column so we can track if it was a File storage or blobl storage upload
+    | extend type = iff(DisplayName has "file", "File", "Blob")
+    | join (
+      union
+      StorageFileLogs,
+      StorageBlobLogs
+      //File upload operations
+      | where OperationName =~ "PutBlob" or OperationName =~ "PutRange"
+      //Parse out the uploader IP
+      | extend ClientIP = tostring(split(CallerIpAddress, ":", 0)[0])
+      //Extract the filename from the Uri
+      | extend FileName = extract(@"\/([\w\-. ]+)\?", 1, Uri)
+      //Base64 decode the MD5 filehash, we will encounter non-ascii hex so string operations don't work
+      //We can work around this by making it an array then converting it to hex from an int
+      | extend base64Char = base64_decode_toarray(ResponseMd5)
+      | mv-expand base64Char
+      | extend hexChar = tohex(toint(base64Char))
+      | extend hexChar = iff(strlen(hexChar) < 2, strcat("0", hexChar), hexChar)
+      | extend SourceTable = iff(OperationName has "range", "StorageFileLogs", "StorageBlobLogs")
+      | summarize make_list(hexChar, 1000) by CorrelationId, ResponseMd5, FileName, AccountName, TimeGenerated, RequestBodySize, ClientIP, SourceTable
+      | extend Md5Hash = strcat_array(list_hexChar, "")
+      //Pack the file information the summarise into a ClientIP row
+      | extend p = pack("FileName", FileName, "FileSize", RequestBodySize, "Md5Hash", Md5Hash, "Time", TimeGenerated, "SourceTable", SourceTable)
+      | summarize UploadedFileInfo=make_list(p, 10000), FilesUploaded=count() by ClientIP
+          | join kind=leftouter (
+            union
+            StorageFileLogs,
+            StorageBlobLogs
+            | where OperationName =~ "DeleteFile" or OperationName =~ "DeleteBlob"
+            | extend ClientIP = tostring(split(CallerIpAddress, ":", 0)[0])
+            | extend FileName = extract(@"\/([\w\-. ]+)\?", 1, Uri)
+            | extend SourceTable = iff(OperationName has "range", "StorageFileLogs", "StorageBlobLogs")
+            | extend p = pack("FileName", FileName, "Time", TimeGenerated, "SourceTable", SourceTable)
+            | summarize DeletedFileInfo=make_list(p, 10000), FilesDeleted=count() by ClientIP
+            ) on ClientIP
+      ) on $left.AttackerIP == $right.ClientIP
+    | mvexpand UploadedFileInfo
+    | extend LinkedMaliciousFileName = tostring(UploadedFileInfo.FileName)
+    | extend LinkedMaliciousFileHash = tostring(UploadedFileInfo.Md5Hash)
+    | extend HashAlgorithm = "MD5"
+    | project AlertTimeGenerated = TimeGenerated, LinkedMaliciousFileName, LinkedMaliciousFileHash, HashAlgorithm, AlertType, AttackerIP, AttackerCountry, MaliciousFileDirectory, MaliciousFileName, FilesUploaded, UploadedFileInfo
+  queryFrequency: P1D
+  queryPeriod: P1D
+  severity: Medium
+  suppressionDuration: PT1H
+  suppressionEnabled: false
+  tactics:
+    - CommandAndControl
+    - Exfiltration
+  techniques:
+    - T1071
+    - T1567
+  templateVersion: "1.0.3"
+  triggerOperator: GreaterThan
+  triggerThreshold: 0
+type: Microsoft.SecurityInsights/alertRules

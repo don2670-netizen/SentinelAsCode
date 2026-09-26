@@ -1,0 +1,84 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Analytics rules
+# Shadow Copy Deletions
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/4902b003-6075-4058-8020-a867c224277c"
+kind: Scheduled
+name: "4902b003-6075-4058-8020-a867c224277c"
+properties:
+  alertRuleTemplateName: "28c63a44-2d35-48b7-831b-3ed24af17c7e"
+  description: |-
+    This rule detects when Shadow Copies are being deleted. This is a know actions that is performed by threat actors.
+    This query detects know commands that have been used by the ransomware actors.
+    Some information from Mitre Attack: 
+    https://attack.mitre.org/techniques/T1490/
+  displayName: Shadow Copy Deletions
+  enabled: true
+  entityMappings:
+    - entityType: Host
+      fieldMappings:
+        - columnName: DeviceName
+          identifier: FullName
+        - columnName: HostName
+          identifier: HostName
+        - columnName: DnsDomain
+          identifier: DnsDomain
+    - entityType: Account
+      fieldMappings:
+        - columnName: AccountUpn
+          identifier: FullName
+        - columnName: AccountName
+          identifier: Name
+        - columnName: AccountDomain
+          identifier: DnsDomain
+    - entityType: Process
+      fieldMappings:
+        - columnName: ProcessId
+          identifier: ProcessId
+        - columnName: ProcessCommandLine
+          identifier: CommandLine
+  eventGroupingSettings:
+    aggregationKind: SingleAlert
+  incidentConfiguration:
+    createIncident: true
+    groupingConfiguration:
+      enabled: false
+      groupByAlertDetails: []
+      groupByCustomDetails: []
+      groupByEntities: []
+      lookbackDuration: PT5H
+      matchingMethod: AllEntities
+      reopenClosedIncident: false
+  query: |
+    let CommonRansomwareExecutionCommands = dynamic([@'vssadmin.exe delete shadows /all /quiet', 
+    @'wmic.exe shadowcopy delete', @'wbadmin delete catalog -quiet', 
+    @'Get-WmiObject Win32_Shadowcopy | ForEach-Object {$_.Delete();}',
+    @'del /s /f /q c:\*.VHD c:\*.bac c:\*.bak c:\*.wbcat c:\*.bkf c:\Backup*.* c:\backup*.* c:\*.set c:\*.win c:\*.dsk', 
+    @'wbadmin delete systemstatebackup -keepVersions:0', 
+    @'schtasks.exe /Change /TN "\Microsoft\Windows\SystemRestore\SR" /disable', 
+    @'schtasks.exe /Change /TN "\Microsoft\Windows\SystemRestore\SR" /enable >nul 2>&1', 
+    @'reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\SystemRestore" /v "DisableConfig" /t "REG_DWORD" /d "1" /f', 
+    @'reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\SystemRestore" /v "DisableSR" /t "REG_DWORD" /d "1" /f', 
+    @'reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore" /v "DisableConfig" /t "REG_DWORD" /d "1" /f', 
+    @'reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore" /v "DisableSR" /t "REG_DWORD" /d "1" /f', 
+    @'reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\SystemRestore" /v "DisableConfig" /f >nul 2>&1', 
+    @'reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\SystemRestore" /v "DisableSR" /f >nul 2>&1', 
+    @'reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore" /v "DisableConfig" /f >nul 2>&1', 
+    @'reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore" /v "DisableSR" /f >nul 2>&1']);
+    DeviceProcessEvents
+    | where ProcessCommandLine has_any (CommonRansomwareExecutionCommands)
+    | project-reorder TimeGenerated, ProcessCommandLine, DeviceName, AccountName
+    | extend HostName = iff(DeviceName has '.', substring(DeviceName, 0, indexof(DeviceName, '.')), DeviceName)
+    | extend DnsDomain = iff(DeviceName has '.', substring(DeviceName, indexof(DeviceName, '.') + 1), "")
+  queryFrequency: PT1H
+  queryPeriod: PT1H
+  severity: Medium
+  suppressionDuration: PT1H
+  suppressionEnabled: false
+  tactics:
+    - Impact
+  techniques:
+    - T1490
+  templateVersion: "1.0.0"
+  triggerOperator: GreaterThan
+  triggerThreshold: 0
+type: Microsoft.SecurityInsights/alertRules

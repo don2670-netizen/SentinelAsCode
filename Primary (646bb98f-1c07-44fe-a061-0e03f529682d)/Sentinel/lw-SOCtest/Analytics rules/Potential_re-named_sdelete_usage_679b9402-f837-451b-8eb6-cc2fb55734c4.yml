@@ -1,0 +1,66 @@
+# Primary (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Analytics rules
+# Potential re-named sdelete usage
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/679b9402-f837-451b-8eb6-cc2fb55734c4"
+kind: Scheduled
+name: "679b9402-f837-451b-8eb6-cc2fb55734c4"
+properties:
+  alertRuleTemplateName: "720d12c6-a08c-44c4-b18f-2236412d59b0"
+  description: |-
+    This detection looks for command line parameters associated with the use of Sysinternals sdelete (https://docs.microsoft.com/sysinternals/downloads/sdelete) to delete multiple files on a host's C drive.
+    A threat actor may re-name the tool to avoid detection and then use it for destructive attacks on a host.
+  displayName: Potential re-named sdelete usage
+  enabled: true
+  entityMappings:
+    - entityType: Account
+      fieldMappings:
+        - columnName: TargetAccount
+          identifier: FullName
+        - columnName: AccountName
+          identifier: Name
+        - columnName: AccountNTDomain
+          identifier: NTDomain
+    - entityType: Host
+      fieldMappings:
+        - columnName: Computer
+          identifier: FullName
+        - columnName: HostName
+          identifier: HostName
+        - columnName: HostNameDomain
+          identifier: DnsDomain
+  eventGroupingSettings:
+    aggregationKind: SingleAlert
+  incidentConfiguration:
+    createIncident: true
+    groupingConfiguration:
+      enabled: false
+      groupByAlertDetails: []
+      groupByCustomDetails: []
+      groupByEntities: []
+      lookbackDuration: PT5H
+      matchingMethod: AllEntities
+      reopenClosedIncident: false
+  query: |
+    SecurityEvent
+      | where EventID == 4688
+      | where Process !~ "sdelete.exe"
+      | where CommandLine has_all ("accepteula", "-r", "-s", "-q", "c:/")
+      | where CommandLine !has ("sdelete")
+      | extend HostName = tostring(split(Computer, ".")[0]), DomainIndex = toint(indexof(Computer, '.'))
+      | extend HostNameDomain = iff(DomainIndex != -1, substring(Computer, DomainIndex + 1), Computer)
+      | extend AccountName = tostring(split(TargetAccount, @'\')[1]), AccountNTDomain = tostring(split(TargetAccount, @'\')[0])
+  queryFrequency: PT1H
+  queryPeriod: PT1H
+  severity: Low
+  suppressionDuration: PT1H
+  suppressionEnabled: false
+  tactics:
+    - DefenseEvasion
+    - Impact
+  techniques:
+    - T1485
+    - T1036
+  templateVersion: "1.0.3"
+  triggerOperator: GreaterThan
+  triggerThreshold: 0
+type: Microsoft.SecurityInsights/alertRules

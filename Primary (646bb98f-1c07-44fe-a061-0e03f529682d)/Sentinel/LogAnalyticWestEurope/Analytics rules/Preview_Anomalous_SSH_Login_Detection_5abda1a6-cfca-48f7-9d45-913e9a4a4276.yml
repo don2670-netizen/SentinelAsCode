@@ -19,7 +19,7 @@ properties:
 
     By enabling this rule, you give Microsoft permission to copy ingested data outside of your Microsoft Sentinel workspace's geography as necessary for processing by the machine learning engine.
   displayName: (Preview) Anomalous SSH Login Detection
-  enabled: true
+  enabled: false
   severity: Medium
   tactics:
     - InitialAccess

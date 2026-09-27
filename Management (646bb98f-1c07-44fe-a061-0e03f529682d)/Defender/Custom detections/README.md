@@ -1,6 +1,6 @@
 # Custom detection rules
 
-HUB tenant · Defender
+Management · Defender
 
 Graph beta
 

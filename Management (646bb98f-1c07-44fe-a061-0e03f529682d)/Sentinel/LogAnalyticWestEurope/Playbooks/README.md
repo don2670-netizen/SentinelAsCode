@@ -1,6 +1,6 @@
 # Playbooks (Logic Apps)
 
-HUB tenant · Sentinel · workspace `LogAnalyticWestEurope`
+Management · Sentinel · workspace `LogAnalyticWestEurope`
 
 Workflows i workspace'ets ressourcegruppe
 

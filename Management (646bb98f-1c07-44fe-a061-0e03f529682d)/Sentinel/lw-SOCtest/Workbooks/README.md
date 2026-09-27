@@ -1,6 +1,6 @@
 # Workbooks
 
-HUB tenant · Sentinel · workspace `lw-SOCtest`
+Management · Sentinel · workspace `lw-SOCtest`
 
 Kun workbooks i Sentinel-kategorien
 

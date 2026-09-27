@@ -1,6 +1,6 @@
 # Workbooks
 
-HUB tenant · Sentinel · workspace `LogAnalyticWestEurope`
+Management · Sentinel · workspace `LogAnalyticWestEurope`
 
 Kun workbooks i Sentinel-kategorien
 

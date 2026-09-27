@@ -1,4 +1,4 @@
-# HUB tenant
+# Management
 
 | | |
 |---|---|

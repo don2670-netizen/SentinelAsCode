@@ -1,6 +1,6 @@
 # Playbooks (Logic Apps)
 
-HUB tenant · Sentinel · workspace `lw-SOCtest`
+Management · Sentinel · workspace `lw-SOCtest`
 
 Workflows i workspace'ets ressourcegruppe
 

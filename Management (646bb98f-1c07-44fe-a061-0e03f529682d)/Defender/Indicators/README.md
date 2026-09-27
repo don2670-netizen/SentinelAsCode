@@ -1,6 +1,6 @@
 # IOC-indikatorer (Defender for Endpoint)
 
-HUB tenant · Defender
+Management · Defender
 
 Udrulles via IOC-sync
 

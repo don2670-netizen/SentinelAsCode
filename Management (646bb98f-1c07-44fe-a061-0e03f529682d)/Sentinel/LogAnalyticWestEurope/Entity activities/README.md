@@ -1,6 +1,6 @@
 # Entity activities
 
-HUB tenant · Sentinel · workspace `LogAnalyticWestEurope`
+Management · Sentinel · workspace `LogAnalyticWestEurope`
 
 Kun brugerdefinerede aktiviteter kan udrulles
 

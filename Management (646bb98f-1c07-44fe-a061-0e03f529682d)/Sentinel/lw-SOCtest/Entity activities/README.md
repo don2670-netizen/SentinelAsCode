@@ -1,6 +1,6 @@
 # Entity activities
 
-HUB tenant · Sentinel · workspace `lw-SOCtest`
+Management · Sentinel · workspace `lw-SOCtest`
 
 Kun brugerdefinerede aktiviteter kan udrulles
 

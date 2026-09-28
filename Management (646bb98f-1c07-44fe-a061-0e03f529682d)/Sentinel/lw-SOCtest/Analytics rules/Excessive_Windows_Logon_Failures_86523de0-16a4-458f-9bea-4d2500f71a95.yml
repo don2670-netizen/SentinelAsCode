@@ -1,7 +1,7 @@
-# HUB tenant (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Analytics rules
+# Management (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Analytics rules
 # Excessive Windows Logon Failures
 # Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
-id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-SOC/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/86523de0-16a4-458f-9bea-4d2500f71a95"
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/86523de0-16a4-458f-9bea-4d2500f71a95"
 kind: Scheduled
 name: "86523de0-16a4-458f-9bea-4d2500f71a95"
 properties:
@@ -24,7 +24,7 @@ properties:
     | where * contains "global"
   queryFrequency: PT10M
   queryPeriod: PT10M
-  severity: High
+  severity: Medium
   suppressionDuration: PT1H
   suppressionEnabled: false
   tactics:

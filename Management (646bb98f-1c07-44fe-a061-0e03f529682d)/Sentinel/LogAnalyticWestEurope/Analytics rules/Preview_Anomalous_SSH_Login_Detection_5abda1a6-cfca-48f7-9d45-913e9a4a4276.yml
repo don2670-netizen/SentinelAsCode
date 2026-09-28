@@ -1,4 +1,4 @@
-# HUB tenant (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · LogAnalyticWestEurope · Analytics rules
+# Management (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · LogAnalyticWestEurope · Analytics rules
 # (Preview) Anomalous SSH Login Detection
 # Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
 id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/LogAnalyticWestEurope/providers/Microsoft.SecurityInsights/alertRules/5abda1a6-cfca-48f7-9d45-913e9a4a4276"
@@ -19,7 +19,7 @@ properties:
 
     By enabling this rule, you give Microsoft permission to copy ingested data outside of your Microsoft Sentinel workspace's geography as necessary for processing by the machine learning engine.
   displayName: (Preview) Anomalous SSH Login Detection
-  enabled: false
+  enabled: true
   severity: Medium
   tactics:
     - InitialAccess

@@ -11,7 +11,7 @@ og hver ændring – oprettet, ændret eller slettet, i SocHub eller direkte i p
   README.md
   Sentinel/<workspace>/<Type>/<navn>_<id>.yml     Analytics rules, Automation rules, Watchlists, Workbooks …
   Defender/<Type>/<navn>_<id>.yml                  Custom detections, Indicators …
-  _deleted/…                                        slettede objekter (kan gendannes)
+  …/<Type>/_deleted/<navn>_<id>.yml                  slettede objekter ligger i typens egen mappe (kan gendannes)
 ```
 
 ## Versioner og gendannelse

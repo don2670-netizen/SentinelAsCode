@@ -1,45 +1,46 @@
 # Management (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · LogAnalyticWestEurope · Watchlists
 # SocHub IOC
+# SLETTET hos kunden - arkiveret af SocHub, så objektet kan gendannes.
 # Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
 id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/LogAnalyticWestEurope/providers/Microsoft.SecurityInsights/Watchlists/SocHub_IOC"
 name: SocHub_IOC
+type: Microsoft.SecurityInsights/Watchlists
+x-items:
+  - TLP: AMBER
+    Type: DomainName
+    Title: exAMPLE
+    Value: eve.example.com
+    Action: Warn
+    Source: SocHub
+    Expires: "2026-12-24T00:00:00Z"
+    Severity: High
+  - TLP: AMBER
+    Type: IpAddress
+    Title: Test
+    Value: "193.65.15.15"
+    Action: Block
+    Source: SocHub
+    Expires: "2026-12-26T00:00:00Z"
+    Severity: High
 properties:
+  labels: []
+  source: SocHub
   created: "2026-09-28T19:59:41.161185+00:00"
+  provider: SocHub
+  tenantId: "646bb98f-1c07-44fe-a061-0e03f529682d"
   createdBy:
+    name: "87ef5ae8-a9a0-4526-a74a-aaa8866fe10b"
+    objectId: "9e608d1a-4b23-4f03-8f2e-cf8a0c73f97d"
+  isDeleted: false
+  updatedBy:
     name: "87ef5ae8-a9a0-4526-a74a-aaa8866fe10b"
     objectId: "9e608d1a-4b23-4f03-8f2e-cf8a0c73f97d"
   description: Indikatorer fra SocHub IOC-sync (vedligeholdes automatisk)
   displayName: SocHub IOC
-  isDeleted: false
-  itemsSearchKey: Value
-  labels: []
-  numberOfLinesToSkip: 0
-  provider: SocHub
-  source: SocHub
-  tenantId: "646bb98f-1c07-44fe-a061-0e03f529682d"
-  updatedBy:
-    name: "87ef5ae8-a9a0-4526-a74a-aaa8866fe10b"
-    objectId: "9e608d1a-4b23-4f03-8f2e-cf8a0c73f97d"
-  uploadStatus: New
-  watchlistAlias: SocHub_IOC
   watchlistId: bcf78e3d-049c-4af7-9af1-68897e6c8d03
+  uploadStatus: New
   watchlistKind: Regular
   watchlistType: watchlist
-type: Microsoft.SecurityInsights/Watchlists
-x-items:
-  - Action: Warn
-    Expires: "2026-12-24T00:00:00Z"
-    Severity: High
-    Source: SocHub
-    TLP: AMBER
-    Title: exAMPLE
-    Type: DomainName
-    Value: eve.example.com
-  - Action: Block
-    Expires: "2026-12-26T00:00:00Z"
-    Severity: High
-    Source: SocHub
-    TLP: AMBER
-    Title: Test
-    Type: IpAddress
-    Value: "193.65.15.15"
+  itemsSearchKey: Value
+  watchlistAlias: SocHub_IOC
+  numberOfLinesToSkip: 0

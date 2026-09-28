@@ -1,0 +1,11 @@
+# 2a56070d-4717-49f3-a6ae-a6b61552d631 (2a56070d-4717-49f3-a6ae-a6b61552d631) · Sentinel · lw-Sentinel · Hunting queries
+# How many connections to Operations Manager's SDK service by day
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/5be60d68-f066-4329-b523-a852dcab22f2/resourceGroups/rg-sentinel/providers/Microsoft.OperationalInsights/workspaces/lw-Sentinel/savedSearches/LogManagement(lw-Sentinel)_LogManagement|NoOfConnectionsToOMSDKService"
+name: "LogManagement(lw-Sentinel)_LogManagement|NoOfConnectionsToOMSDKService"
+properties:
+  category: Log Management
+  displayName: "How many connections to Operations Manager's SDK service by day"
+  query: "Event | where EventID == 26328 and EventLog == \"Operations Manager\" | summarize AggregatedValue = count() by bin(TimeGenerated, 1d) | sort by TimeGenerated desc\r\n// Oql: Type=Event EventID=26328 EventLog=\"Operations Manager\" | Measure count() interval 1DAY // Args: {OQ: True; WorkspaceId: 00000000-0000-0000-0000-000000000000} // Settings: {PTT: True; SortI: True; SortF: True} // Version: 0.1.122"
+  version: 2
+type: Microsoft.OperationalInsights/savedSearches

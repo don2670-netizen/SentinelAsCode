@@ -1,0 +1,27 @@
+# 2a56070d-4717-49f3-a6ae-a6b61552d631 (2a56070d-4717-49f3-a6ae-a6b61552d631) · Sentinel · lw-Sentinel · Analytics rules
+# (Preview) Anomalous SSH Login Detection
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/5be60d68-f066-4329-b523-a852dcab22f2/resourceGroups/rg-sentinel/providers/Microsoft.OperationalInsights/workspaces/lw-sentinel/providers/Microsoft.SecurityInsights/alertRules/c0988ea6-e138-4752-ae7f-764e4c701a25"
+kind: MLBehaviorAnalytics
+name: c0988ea6-e138-4752-ae7f-764e4c701a25
+properties:
+  alertRuleTemplateName: fa118b98-de46-4e94-87f9-8e6d5060b60b
+  description: |-
+    This detection uses machine learning (ML) to identify anomalous Secure Shell (SSH) login activity, based on syslog data. Scenarios include:
+
+    *	Unusual IP - This IP address has not or has rarely been seen in last 30 days.
+    *	Unusual Geo - The IP address, city, country and ASN have not (or rarely) been seen in last 30 days.
+    *	New user - A new user logs in from an IP address and geo location, both or either of which are not expected to be seen in the last 30 days.
+
+    Allow 7 days after this alert is enabled for Microsoft Sentinel to build a profile of normal activity for your environment.
+
+    This detection requires a specific configuration of the data source. [Learn more](https://docs.microsoft.com/en-us/azure/sentinel/connect-syslog#configure-the-syslog-connector-for-anomalous-ssh-login-detection)
+
+    By enabling this rule, you give Microsoft permission to copy ingested data outside of your Microsoft Sentinel workspace's geography as necessary for processing by the machine learning engine.
+  displayName: (Preview) Anomalous SSH Login Detection
+  enabled: true
+  severity: Medium
+  tactics:
+    - InitialAccess
+  techniques: []
+type: Microsoft.SecurityInsights/alertRules

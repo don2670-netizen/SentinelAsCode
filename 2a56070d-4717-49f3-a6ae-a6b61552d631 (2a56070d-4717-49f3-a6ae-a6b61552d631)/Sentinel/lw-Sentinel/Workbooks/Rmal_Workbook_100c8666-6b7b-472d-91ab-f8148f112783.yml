@@ -1,0 +1,20 @@
+# 2a56070d-4717-49f3-a6ae-a6b61552d631 (2a56070d-4717-49f3-a6ae-a6b61552d631) · Sentinel · lw-Sentinel · Workbooks
+# Rmal Workbook
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: /subscriptions/5be60d68-f066-4329-b523-a852dcab22f2/resourcegroups/rg-sentinel/providers/microsoft.insights/workbooks/100c8666-6b7b-472d-91ab-f8148f112783
+kind: shared
+location: swedencentral
+name: "100c8666-6b7b-472d-91ab-f8148f112783"
+properties:
+  category: sentinel
+  displayName: Rmal Workbook
+  revision: f3de79c5bbd74c29a744f1dab4fc17cf
+  serializedData: "{\"version\":\"Notebook/1.0\",\"items\":[{\"type\":1,\"content\":{\"json\":\"## New workbook\\n---\\n\\nWelcome to your new workbook.  This area will display text formatted as markdown.\\n\\n\\nWe've included a basic analytics query to get you started. Use the `Edit` button below each section to configure it or add more sections.\"},\"name\":\"text - 2\",\"id\":\"760600bf-f024-45cb-870b-a0bfe5ef7961\"},{\"type\":3,\"content\":{\"version\":\"KqlItem/1.0\",\"query\":\"union withsource=_TableName *\\n| summarize Count=count() by _TableName\\n| render barchart\",\"size\":0,\"queryType\":0,\"resourceType\":\"microsoft.operationalinsights/workspaces\",\"crossComponentResources\":[\"/subscriptions/5be60d68-f066-4329-b523-a852dcab22f2/resourceGroups/rg-sentinel/providers/Microsoft.OperationalInsights/workspaces/lw-sentinel\"]},\"name\":\"query - 2\",\"id\":\"f30b7dae-4c62-4ad9-ab8f-6383df7532c6\"}],\"isLocked\":false,\"styleSettings\":{},\"fromTemplateId\":\"sentinel-UserWorkbook\",\"context\":{\"ownerId\":\"/subscriptions/5be60d68-f066-4329-b523-a852dcab22f2/resourceGroups/rg-sentinel/providers/Microsoft.OperationalInsights/workspaces/lw-sentinel\"},\"fallbackResourceIds\":[\"/subscriptions/5be60d68-f066-4329-b523-a852dcab22f2/resourceGroups/rg-sentinel/providers/Microsoft.OperationalInsights/workspaces/lw-sentinel\"]}"
+  sourceId: /subscriptions/5be60d68-f066-4329-b523-a852dcab22f2/resourcegroups/rg-sentinel/providers/microsoft.operationalinsights/workspaces/lw-sentinel
+  storageUri: null
+  tags: null
+  userId: cfb9bdf4-fd92-4449-b634-da79174c204c
+  version: Notebook/1.0
+tags:
+  hidden-title: Rmal Workbook
+type: microsoft.insights/workbooks

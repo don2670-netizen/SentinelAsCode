@@ -1,0 +1,33 @@
+# Management (646bb98f-1c07-44fe-a061-0e03f529682d) · Defender · Indicators
+# DomainName evil.example.com
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+action: Block
+additionalInfo: null
+application: SocHub
+bypassDurationHours: null
+category: 1
+certificateInfo: null
+createdBy: "87ef5ae8-a9a0-4526-a74a-aaa8866fe10b"
+createdByDisplayName: Logicapppsincidnetscount
+createdBySource: PublicApi
+creationTimeDateTimeUtc: "2026-09-29T16:53:46.6287962Z"
+description: Import
+educateUrl: null
+expirationTime: "2026-12-28T00:00:00Z"
+externalId: null
+generateAlert: true
+historicalDetection: false
+id: "220"
+indicatorType: DomainName
+indicatorValue: evil.example.com
+lastUpdatedBy: null
+lookBackPeriod: null
+mitreTechniques: []
+notificationBody: null
+notificationId: null
+rbacGroupIds: []
+rbacGroupNames: []
+recommendedActions: "TLP:AMBER"
+severity: High
+title: Import
+version: null

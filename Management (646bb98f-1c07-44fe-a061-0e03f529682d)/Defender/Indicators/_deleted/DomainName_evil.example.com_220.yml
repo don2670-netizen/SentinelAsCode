@@ -1,0 +1,34 @@
+# Management (646bb98f-1c07-44fe-a061-0e03f529682d) · Defender · Indicators
+# DomainName evil.example.com
+# SLETTET hos kunden - arkiveret af SocHub, så objektet kan gendannes.
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "220"
+title: Import
+action: Block
+version: null
+category: 1
+severity: High
+createdBy: "87ef5ae8-a9a0-4526-a74a-aaa8866fe10b"
+educateUrl: null
+externalId: null
+application: SocHub
+description: Import
+rbacGroupIds: []
+generateAlert: true
+indicatorType: DomainName
+lastUpdatedBy: null
+additionalInfo: null
+expirationTime: "2026-12-28T00:00:00Z"
+indicatorValue: evil.example.com
+lookBackPeriod: null
+notificationId: null
+rbacGroupNames: []
+certificateInfo: null
+createdBySource: PublicApi
+mitreTechniques: []
+notificationBody: null
+recommendedActions: "TLP:AMBER"
+bypassDurationHours: null
+historicalDetection: false
+createdByDisplayName: Logicapppsincidnetscount
+creationTimeDateTimeUtc: "2026-09-29T16:53:46.6287962Z"

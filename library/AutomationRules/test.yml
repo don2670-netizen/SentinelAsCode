@@ -1,0 +1,31 @@
+# Genereret af SocHub objekt-editor
+kind: SentinelResource
+type: AutomationRules
+id: 432ef09a-3a84-4726-b0a0-bdadc2d84b06
+name: test
+properties:
+  displayName: test
+  order: 10
+  triggeringLogic:
+    isEnabled: true
+    triggersOn: Incidents
+    triggersWhen: Created
+    conditions:
+      - conditionType: Property
+        conditionProperties:
+          propertyName: IncidentTitle
+          operator: Contains
+          propertyValues:
+            - testdddddddddddddddddddddddd
+      - conditionType: Property
+        conditionProperties:
+          propertyName: IncidentSeverity
+          operator: Equals
+          propertyValues:
+            - Informational
+  actions:
+    - order: 1
+      actionType: ModifyProperties
+      actionConfiguration:
+        owner:
+          email: ""

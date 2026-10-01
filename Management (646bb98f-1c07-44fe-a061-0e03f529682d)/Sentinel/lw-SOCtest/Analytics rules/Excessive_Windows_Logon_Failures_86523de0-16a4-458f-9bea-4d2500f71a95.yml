@@ -24,7 +24,7 @@ properties:
     | where * contains "global"
   queryFrequency: PT10M
   queryPeriod: PT10M
-  severity: Medium
+  severity: Informational
   suppressionDuration: PT1H
   suppressionEnabled: false
   tactics:

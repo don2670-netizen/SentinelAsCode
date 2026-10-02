@@ -1,0 +1,36 @@
+# 2a56070d-4717-49f3-a6ae-a6b61552d631 (2a56070d-4717-49f3-a6ae-a6b61552d631) · Sentinel · lw-Sentinel · Analytics rules
+# Excessive Windows Logon Failures
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/5be60d68-f066-4329-b523-a852dcab22f2/resourceGroups/rg-sentinel/providers/Microsoft.OperationalInsights/workspaces/lw-Sentinel/providers/Microsoft.SecurityInsights/alertRules/86523de0-16a4-458f-9bea-4d2500f71a95"
+kind: Scheduled
+name: "86523de0-16a4-458f-9bea-4d2500f71a95"
+properties:
+  alertRuleTemplateName: "2391ce61-8c8d-41ac-9723-d945b2e90720"
+  description: "This query identifies user accounts which has over 50 Windows logon failures today and at least 33% of the count of logon failures over the previous 7 days."
+  displayName: Excessive Windows Logon Failures
+  enabled: true
+  incidentConfiguration:
+    createIncident: true
+    groupingConfiguration:
+      enabled: false
+      groupByAlertDetails: null
+      groupByCustomDetails: null
+      groupByEntities: []
+      lookbackDuration: PT5M
+      matchingMethod: AllEntities
+      reopenClosedIncident: false
+  query: |-
+    SigninLogs
+    | where * contains "global"
+  queryFrequency: PT10M
+  queryPeriod: PT10M
+  severity: High
+  suppressionDuration: PT1H
+  suppressionEnabled: false
+  tactics:
+    - CredentialAccess
+  techniques:
+    - T1110
+  triggerOperator: GreaterThan
+  triggerThreshold: 0
+type: Microsoft.SecurityInsights/alertRules

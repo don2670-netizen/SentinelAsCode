@@ -1,0 +1,16 @@
+# Genereret af SocHub objekt-editor
+id: 82f91c17-6f35-4c64-bd62-74f0dd625040
+name: test
+description: tet
+kind: Scheduled
+severity: Medium
+enabled: true
+queryFrequency: 1h
+queryPeriod: 1h
+triggerOperator: gt
+triggerThreshold: 0
+tactics: []
+relevantTechniques: []
+query: |
+  SigninLogs
+  | where ResultType == 0

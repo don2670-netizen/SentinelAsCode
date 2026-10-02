@@ -16,7 +16,6 @@ Kundens Sentinel- og Defender-konfiguration som kode. En YAML-fil pr. objekt; `g
 - **Analytics rules**, [LogAnalyticWestEurope](Sentinel/LogAnalyticWestEurope/Analytics%20rules), [lw-SOCtest](Sentinel/lw-SOCtest/Analytics%20rules)
 - **Automation rules**, [LogAnalyticWestEurope](Sentinel/LogAnalyticWestEurope/Automation%20rules), [lw-SOCtest](Sentinel/lw-SOCtest/Automation%20rules)
 - **Data connectors**, [LogAnalyticWestEurope](Sentinel/LogAnalyticWestEurope/Data%20connectors), [lw-SOCtest](Sentinel/lw-SOCtest/Data%20connectors)
-- **Entity activities**, [LogAnalyticWestEurope](Sentinel/LogAnalyticWestEurope/Entity%20activities), [lw-SOCtest](Sentinel/lw-SOCtest/Entity%20activities)
 - **Playbooks (Logic Apps)**, [LogAnalyticWestEurope](Sentinel/LogAnalyticWestEurope/Playbooks), [lw-SOCtest](Sentinel/lw-SOCtest/Playbooks)
 - **Anomali-regler (ML analytics)**, [LogAnalyticWestEurope](Sentinel/LogAnalyticWestEurope/Anomaly%20rules), [lw-SOCtest](Sentinel/lw-SOCtest/Anomaly%20rules)
 - **Hunting queries og functions**, [LogAnalyticWestEurope](Sentinel/LogAnalyticWestEurope/Hunting%20queries), [lw-SOCtest](Sentinel/lw-SOCtest/Hunting%20queries)

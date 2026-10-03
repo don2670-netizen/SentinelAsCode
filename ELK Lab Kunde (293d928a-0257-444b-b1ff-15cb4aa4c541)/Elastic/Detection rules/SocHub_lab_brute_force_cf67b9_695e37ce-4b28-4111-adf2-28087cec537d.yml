@@ -10,10 +10,10 @@ enabled: true
 exceptions_list: []
 execution_summary:
   last_execution:
-    date: "2026-10-03T20:05:12.400Z"
+    date: "2026-10-03T20:07:12.401Z"
     message: Rule execution completed successfully
     metrics:
-      total_search_duration_ms: 1
+      total_search_duration_ms: 3
     status: succeeded
     status_order: 0
 false_positives: []

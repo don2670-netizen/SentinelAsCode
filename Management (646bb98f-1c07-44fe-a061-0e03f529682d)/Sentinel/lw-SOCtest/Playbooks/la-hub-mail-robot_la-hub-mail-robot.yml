@@ -1,0 +1,104 @@
+# Management (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Playbooks
+# la-hub-mail-robot
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+# 1 hemmelighed(er) er fjernet af SocHub og står som "***FJERNET AF SOCHUB (hemmelighed)***".
+id: /subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-SOC/providers/Microsoft.Logic/workflows/la-hub-mail-robot
+location: swedencentral
+name: la-hub-mail-robot
+properties:
+  accessEndpoint: "https://prod-06.swedencentral.logic.azure.com:443/workflows/afe6ce2dd25045599d38ab9dae8c1c17"
+  createdTime: "2026-08-20T05:25:56.7852784Z"
+  definition:
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#"
+    actions:
+      "Send_an_email_(V2)":
+        inputs:
+          body:
+            Body: "<p class=\"editor-paragraph\">@{triggerBody()?['accountName']}@{triggerBody()?['incidentUrl']}@{triggerBody()?['timestamp']}</p>"
+            Importance: Normal
+            Subject: "Automatisk lukket sikkerhedshaendelse : @{triggerBody()?['incidentTitle']}"
+            To: "@triggerBody()?['recipientEmail']"
+          host:
+            connection:
+              name: "@parameters('$connections')['outlook']['connectionId']"
+          method: post
+          path: /v2/Mail
+        runAfter: {}
+        type: ApiConnection
+    contentVersion: "1.0.0.0"
+    outputs: {}
+    parameters:
+      "$connections":
+        defaultValue: {}
+        type: Object
+    triggers:
+      When_an_HTTP_request_is_received:
+        description: "https://prod-06.swedencentral.logic.azure.com:443/workflows/afe6ce2dd25045599d38ab9dae8c1c17/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=***FJERNET AF SOCHUB (hemmelighed)***"
+        inputs:
+          schema:
+            properties:
+              accountName:
+                type: string
+              incidentTitle:
+                type: string
+              incidentUrl:
+                type: string
+              recipientEmail:
+                type: string
+              timestamp:
+                type: string
+            type: object
+        kind: Http
+        type: Request
+  endpointsConfiguration:
+    connector:
+      outgoingIpAddresses:
+        - address: "20.240.11.143"
+        - address: "20.240.10.145"
+    workflow:
+      accessEndpointIpAddresses:
+        - address: "74.241.204.72"
+        - address: "74.241.204.55"
+        - address: "74.241.204.197"
+        - address: "74.241.206.0"
+        - address: "4.225.198.176"
+        - address: "4.225.198.50"
+        - address: "4.225.197.219"
+        - address: "4.225.198.33"
+        - address: "74.241.204.72"
+        - address: "74.241.204.55"
+        - address: "74.241.204.197"
+        - address: "74.241.206.0"
+        - address: "4.225.198.176"
+        - address: "4.225.198.50"
+        - address: "4.225.197.219"
+        - address: "4.225.198.33"
+      outgoingIpAddresses:
+        - address: "74.241.204.65"
+        - address: "74.241.204.35"
+        - address: "74.241.204.193"
+        - address: "74.241.205.139"
+        - address: "4.225.198.80"
+        - address: "4.225.198.41"
+        - address: "74.241.203.136"
+        - address: "4.225.198.14"
+        - address: "74.241.204.65"
+        - address: "74.241.204.35"
+        - address: "74.241.204.193"
+        - address: "74.241.205.139"
+        - address: "4.225.198.80"
+        - address: "4.225.198.41"
+        - address: "74.241.203.136"
+        - address: "4.225.198.14"
+  parameters:
+    "$connections":
+      value:
+        outlook:
+          connectionId: /subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-SOC/providers/Microsoft.Web/connections/outlook
+          connectionName: outlook
+          connectionProperties: {}
+          id: /subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/providers/Microsoft.Web/locations/swedencentral/managedApis/outlook
+  provisioningState: Succeeded
+  state: Enabled
+  version: "08584144027014854884"
+type: Microsoft.Logic/workflows

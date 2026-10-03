@@ -1,0 +1,362 @@
+# Management (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · LogAnalyticWestEurope · Playbooks
+# test
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+# 1 hemmelighed(er) er fjernet af SocHub og står som "***FJERNET AF SOCHUB (hemmelighed)***".
+id: /subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-SOC/providers/Microsoft.Logic/workflows/test
+location: denmarkeast
+name: test
+properties:
+  accessEndpoint: "https://prod-08.denmarkeast.logic.azure.com:443/workflows/240884ae5abf477aa3056b572f37d181"
+  createdTime: "2026-09-05T17:01:35.2908591Z"
+  definition:
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#"
+    actions:
+      Build_Email:
+        inputs: "@{concat('<html><body style=\"font-family:Segoe UI,Arial,sans-serif;color:#333;max-width:800px;\"><h2 style=\"color:', if(greater(variables('TotalUnassigned'), 0), '#d63384', '#198754'), ';margin-bottom:4px;\">', if(greater(variables('TotalUnassigned'), 0), '⚠️', '✅'), ' Sentinel — Unassigned Incidents (48h)</h2><p style=\"color:#888;margin-top:0;\">', utcNow('dd-MM-yyyy HH:mm'), ' UTC &nbsp;|&nbsp; ', string(variables('TenantsWithIssues')), ' af ', string(length(outputs('Tenant_Liste'))), ' tenants berørt</p><p style=\"font-size:32px;font-weight:bold;color:', if(greater(variables('TotalUnassigned'), 0), '#d63384', '#198754'), ';margin:0;\">', string(variables('TotalUnassigned')), ' <span style=\"font-size:16px;font-weight:normal;color:#888;\">unassigned incidents</span></p><hr style=\"border:1px solid #eee;margin:16px 0;\">', if(not(equals(variables('CriticalRows'), '')), concat('<table style=\"border-collapse:collapse;width:100%;margin-bottom:16px;\"><tr style=\"background:#c92a2a;\"><td colspan=\"6\" style=\"padding:8px 12px;color:#fff;font-weight:bold;font-size:13px;\">\uD83D\uDD34 CRITICAL</td></tr><tr style=\"background:#ffeaea;\"><td style=\"padding:4px 12px;font-size:11px;color:#888;font-weight:bold;\">TENANT</td><td style=\"padding:4px 6px;font-size:11px;color:#888;font-weight:bold;\">ID</td><td style=\"padding:4px 12px;font-size:11px;color:#888;font-weight:bold;\">INCIDENT</td><td style=\"padding:4px 8px;font-size:11px;color:#888;font-weight:bold;\">KILDE</td><td style=\"padding:4px 8px;font-size:11px;color:#888;font-weight:bold;\">DATO</td><td style=\"padding:4px 8px;font-size:11px;color:#888;font-weight:bold;\">STATUS</td></tr>', variables('CriticalRows'), '</table>'), ''), if(not(equals(variables('HighRows'), '')), concat('<table style=\"border-collapse:collapse;width:100%;margin-bottom:16px;\"><tr style=\"background:#e8590c;\"><td colspan=\"6\" style=\"padding:8px 12px;color:#fff;font-weight:bold;font-size:13px;\">\uD83D\uDFE0 HIGH</td></tr><tr style=\"background:#fff4e6;\"><td style=\"padding:4px 12px;font-size:11px;color:#888;font-weight:bold;\">TENANT</td><td style=\"padding:4px 6px;font-size:11px;color:#888;font-weight:bold;\">ID</td><td style=\"padding:4px 12px;font-size:11px;color:#888;font-weight:bold;\">INCIDENT</td><td style=\"padding:4px 8px;font-size:11px;color:#888;font-weight:bold;\">KILDE</td><td style=\"padding:4px 8px;font-size:11px;color:#888;font-weight:bold;\">DATO</td><td style=\"padding:4px 8px;font-size:11px;color:#888;font-weight:bold;\">STATUS</td></tr>', variables('HighRows'), '</table>'), ''), if(not(equals(variables('MediumRows'), '')), concat('<table style=\"border-collapse:collapse;width:100%;margin-bottom:16px;\"><tr style=\"background:#e67700;\"><td colspan=\"6\" style=\"padding:8px 12px;color:#fff;font-weight:bold;font-size:13px;\">\uD83D\uDFE1 MEDIUM</td></tr><tr style=\"background:#fff9db;\"><td style=\"padding:4px 12px;font-size:11px;color:#888;font-weight:bold;\">TENANT</td><td style=\"padding:4px 6px;font-size:11px;color:#888;font-weight:bold;\">ID</td><td style=\"padding:4px 12px;font-size:11px;color:#888;font-weight:bold;\">INCIDENT</td><td style=\"padding:4px 8px;font-size:11px;color:#888;font-weight:bold;\">KILDE</td><td style=\"padding:4px 8px;font-size:11px;color:#888;font-weight:bold;\">DATO</td><td style=\"padding:4px 8px;font-size:11px;color:#888;font-weight:bold;\">STATUS</td></tr>', variables('MediumRows'), '</table>'), ''), if(not(equals(variables('LowRows'), '')), concat('<table style=\"border-collapse:collapse;width:100%;margin-bottom:16px;\"><tr style=\"background:#2b8a3e;\"><td colspan=\"6\" style=\"padding:8px 12px;color:#fff;font-weight:bold;font-size:13px;\">\uD83D\uDFE2 LOW</td></tr><tr style=\"background:#ebfbee;\"><td style=\"padding:4px 12px;font-size:11px;color:#888;font-weight:bold;\">TENANT</td><td style=\"padding:4px 6px;font-size:11px;color:#888;font-weight:bold;\">ID</td><td style=\"padding:4px 12px;font-size:11px;color:#888;font-weight:bold;\">INCIDENT</td><td style=\"padding:4px 8px;font-size:11px;color:#888;font-weight:bold;\">KILDE</td><td style=\"padding:4px 8px;font-size:11px;color:#888;font-weight:bold;\">DATO</td><td style=\"padding:4px 8px;font-size:11px;color:#888;font-weight:bold;\">STATUS</td></tr>', variables('LowRows'), '</table>'), ''), if(not(equals(variables('InformationalRows'), '')), concat('<table style=\"border-collapse:collapse;width:100%;margin-bottom:16px;\"><tr style=\"background:#495057;\"><td colspan=\"6\" style=\"padding:8px 12px;color:#fff;font-weight:bold;font-size:13px;\">ℹ️ INFORMATIONAL</td></tr><tr style=\"background:#f8f9fa;\"><td style=\"padding:4px 12px;font-size:11px;color:#888;font-weight:bold;\">TENANT</td><td style=\"padding:4px 6px;font-size:11px;color:#888;font-weight:bold;\">ID</td><td style=\"padding:4px 12px;font-size:11px;color:#888;font-weight:bold;\">INCIDENT</td><td style=\"padding:4px 8px;font-size:11px;color:#888;font-weight:bold;\">KILDE</td><td style=\"padding:4px 8px;font-size:11px;color:#888;font-weight:bold;\">DATO</td><td style=\"padding:4px 8px;font-size:11px;color:#888;font-weight:bold;\">STATUS</td></tr>', variables('InformationalRows'), '</table>'), ''), if(equals(variables('TotalUnassigned'), 0), '<p style=\"color:#198754;font-size:16px;\">✅ Alle tenants er clean — ingen unassigned incidents de seneste 48 timer.</p>', ''), '<p style=\"color:#aaa;font-size:12px;margin-top:16px;border-top:1px solid #eee;padding-top:12px;\">✅ ', string(sub(length(outputs('Tenant_Liste')), variables('TenantsWithIssues'))), ' af ', string(length(outputs('Tenant_Liste'))), ' tenants har ingen unassigned incidents</p><a href=\"https://security.microsoft.com/incidents\" style=\"display:inline-block;padding:10px 20px;background:#0d6efd;color:#fff;text-decoration:none;border-radius:5px;\">Åbn Defender XDR</a></body></html>')}"
+        runAfter:
+          ForEach_Tenant:
+            - Succeeded
+        type: Compose
+      Config:
+        inputs:
+          clientId: "87ef5ae8-a9a0-4526-a74a-aaa8866fe10b"
+          clientSecret: "***FJERNET AF SOCHUB (hemmelighed)***"
+        runAfter: {}
+        runtimeConfiguration:
+          secureData:
+            properties:
+              - inputs
+        type: Compose
+      ForEach_Tenant:
+        actions:
+          Add_Total:
+            inputs:
+              name: TotalUnassigned
+              value: "@outputs('Count_Unassigned')"
+            runAfter:
+              Count_Unassigned:
+                - Succeeded
+            type: IncrementVariable
+          Count_Unassigned:
+            inputs: "@length(body('Filter_Unassigned'))"
+            runAfter:
+              Filter_Unassigned:
+                - Succeeded
+            type: Compose
+          Filter_Unassigned:
+            inputs:
+              from: "@if(equals(outputs('Get_Incidents')?['statusCode'], 200), body('Get_Incidents')?['value'], json('[]'))"
+              where: "@or(equals(item()?['properties']?['owner']?['assignedTo'], null), equals(item()?['properties']?['owner']?['assignedTo'], ''))"
+            runAfter:
+              Get_Incidents:
+                - Succeeded
+                - Failed
+            type: Query
+          Get_Incidents:
+            inputs:
+              headers:
+                Authorization: "@{concat('Bearer ', body('Get_Token')?['access_token'])}"
+              method: GET
+              uri: "@concat('https://management.azure.com/subscriptions/', items('ForEach_Tenant')?['subscriptionId'], '/resourceGroups/', items('ForEach_Tenant')?['resourceGroupName'], '/providers/Microsoft.OperationalInsights/workspaces/', items('ForEach_Tenant')?['workspaceName'], '/providers/Microsoft.SecurityInsights/incidents?api-version=2024-03-01&$filter=properties/status%20ne%20%27Closed%27%20and%20properties/createdTimeUtc%20ge%20', formatDateTime(addHours(utcNow(), -48), 'yyyy-MM-ddTHH:mm:ssZ'), '&$orderby=properties/severity')"
+            runAfter:
+              Get_Token:
+                - Succeeded
+            type: Http
+          Get_Token:
+            inputs:
+              body: "@{concat('client_id=', outputs('Config')?['clientId'], '&client_secret=', encodeUriComponent(outputs('Config')?['clientSecret']), '&scope=https%3A%2F%2Fmanagement.azure.com%2F.default&grant_type=client_credentials')}"
+              headers:
+                Content-Type: application/x-www-form-urlencoded
+              method: POST
+              uri: "@{concat('https://login.microsoftonline.com/', items('ForEach_Tenant')?['tenantId'], '/oauth2/v2.0/token')}"
+            runtimeConfiguration:
+              secureData:
+                properties:
+                  - inputs
+                  - outputs
+            type: Http
+          If_Has_Unassigned:
+            actions:
+              Append_Critical:
+                inputs:
+                  name: CriticalRows
+                  value: "@{join(body('Sel_Critical'), '')}"
+                runAfter:
+                  Sel_Critical:
+                    - Succeeded
+                type: AppendToStringVariable
+              Append_High:
+                inputs:
+                  name: HighRows
+                  value: "@{join(body('Sel_High'), '')}"
+                runAfter:
+                  Sel_High:
+                    - Succeeded
+                type: AppendToStringVariable
+              Append_Informational:
+                inputs:
+                  name: InformationalRows
+                  value: "@{join(body('Sel_Informational'), '')}"
+                runAfter:
+                  Sel_Informational:
+                    - Succeeded
+                type: AppendToStringVariable
+              Append_Low:
+                inputs:
+                  name: LowRows
+                  value: "@{join(body('Sel_Low'), '')}"
+                runAfter:
+                  Sel_Low:
+                    - Succeeded
+                type: AppendToStringVariable
+              Append_Medium:
+                inputs:
+                  name: MediumRows
+                  value: "@{join(body('Sel_Medium'), '')}"
+                runAfter:
+                  Sel_Medium:
+                    - Succeeded
+                type: AppendToStringVariable
+              Fil_Critical:
+                inputs:
+                  from: "@body('Filter_Unassigned')"
+                  where: "@equals(item()?['properties']?['severity'], 'Critical')"
+                type: Query
+              Fil_High:
+                inputs:
+                  from: "@body('Filter_Unassigned')"
+                  where: "@equals(item()?['properties']?['severity'], 'High')"
+                type: Query
+              Fil_Informational:
+                inputs:
+                  from: "@body('Filter_Unassigned')"
+                  where: "@equals(item()?['properties']?['severity'], 'Informational')"
+                type: Query
+              Fil_Low:
+                inputs:
+                  from: "@body('Filter_Unassigned')"
+                  where: "@equals(item()?['properties']?['severity'], 'Low')"
+                type: Query
+              Fil_Medium:
+                inputs:
+                  from: "@body('Filter_Unassigned')"
+                  where: "@equals(item()?['properties']?['severity'], 'Medium')"
+                type: Query
+              Inc_Tenants:
+                inputs:
+                  name: TenantsWithIssues
+                  value: 1
+                type: IncrementVariable
+              Sel_Critical:
+                inputs:
+                  from: "@body('Fil_Critical')"
+                  select: "@concat('<tr style=\"background:#fff5f5;\"><td style=\"padding:5px 12px;font-size:13px;\">', items('ForEach_Tenant')?['displayName'], '</td><td style=\"padding:5px 6px;font-size:11px;color:#aaa;\">#', string(item()?['properties']?['incidentNumber']), '</td><td style=\"padding:5px 12px;\"><a href=\"', concat('https://security.microsoft.com/incidents/', item()?['properties']?['incidentNumber'], '?tenantId=', items('ForEach_Tenant')?['tenantId']), '\" style=\"color:#c92a2a;\">', item()?['properties']?['title'], '</a> <span style=\"color:#888;font-size:11px;\">(', string(coalesce(item()?['properties']?['additionalData']?['alertsCount'], 0)), ' alerts)</span></td><td style=\"padding:5px 8px;font-size:11px;\"><span style=\"background:#e3f2fd;color:#1565c0;padding:2px 6px;border-radius:3px;font-size:10px;\">', coalesce(item()?['properties']?['providerName'], 'Ukendt'), '</span></td><td style=\"padding:5px 8px;color:#888;font-size:11px;white-space:nowrap;\">', formatDateTime(item()?['properties']?['createdTimeUtc'], 'dd-MM-yyyy HH:mm'), '</td><td style=\"padding:5px 8px;font-size:12px;\">', item()?['properties']?['status'], '</td></tr>')"
+                runAfter:
+                  Fil_Critical:
+                    - Succeeded
+                type: Select
+              Sel_High:
+                inputs:
+                  from: "@body('Fil_High')"
+                  select: "@concat('<tr style=\"background:#fff8f1;\"><td style=\"padding:5px 12px;font-size:13px;\">', items('ForEach_Tenant')?['displayName'], '</td><td style=\"padding:5px 6px;font-size:11px;color:#aaa;\">#', string(item()?['properties']?['incidentNumber']), '</td><td style=\"padding:5px 12px;\"><a href=\"', concat('https://security.microsoft.com/incidents/', item()?['properties']?['incidentNumber'], '?tenantId=', items('ForEach_Tenant')?['tenantId']), '\" style=\"color:#e8590c;\">', item()?['properties']?['title'], '</a> <span style=\"color:#888;font-size:11px;\">(', string(coalesce(item()?['properties']?['additionalData']?['alertsCount'], 0)), ' alerts)</span></td><td style=\"padding:5px 8px;font-size:11px;\"><span style=\"background:#e3f2fd;color:#1565c0;padding:2px 6px;border-radius:3px;font-size:10px;\">', coalesce(item()?['properties']?['providerName'], 'Ukendt'), '</span></td><td style=\"padding:5px 8px;color:#888;font-size:11px;white-space:nowrap;\">', formatDateTime(item()?['properties']?['createdTimeUtc'], 'dd-MM-yyyy HH:mm'), '</td><td style=\"padding:5px 8px;font-size:12px;\">', item()?['properties']?['status'], '</td></tr>')"
+                runAfter:
+                  Fil_High:
+                    - Succeeded
+                type: Select
+              Sel_Informational:
+                inputs:
+                  from: "@body('Fil_Informational')"
+                  select: "@concat('<tr style=\"background:#f8f9fa;\"><td style=\"padding:5px 12px;font-size:13px;\">', items('ForEach_Tenant')?['displayName'], '</td><td style=\"padding:5px 6px;font-size:11px;color:#aaa;\">#', string(item()?['properties']?['incidentNumber']), '</td><td style=\"padding:5px 12px;\"><a href=\"', concat('https://security.microsoft.com/incidents/', item()?['properties']?['incidentNumber'], '?tenantId=', items('ForEach_Tenant')?['tenantId']), '\" style=\"color:#495057;\">', item()?['properties']?['title'], '</a> <span style=\"color:#888;font-size:11px;\">(', string(coalesce(item()?['properties']?['additionalData']?['alertsCount'], 0)), ' alerts)</span></td><td style=\"padding:5px 8px;font-size:11px;\"><span style=\"background:#e3f2fd;color:#1565c0;padding:2px 6px;border-radius:3px;font-size:10px;\">', coalesce(item()?['properties']?['providerName'], 'Ukendt'), '</span></td><td style=\"padding:5px 8px;color:#888;font-size:11px;white-space:nowrap;\">', formatDateTime(item()?['properties']?['createdTimeUtc'], 'dd-MM-yyyy HH:mm'), '</td><td style=\"padding:5px 8px;font-size:12px;\">', item()?['properties']?['status'], '</td></tr>')"
+                runAfter:
+                  Fil_Informational:
+                    - Succeeded
+                type: Select
+              Sel_Low:
+                inputs:
+                  from: "@body('Fil_Low')"
+                  select: "@concat('<tr style=\"background:#ebfbee;\"><td style=\"padding:5px 12px;font-size:13px;\">', items('ForEach_Tenant')?['displayName'], '</td><td style=\"padding:5px 6px;font-size:11px;color:#aaa;\">#', string(item()?['properties']?['incidentNumber']), '</td><td style=\"padding:5px 12px;\"><a href=\"', concat('https://security.microsoft.com/incidents/', item()?['properties']?['incidentNumber'], '?tenantId=', items('ForEach_Tenant')?['tenantId']), '\" style=\"color:#2b8a3e;\">', item()?['properties']?['title'], '</a> <span style=\"color:#888;font-size:11px;\">(', string(coalesce(item()?['properties']?['additionalData']?['alertsCount'], 0)), ' alerts)</span></td><td style=\"padding:5px 8px;font-size:11px;\"><span style=\"background:#e3f2fd;color:#1565c0;padding:2px 6px;border-radius:3px;font-size:10px;\">', coalesce(item()?['properties']?['providerName'], 'Ukendt'), '</span></td><td style=\"padding:5px 8px;color:#888;font-size:11px;white-space:nowrap;\">', formatDateTime(item()?['properties']?['createdTimeUtc'], 'dd-MM-yyyy HH:mm'), '</td><td style=\"padding:5px 8px;font-size:12px;\">', item()?['properties']?['status'], '</td></tr>')"
+                runAfter:
+                  Fil_Low:
+                    - Succeeded
+                type: Select
+              Sel_Medium:
+                inputs:
+                  from: "@body('Fil_Medium')"
+                  select: "@concat('<tr style=\"background:#fffbeb;\"><td style=\"padding:5px 12px;font-size:13px;\">', items('ForEach_Tenant')?['displayName'], '</td><td style=\"padding:5px 6px;font-size:11px;color:#aaa;\">#', string(item()?['properties']?['incidentNumber']), '</td><td style=\"padding:5px 12px;\"><a href=\"', concat('https://security.microsoft.com/incidents/', item()?['properties']?['incidentNumber'], '?tenantId=', items('ForEach_Tenant')?['tenantId']), '\" style=\"color:#e67700;\">', item()?['properties']?['title'], '</a> <span style=\"color:#888;font-size:11px;\">(', string(coalesce(item()?['properties']?['additionalData']?['alertsCount'], 0)), ' alerts)</span></td><td style=\"padding:5px 8px;font-size:11px;\"><span style=\"background:#e3f2fd;color:#1565c0;padding:2px 6px;border-radius:3px;font-size:10px;\">', coalesce(item()?['properties']?['providerName'], 'Ukendt'), '</span></td><td style=\"padding:5px 8px;color:#888;font-size:11px;white-space:nowrap;\">', formatDateTime(item()?['properties']?['createdTimeUtc'], 'dd-MM-yyyy HH:mm'), '</td><td style=\"padding:5px 8px;font-size:12px;\">', item()?['properties']?['status'], '</td></tr>')"
+                runAfter:
+                  Fil_Medium:
+                    - Succeeded
+                type: Select
+            else:
+              actions: {}
+            expression:
+              and:
+                - greater:
+                    - "@outputs('Count_Unassigned')"
+                    - 0
+            runAfter:
+              Count_Unassigned:
+                - Succeeded
+            type: If
+        foreach: "@outputs('Tenant_Liste')"
+        runAfter:
+          Config:
+            - Succeeded
+          Init_Critical:
+            - Succeeded
+          Init_High:
+            - Succeeded
+          Init_Informational:
+            - Succeeded
+          Init_Low:
+            - Succeeded
+          Init_Medium:
+            - Succeeded
+          Init_TenantIssues:
+            - Succeeded
+          Init_Total:
+            - Succeeded
+          Tenant_Liste:
+            - Succeeded
+        runtimeConfiguration:
+          concurrency:
+            repetitions: 1
+        type: Foreach
+      Init_Critical:
+        inputs:
+          variables:
+            - name: CriticalRows
+              type: string
+              value: ""
+        runAfter: {}
+        type: InitializeVariable
+      Init_High:
+        inputs:
+          variables:
+            - name: HighRows
+              type: string
+              value: ""
+        runAfter: {}
+        type: InitializeVariable
+      Init_Informational:
+        inputs:
+          variables:
+            - name: InformationalRows
+              type: string
+              value: ""
+        runAfter: {}
+        type: InitializeVariable
+      Init_Low:
+        inputs:
+          variables:
+            - name: LowRows
+              type: string
+              value: ""
+        runAfter: {}
+        type: InitializeVariable
+      Init_Medium:
+        inputs:
+          variables:
+            - name: MediumRows
+              type: string
+              value: ""
+        runAfter: {}
+        type: InitializeVariable
+      Init_TenantIssues:
+        inputs:
+          variables:
+            - name: TenantsWithIssues
+              type: integer
+              value: 0
+        runAfter: {}
+        type: InitializeVariable
+      Init_Total:
+        inputs:
+          variables:
+            - name: TotalUnassigned
+              type: integer
+              value: 0
+        runAfter: {}
+        type: InitializeVariable
+      "Send_an_email_(V2)":
+        inputs:
+          body:
+            Body: "@{outputs('Build_Email')}"
+            Importance: Normal
+            IsHtml: true
+            Subject: "@concat(if(greater(variables('TotalUnassigned'), 0), '⚠️ ', '✅ '), 'Sentinel: ', string(variables('TotalUnassigned')), ' unassigned – ', string(variables('TenantsWithIssues')), '/', string(length(outputs('Tenant_Liste'))), ' tenants')"
+            To: "ramal-safi@live.dk"
+          host:
+            connection:
+              name: "@parameters('$connections')['outlook']['connectionId']"
+          method: post
+          path: /v2/Mail
+        runAfter:
+          Build_Email:
+            - Succeeded
+        type: ApiConnection
+      Tenant_Liste:
+        inputs:
+          - displayName: Ramal HUB Tenant1
+            resourceGroupName: rg-SOC
+            subscriptionId: f6033f31-9abe-488f-822e-41d46f45644e
+            tenantId: "646bb98f-1c07-44fe-a061-0e03f529682d"
+            workspaceName: lw-SOCtest
+          - displayName: Ramal Tenant 2
+            resourceGroupName: rg-sentinel
+            subscriptionId: "5be60d68-f066-4329-b523-a852dcab22f2"
+            tenantId: "2a56070d-4717-49f3-a6ae-a6b61552d631"
+            workspaceName: lw-Sentinel
+        runAfter: {}
+        type: Compose
+    contentVersion: "1.0.0.0"
+    parameters:
+      "$connections":
+        defaultValue: {}
+        type: Object
+    triggers:
+      Recurrence:
+        evaluatedRecurrence:
+          frequency: Month
+          interval: 1
+          timeZone: Romance Standard Time
+        recurrence:
+          frequency: Month
+          interval: 1
+          timeZone: Romance Standard Time
+        type: Recurrence
+  endpointsConfiguration:
+    connector:
+      outgoingIpAddresses:
+        - address: "9.205.43.1"
+    workflow:
+      accessEndpointIpAddresses:
+        - address: "9.205.48.240"
+        - address: "9.205.48.241"
+        - address: "9.205.48.242"
+        - address: "9.205.48.243"
+        - address: "9.205.48.244"
+        - address: "9.205.48.245"
+        - address: "9.205.48.246"
+        - address: "9.205.48.247"
+      outgoingIpAddresses:
+        - address: "9.205.49.192"
+        - address: "9.205.49.193"
+        - address: "9.205.49.194"
+        - address: "9.205.49.195"
+        - address: "9.205.49.196"
+        - address: "9.205.49.197"
+        - address: "9.205.49.198"
+        - address: "9.205.49.199"
+  parameters:
+    "$connections":
+      value:
+        outlook:
+          connectionId: /subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-SOC/providers/Microsoft.Web/connections/outlook-1
+          connectionName: outlook-1
+          connectionProperties: {}
+          id: /subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/providers/Microsoft.Web/locations/denmarkeast/managedApis/outlook
+  provisioningState: Succeeded
+  state: Enabled
+  version: "08584129076842640309"
+type: Microsoft.Logic/workflows

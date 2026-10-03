@@ -1,0 +1,80 @@
+# Management (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Playbooks
+# Autolukincindets
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: /subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-SOC/providers/Microsoft.Logic/workflows/Autolukincindets
+location: northeurope
+name: Autolukincindets
+properties:
+  accessEndpoint: "https://prod-35.northeurope.logic.azure.com:443/workflows/8aaceddfc1294a2b94cf92456f73b6a2"
+  createdTime: "2026-08-17T19:10:16.7129145Z"
+  definition:
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#"
+    actions: {}
+    contentVersion: "1.0.0.0"
+    outputs: {}
+    parameters: {}
+    triggers: {}
+  endpointsConfiguration:
+    connector:
+      outgoingIpAddresses:
+        - address: "52.178.150.68"
+        - address: "94.245.91.93"
+        - address: "13.69.227.208/28"
+        - address: "13.69.231.192/27"
+        - address: "40.115.108.29"
+        - address: "20.82.246.112/28"
+        - address: "52.146.138.32/27"
+        - address: "20.82.226.52"
+        - address: "20.82.224.59"
+        - address: "40.115.108.29"
+        - address: "20.93.81.75"
+        - address: "20.82.159.224"
+        - address: "20.82.226.163"
+        - address: "20.82.225.129"
+    workflow:
+      accessEndpointIpAddresses:
+        - address: "40.67.252.16"
+        - address: "4.207.0.242"
+        - address: "4.207.204.28"
+        - address: "4.207.203.201"
+        - address: "20.67.143.247"
+        - address: "20.67.138.43"
+        - address: "68.219.40.237"
+        - address: "20.105.14.98"
+        - address: "4.207.203.15"
+        - address: "4.207.204.121"
+        - address: "4.207.201.247"
+        - address: "20.107.145.46"
+      outgoingIpAddresses:
+        - address: "40.127.240.183"
+        - address: "51.138.227.160"
+        - address: "40.127.144.121"
+        - address: "40.67.251.175"
+        - address: "40.67.250.247"
+        - address: "4.207.0.229"
+        - address: "4.207.0.197"
+        - address: "4.207.204.8"
+        - address: "4.207.203.217"
+        - address: "4.207.203.190"
+        - address: "4.207.203.59"
+        - address: "20.67.141.244"
+        - address: "20.67.139.133"
+        - address: "20.67.137.144"
+        - address: "20.67.136.162"
+        - address: "68.219.40.225"
+        - address: "68.219.40.39"
+        - address: "20.105.12.63"
+        - address: "20.105.11.53"
+        - address: "4.207.202.106"
+        - address: "4.207.202.95"
+        - address: "4.207.204.91"
+        - address: "4.207.204.89"
+        - address: "4.207.201.234"
+        - address: "20.105.15.225"
+        - address: "20.67.191.232"
+        - address: "20.67.190.37"
+  parameters: {}
+  provisioningState: Succeeded
+  state: Enabled
+  version: "08584146130688095305"
+type: Microsoft.Logic/workflows

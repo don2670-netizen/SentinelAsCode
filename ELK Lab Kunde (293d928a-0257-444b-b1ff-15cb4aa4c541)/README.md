@@ -11,3 +11,4 @@ Kundens Sentinel- og Defender-konfiguration som kode. En YAML-fil pr. objekt; `g
 
 ## Indhold
 
+- **Elastic detection rules**, [Elastic/Detection rules](Elastic/Detection%20rules)

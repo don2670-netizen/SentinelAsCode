@@ -1,0 +1,59 @@
+# Management (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · LogAnalyticWestEurope · Playbooks
+# SiteTest
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: /subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-SOC/providers/Microsoft.Logic/workflows/SiteTest
+location: northcentralus
+name: SiteTest
+properties:
+  accessEndpoint: "https://prod-03.northcentralus.logic.azure.com:443/workflows/c9b07a4a228e4d5fba96764db0300ad1"
+  createdTime: "2026-06-30T05:57:28.6728378Z"
+  definition:
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#"
+    actions: {}
+    contentVersion: "1.0.0.0"
+    outputs: {}
+    parameters: {}
+    triggers: {}
+  endpointsConfiguration:
+    connector:
+      outgoingIpAddresses:
+        - address: "52.162.126.4"
+        - address: "52.162.242.161"
+        - address: "52.162.107.160/28"
+        - address: "52.162.111.192/27"
+        - address: "20.51.4.192/27"
+        - address: "20.51.4.224/28"
+    workflow:
+      accessEndpointIpAddresses:
+        - address: "20.98.61.245"
+        - address: "172.183.50.180"
+        - address: "172.183.52.146"
+        - address: "172.183.51.138"
+        - address: "172.183.48.31"
+        - address: "172.183.48.9"
+        - address: "172.183.48.234"
+        - address: "40.116.65.34"
+      outgoingIpAddresses:
+        - address: "52.162.177.30"
+        - address: "23.101.167.207"
+        - address: "20.80.33.190"
+        - address: "20.88.47.77"
+        - address: "172.183.51.180"
+        - address: "40.116.65.125"
+        - address: "20.88.51.31"
+        - address: "40.116.66.226"
+        - address: "40.116.64.218"
+        - address: "20.88.55.77"
+        - address: "172.183.49.208"
+        - address: "20.102.251.70"
+        - address: "20.102.255.252"
+        - address: "20.88.49.23"
+        - address: "172.183.50.30"
+        - address: "20.88.49.21"
+        - address: "20.102.255.209"
+        - address: "172.183.48.255"
+  parameters: {}
+  provisioningState: Succeeded
+  state: Enabled
+  version: "08584188078368401724"
+type: Microsoft.Logic/workflows

@@ -1,0 +1,12 @@
+# ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · ILM policies
+# lab-90-dage
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+phases:
+  delete:
+    actions:
+      delete:
+        delete_searchable_snapshot: true
+    min_age: "90d"
+  hot:
+    actions: {}
+    min_age: "0ms"

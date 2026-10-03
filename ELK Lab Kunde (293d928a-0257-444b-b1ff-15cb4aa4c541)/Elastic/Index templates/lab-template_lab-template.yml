@@ -1,0 +1,14 @@
+# ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · Index templates
+# lab-template
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+composed_of: []
+created_date_millis: 1791059990667
+index_patterns:
+  - "sochub-lab-*"
+modified_date_millis: 1791059990667
+priority: 200
+template:
+  settings:
+    index:
+      lifecycle:
+        name: lab-90-dage

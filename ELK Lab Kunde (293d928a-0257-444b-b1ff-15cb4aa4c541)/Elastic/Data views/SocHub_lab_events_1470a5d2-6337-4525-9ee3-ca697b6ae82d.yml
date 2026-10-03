@@ -1,0 +1,16 @@
+# ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · Data views
+# SocHub lab events
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+allowHidden: false
+allowNoIndex: false
+fieldAttrs: {}
+fieldFormats: {}
+id: "1470a5d2-6337-4525-9ee3-ca697b6ae82d"
+name: SocHub lab events
+namespaces:
+  - kunde-lab
+runtimeFieldMap: {}
+sourceFilters: []
+timeFieldName: "@timestamp"
+title: "sochub-*"
+version: "WzUsMl0="

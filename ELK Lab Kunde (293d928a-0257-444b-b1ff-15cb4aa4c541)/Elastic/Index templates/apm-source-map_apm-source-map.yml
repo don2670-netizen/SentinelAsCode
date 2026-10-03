@@ -1,0 +1,32 @@
+# ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · Index templates
+# apm-source-map
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+composed_of: []
+created_date_millis: 1791053792505
+index_patterns:
+  - ".apm-source-map"
+modified_date_millis: 1791053792505
+template:
+  mappings:
+    dynamic: strict
+    properties:
+      content:
+        type: binary
+      content_sha256:
+        type: keyword
+      created:
+        type: date
+      file.path:
+        type: keyword
+      fleet_id:
+        type: keyword
+      service.name:
+        type: keyword
+      service.version:
+        type: keyword
+  settings:
+    index:
+      auto_expand_replicas: "0-1"
+      hidden: "true"
+      number_of_shards: "1"
+version: 1

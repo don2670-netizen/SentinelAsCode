@@ -1,0 +1,10 @@
+# ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · Ingest pipelines
+# lab-geo
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+created_date_millis: 1791059990032
+description: "Lab: beriger med land"
+modified_date_millis: 1791059990032
+processors:
+  - set:
+      field: lab.tagged
+      value: true

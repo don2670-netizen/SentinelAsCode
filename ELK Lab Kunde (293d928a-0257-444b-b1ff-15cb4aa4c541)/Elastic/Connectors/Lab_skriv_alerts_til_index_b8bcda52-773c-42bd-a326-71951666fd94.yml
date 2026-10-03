@@ -1,0 +1,16 @@
+# ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · Connectors
+# Lab: skriv alerts til index
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+auth_mode: shared
+config:
+  executionTimeField: null
+  index: sochub-alerts
+  refresh: false
+connector_type_id: ".index"
+id: b8bcda52-773c-42bd-a326-71951666fd94
+is_connector_type_deprecated: false
+is_deprecated: false
+is_missing_secrets: false
+is_preconfigured: false
+is_system_action: false
+name: "Lab: skriv alerts til index"

@@ -1,0 +1,7 @@
+# ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · ILM policies
+# kibana-reporting
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+phases:
+  hot:
+    actions: {}
+    min_age: "0ms"

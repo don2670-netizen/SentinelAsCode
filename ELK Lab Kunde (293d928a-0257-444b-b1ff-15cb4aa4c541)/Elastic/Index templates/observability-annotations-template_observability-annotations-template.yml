@@ -1,0 +1,66 @@
+# ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · Index templates
+# observability-annotations-template
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+composed_of: []
+created_date_millis: 1791053792500
+index_patterns:
+  - observability-annotations
+modified_date_millis: 1791053792500
+template:
+  mappings:
+    dynamic: strict
+    properties:
+      "@timestamp":
+        type: date
+      alert:
+        properties:
+          id:
+            type: keyword
+      annotation:
+        properties:
+          style:
+            type: flattened
+          title:
+            fields:
+              keyword:
+                type: keyword
+            type: text
+          type:
+            type: keyword
+      event:
+        properties:
+          created:
+            type: date
+          end:
+            type: date
+          start:
+            type: date
+      host:
+        properties:
+          name:
+            type: keyword
+      message:
+        type: text
+      monitor:
+        properties:
+          id:
+            type: keyword
+      service:
+        properties:
+          environment:
+            type: keyword
+          name:
+            type: keyword
+          version:
+            type: keyword
+      slo:
+        properties:
+          id:
+            type: keyword
+          instanceId:
+            type: keyword
+      tags:
+        type: keyword
+  settings:
+    index:
+      auto_expand_replicas: "0-1"

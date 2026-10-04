@@ -35,3 +35,11 @@ x-items:
     Title: exAMPLE
     Type: DomainName
     Value: eve.example.com
+  - Action: Block
+    Expires: "2026-12-28T00:00:00Z"
+    Severity: High
+    Source: SocHub
+    TLP: AMBER
+    Title: Import
+    Type: DomainName
+    Value: evil.example.com

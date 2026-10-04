@@ -1,0 +1,45 @@
+# 2a56070d-4717-49f3-a6ae-a6b61552d631 (2a56070d-4717-49f3-a6ae-a6b61552d631) · Sentinel · lw-Sentinel · Watchlists
+# SocHub IOC
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/5be60d68-f066-4329-b523-a852dcab22f2/resourceGroups/rg-sentinel/providers/Microsoft.OperationalInsights/workspaces/lw-Sentinel/providers/Microsoft.SecurityInsights/Watchlists/SocHub_IOC"
+name: SocHub_IOC
+properties:
+  created: "2026-10-04T20:16:00.2355296+00:00"
+  createdBy:
+    name: "87ef5ae8-a9a0-4526-a74a-aaa8866fe10b"
+    objectId: "315f97c0-2d09-4dd9-b4d0-52d49f6ea3af"
+  description: Indikatorer fra SocHub IOC-sync (vedligeholdes automatisk)
+  displayName: SocHub IOC
+  isDeleted: false
+  itemsSearchKey: Value
+  labels: []
+  numberOfLinesToSkip: 0
+  provider: SocHub
+  source: SocHub
+  tenantId: "2a56070d-4717-49f3-a6ae-a6b61552d631"
+  updatedBy:
+    name: "87ef5ae8-a9a0-4526-a74a-aaa8866fe10b"
+    objectId: "315f97c0-2d09-4dd9-b4d0-52d49f6ea3af"
+  uploadStatus: New
+  watchlistAlias: SocHub_IOC
+  watchlistId: "8416a7e8-c764-4994-a23b-1a1e44a513c1"
+  watchlistKind: Regular
+  watchlistType: watchlist
+type: Microsoft.SecurityInsights/Watchlists
+x-items:
+  - Action: Warn
+    Expires: "2026-12-24T00:00:00Z"
+    Severity: High
+    Source: SocHub
+    TLP: AMBER
+    Title: exAMPLE
+    Type: DomainName
+    Value: eve.example.com
+  - Action: Block
+    Expires: "2026-12-26T00:00:00Z"
+    Severity: High
+    Source: SocHub
+    TLP: AMBER
+    Title: Test
+    Type: IpAddress
+    Value: "193.65.15.15"

@@ -35,11 +35,3 @@ x-items:
     Title: exAMPLE
     Type: DomainName
     Value: eve.example.com
-  - Action: Block
-    Expires: "2026-12-26T00:00:00Z"
-    Severity: High
-    Source: SocHub
-    TLP: AMBER
-    Title: Test
-    Type: IpAddress
-    Value: "193.65.15.15"

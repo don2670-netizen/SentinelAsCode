@@ -1,0 +1,52 @@
+# ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · Detection rules
+# SocHub lab brute force db2f3f
+# SLETTET hos kunden - arkiveret af SocHub, så objektet kan gendannes.
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+id: d55d0038-28be-45ba-a42a-eee62fcc6c3d
+to: now
+from: now-10m
+name: SocHub lab brute force db2f3f
+tags:
+  - sochub-lab
+type: query
+index:
+  - sochub-lab-db2f3f
+query: "event.category:authentication and event.outcome:failure"
+setup: ""
+author: []
+threat:
+  - tactic:
+      id: TA0006
+      name: Credential Access
+      reference: "https://attack.mitre.org/tactics/TA0006/"
+    framework: "MITRE ATT&CK"
+    technique:
+      - id: T1110
+        name: Brute Force
+        reference: "https://attack.mitre.org/techniques/T1110/"
+actions: []
+enabled: true
+rule_id: c5a51782-027d-4053-9d32-4544bf2b3e8d
+version: 1
+interval: "1m"
+language: kuery
+revision: 1
+severity: critical
+immutable: false
+created_at: "2026-10-04T20:57:16.809Z"
+created_by: elastic
+references: []
+risk_score: 95
+updated_at: "2026-10-04T20:57:21.844Z"
+updated_by: elastic
+description: Redigeret i SocHub
+max_signals: 100
+rule_source:
+  type: internal
+output_index: ""
+exceptions_list: []
+false_positives: []
+required_fields: []
+severity_mapping: []
+risk_score_mapping: []
+related_integrations: []

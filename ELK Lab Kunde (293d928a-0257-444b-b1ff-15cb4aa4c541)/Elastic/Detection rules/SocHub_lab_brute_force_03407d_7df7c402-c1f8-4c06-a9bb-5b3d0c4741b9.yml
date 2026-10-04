@@ -5,8 +5,8 @@ actions: []
 author: []
 created_at: "2026-10-04T16:08:56.241Z"
 created_by: sochub
-description: Fejlede logins (lab)
-enabled: true
+description: Redigeret i SocHub
+enabled: false
 exceptions_list: []
 false_positives: []
 from: now-10m
@@ -23,14 +23,14 @@ query: "event.category:authentication and event.outcome:failure"
 references: []
 related_integrations: []
 required_fields: []
-revision: 0
-risk_score: 73
+revision: 1
+risk_score: 95
 risk_score_mapping: []
 rule_id: "23cdbcde-4f5c-49b3-b9a3-a87733aec521"
 rule_source:
   type: internal
 setup: ""
-severity: high
+severity: critical
 severity_mapping: []
 tags:
   - sochub-lab
@@ -46,6 +46,6 @@ threat:
         reference: "https://attack.mitre.org/techniques/T1110/"
 to: now
 type: query
-updated_at: "2026-10-04T16:08:56.241Z"
+updated_at: "2026-10-04T16:09:22.349Z"
 updated_by: sochub
 version: 1

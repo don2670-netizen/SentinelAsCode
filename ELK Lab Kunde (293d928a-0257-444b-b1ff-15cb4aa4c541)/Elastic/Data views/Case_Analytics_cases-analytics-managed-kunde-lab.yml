@@ -1,0 +1,16 @@
+# ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · Data views
+# Case Analytics
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+allowHidden: false
+allowNoIndex: true
+fieldAttrs: {}
+fieldFormats: {}
+id: cases-analytics-managed-kunde-lab
+name: Case Analytics
+namespaces:
+  - kunde-lab
+runtimeFieldMap: {}
+sourceFilters: []
+timeFieldName: "@timestamp"
+title: ".cases,.cases-activity,.cases-attachments"
+version: "WzcsM10="

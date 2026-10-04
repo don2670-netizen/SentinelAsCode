@@ -1,7 +1,6 @@
 # ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · Exception lists
 # Lab: kendte scannere
 # Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
-_version: WzI0LDJd
 created_at: "2026-10-03T20:39:47.060Z"
 created_by: elastic
 description: Scannere der ikke skal give alerts
@@ -12,14 +11,12 @@ name: "Lab: kendte scannere"
 namespace_type: single
 os_types: []
 tags: []
-tie_breaker_id: "519fc7a7-8640-48c6-818a-e18450419b77"
 type: detection
 updated_at: "2026-10-03T20:39:47.060Z"
 updated_by: elastic
 version: 1
 x-items:
-  - _version: WzI1LDJd
-    comments: []
+  - comments: []
     created_at: "2026-10-03T20:39:47.973Z"
     created_by: elastic
     description: Nessus scanner
@@ -35,7 +32,6 @@ x-items:
     namespace_type: single
     os_types: []
     tags: []
-    tie_breaker_id: "34b14f35-755b-4a6c-b1ea-6f2dd16efc5b"
     type: simple
     updated_at: "2026-10-03T20:39:47.973Z"
     updated_by: elastic

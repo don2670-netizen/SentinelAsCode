@@ -1,0 +1,10 @@
+# ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · Component templates
+# kibana-reporting@custom
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+created_date_millis: 1791053798466
+modified_date_millis: 1791053798466
+template:
+  settings:
+    index:
+      lifecycle:
+        name: kibana-reporting

@@ -1,7 +1,6 @@
 # ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · Exception lists
 # Endpoint Security Host isolation exceptions List
 # Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
-_version: WzI2LDJd
 created_at: "2026-10-03T21:13:29.017Z"
 created_by: elastic
 description: Endpoint Security Host isolation exceptions List
@@ -12,7 +11,6 @@ name: Endpoint Security Host isolation exceptions List
 namespace_type: agnostic
 os_types: []
 tags: []
-tie_breaker_id: f6e2f159-bf36-471d-b6bd-d9b618864bf5
 type: endpoint_host_isolation_exceptions
 updated_at: "2026-10-03T21:13:29.017Z"
 updated_by: elastic

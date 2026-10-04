@@ -1,0 +1,16 @@
+# ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · Value lists
+# lab-liste-21feb4
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+"@timestamp": "2026-10-04T20:22:03.419Z"
+created_at: "2026-10-04T20:22:03.419Z"
+created_by: elastic
+description: Indikatorer fra SocHub IOC-sync (vedligeholdes automatisk)
+id: lab-liste-21feb4
+immutable: false
+name: lab-liste-21feb4
+type: keyword
+updated_at: "2026-10-04T20:22:03.419Z"
+updated_by: elastic
+version: 1
+x-items:
+  - evil.example.com

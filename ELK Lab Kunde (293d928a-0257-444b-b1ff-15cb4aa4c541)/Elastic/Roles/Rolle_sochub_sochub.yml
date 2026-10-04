@@ -1,0 +1,79 @@
+# ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · Roles
+# Rolle: sochub
+# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+applications:
+  - application: kibana-.kibana
+    privileges:
+      - feature_siemV5.all
+      - feature_securitySolutionRulesV4.all
+      - feature_securitySolutionAlertsV1.all
+      - feature_securitySolutionTimeline.all
+      - feature_securitySolutionNotes.all
+      - feature_securitySolutionCasesV3.all
+      - feature_actions.read
+      - feature_fleetv2.read
+      - feature_fleet.read
+      - feature_discover_v2.read
+      - feature_dashboard_v2.read
+      - feature_visualize_v2.read
+      - feature_indexPatterns.read
+      - feature_stackAlerts.read
+      - feature_dev_tools.read
+      - feature_ml.read
+      - feature_advancedSettings.read
+    resources:
+      - "space:kunde-lab"
+cluster:
+  - monitor
+  - read_ilm
+  - read_pipeline
+  - manage_own_api_key
+  - monitor_ml
+  - monitor_transform
+  - read_security
+  - monitor_watcher
+  - read_slm
+  - monitor_enrich
+indices:
+  - allow_restricted_indices: false
+    names:
+      - "*"
+    privileges:
+      - read
+      - view_index_metadata
+      - monitor
+  - allow_restricted_indices: false
+    names:
+      - "testlab-*"
+    privileges:
+      - create_index
+      - write
+      - read
+      - view_index_metadata
+  - allow_restricted_indices: false
+    names:
+      - ".alerts-security.alerts-*"
+      - ".internal.alerts-security.alerts-*"
+      - ".preview.alerts-security.alerts-*"
+      - ".internal.preview.alerts-security.alerts-*"
+      - ".siem-signals-*"
+    privileges:
+      - read
+      - write
+      - maintenance
+      - view_index_metadata
+  - allow_restricted_indices: false
+    names:
+      - ".lists-*"
+      - ".items-*"
+    privileges:
+      - read
+      - write
+      - maintenance
+      - view_index_metadata
+      - create_index
+      - manage
+metadata: {}
+run_as: []
+transient_metadata:
+  enabled: true

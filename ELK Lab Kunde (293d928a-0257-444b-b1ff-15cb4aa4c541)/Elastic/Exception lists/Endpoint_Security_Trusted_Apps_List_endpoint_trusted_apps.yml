@@ -1,7 +1,6 @@
 # ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · Exception lists
 # Endpoint Security Trusted Apps List
 # Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
-_version: "WzMsMV0="
 created_at: "2026-10-03T18:56:35.236Z"
 created_by: kibana
 description: Endpoint Security Trusted Apps List
@@ -12,7 +11,6 @@ name: Endpoint Security Trusted Apps List
 namespace_type: agnostic
 os_types: []
 tags: []
-tie_breaker_id: "68bee6bc-1a26-43ea-9827-27c2442c13cc"
 type: endpoint
 updated_at: "2026-10-03T18:56:35.236Z"
 updated_by: kibana

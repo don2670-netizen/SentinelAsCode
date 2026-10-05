@@ -1,5 +1,5 @@
 # ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · Detection rules
-# SocHub live demo 1918
+# SocHub live demo 1918 (R
 # Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
 actions: []
 author: []
@@ -17,13 +17,13 @@ index:
 interval: "1m"
 language: kuery
 max_signals: 100
-name: SocHub live demo 1918
+name: SocHub live demo 1918 (R
 output_index: ""
 query: "event.category:authentication and event.outcome:failure"
 references: []
 related_integrations: []
 required_fields: []
-revision: 0
+revision: 1
 risk_score: 73
 risk_score_mapping: []
 rule_id: "84c5cf00-75f6-4269-8615-274329eee64c"
@@ -46,6 +46,6 @@ threat:
         reference: "https://attack.mitre.org/techniques/T1110/"
 to: now
 type: query
-updated_at: "2026-10-03T19:20:54.163Z"
+updated_at: "2026-10-05T10:53:39.585Z"
 updated_by: elastic
 version: 1

@@ -1,0 +1,17 @@
+# ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · Data views
+# logs-*
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+allowHidden: false
+allowNoIndex: true
+fieldAttrs: {}
+fieldFormats: {}
+id: "logs-*"
+name: ""
+namespaces:
+  - "*"
+  - default
+runtimeFieldMap: {}
+sourceFilters: []
+timeFieldName: "@timestamp"
+title: "logs-*"
+version: WzEwLDVd

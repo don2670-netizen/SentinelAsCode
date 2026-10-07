@@ -1,8 +1,8 @@
 # SD as Code, Sentinel & Defender as Code
 
-Dette repository vedligeholdes af **SocHub**. Hver kundes Microsoft Sentinel- og Defender XDR-konfiguration ligger her som YAML,
-og hver ændring, oprettet, ændret eller slettet, i SocHub eller direkte i portalerne, bliver til et commit.
-`git log` er dermed den fulde, reviderbare historik, og repoet kan bruges uden SocHub.
+Dette repository vedligeholdes af **SOROC**. Hver kundes Microsoft Sentinel- og Defender XDR-konfiguration ligger her som YAML,
+og hver ændring, oprettet, ændret eller slettet, i SOROC eller direkte i portalerne, bliver til et commit.
+`git log` er dermed den fulde, reviderbare historik, og repoet kan bruges uden SOROC.
 
 ## Struktur
 
@@ -17,6 +17,6 @@ og hver ændring, oprettet, ændret eller slettet, i SocHub eller direkte i port
 ## Versioner og gendannelse
 
 - Historik for et objekt: `git log -p -- "<Kunde> (<tenant-id>)/Sentinel/<workspace>/Analytics rules/<fil>.yml"`
-- I SocHub: **SD as Code** → vælg objektet → *Versioner* → *Gendan denne version*. Gendannelsen sendes til kunden og committes her.
+- I SOROC: **SD as Code** → vælg objektet → *Versioner* → *Gendan denne version*. Gendannelsen sendes til kunden og committes her.
 
-Filer i kundemapperne skrives af SocHub; ændringer skal laves i SocHub eller i portalen, ikke direkte her.
+Filer i kundemapperne skrives af SOROC; ændringer skal laves i SOROC eller i portalen, ikke direkte her.

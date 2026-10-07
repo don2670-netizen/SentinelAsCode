@@ -1,0 +1,15 @@
+# ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · Value lists
+# lab-liste-d317b9
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+"@timestamp": "2026-10-07T19:29:18.633Z"
+created_at: "2026-10-07T19:29:18.633Z"
+created_by: elastic
+description: Indikatorer fra SOROC IOC-sync (vedligeholdes automatisk)
+id: lab-liste-d317b9
+immutable: false
+name: lab-liste-d317b9
+type: keyword
+updated_at: "2026-10-07T19:29:18.633Z"
+updated_by: elastic
+version: 1
+x-items: []

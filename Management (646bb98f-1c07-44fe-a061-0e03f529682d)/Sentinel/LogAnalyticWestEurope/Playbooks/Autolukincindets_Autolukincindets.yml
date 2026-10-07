@@ -75,6 +75,6 @@ properties:
         - address: "20.67.190.37"
   parameters: {}
   provisioningState: Succeeded
-  state: Enabled
-  version: "08584146130688095305"
+  state: Disabled
+  version: "08584103031914812751"
 type: Microsoft.Logic/workflows

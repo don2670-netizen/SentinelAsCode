@@ -99,6 +99,6 @@ properties:
           connectionProperties: {}
           id: /subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/providers/Microsoft.Web/locations/swedencentral/managedApis/outlook
   provisioningState: Succeeded
-  state: Enabled
-  version: "08584144027014854884"
+  state: Disabled
+  version: "08584103031915330033"
 type: Microsoft.Logic/workflows

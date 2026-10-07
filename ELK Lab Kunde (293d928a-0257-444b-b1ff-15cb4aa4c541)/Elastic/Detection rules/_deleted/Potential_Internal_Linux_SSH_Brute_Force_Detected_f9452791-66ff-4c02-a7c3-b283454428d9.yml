@@ -1,25 +1,10 @@
 # ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · Detection rules
 # Potential Internal Linux SSH Brute Force Detected
+# SLETTET hos kunden - arkiveret af SOROC, så objektet kan gendannes.
 # Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
-actions: []
-author:
-  - Elastic
-created_at: "2026-10-07T18:38:25.662Z"
-created_by: elastic
-description: "Identifies multiple internal consecutive login failures targeting a user account from the same source address within a short time interval. Adversaries will often brute force login attempts across multiple users with a common or known password, in an attempt to gain access to these accounts."
-enabled: true
-exceptions_list: []
-false_positives: []
-from: now-9m
 id: f9452791-66ff-4c02-a7c3-b283454428d9
-immutable: true
-index:
-  - "filebeat-*"
-  - "logs-system.auth-*"
-interval: "5m"
-language: eql
-license: Elastic License v2
-max_signals: 5
+to: now
+from: now-9m
 name: Potential Internal Linux SSH Brute Force Detected
 note: |
   ## Triage and analysis
@@ -54,7 +39,23 @@ note: |
   - Run a full antimalware scan. This may reveal additional artifacts left in the system, persistence mechanisms, and malware components.
   - Determine the initial vector abused by the attacker and take action to prevent reinfection through the same vector.
   - Using the incident response data, update logging and audit policies to improve the mean time to detect (MTTD) and the mean time to respond (MTTR).
-output_index: ""
+tags:
+  - "Domain: Endpoint"
+  - "OS: Linux"
+  - "Use Case: Threat Detection"
+  - "Tactic: Credential Access"
+  - "Resources: Investigation Guide"
+  - "Noise: High"
+  - "Performance: Normal"
+  - "Profile: Aggressive"
+  - "Threat: Brute Force"
+  - "Rule Type: Event Correlation (EQL)"
+  - "Platform: Linux"
+  - "Tactic: Lateral Movement"
+type: eql
+index:
+  - "filebeat-*"
+  - "logs-system.auth-*"
 query: |
   sequence by host.id, source.ip, user.name with maxspan=30s
     [ authentication where host.os.type == "linux" and 
@@ -64,38 +65,6 @@ query: |
          "192.0.2.0/24", "192.31.196.0/24", "192.52.193.0/24", "192.168.0.0/16", "192.88.99.0/24", "224.0.0.0/4",
          "100.64.0.0/10", "192.175.48.0/24","198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4", 
          "::1", "FE80::/10", "FF00::/8") ] with runs = 60
-references: []
-related_integrations:
-  - package: system
-    version: ">=2.0.0"
-required_fields:
-  - ecs: true
-    name: event.action
-    type: keyword
-  - ecs: true
-    name: event.outcome
-    type: keyword
-  - ecs: true
-    name: host.id
-    type: keyword
-  - ecs: true
-    name: host.os.type
-    type: keyword
-  - ecs: true
-    name: source.ip
-    type: ip
-  - ecs: true
-    name: user.name
-    type: keyword
-revision: 0
-risk_score: 47
-risk_score_mapping: []
-rule_id: "1c27fa22-7727-4dd3-81c0-de6da5555feb"
-rule_source:
-  customized_fields: []
-  has_base_version: true
-  is_customized: false
-  type: external
 setup: |
   ## Setup
 
@@ -116,27 +85,14 @@ setup: |
   - This rule requires the “Filebeat System Module” to be enabled.
   - The system module collects and parses logs created by the system logging service of common Unix/Linux based distributions.
   - To run the system module of Filebeat on Linux follow the setup instructions in the [helper guide](https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-module-system.html).
-severity: medium
-severity_mapping: []
-tags:
-  - "Domain: Endpoint"
-  - "OS: Linux"
-  - "Use Case: Threat Detection"
-  - "Tactic: Credential Access"
-  - "Resources: Investigation Guide"
-  - "Noise: High"
-  - "Performance: Normal"
-  - "Profile: Aggressive"
-  - "Threat: Brute Force"
-  - "Rule Type: Event Correlation (EQL)"
-  - "Platform: Linux"
-  - "Tactic: Lateral Movement"
+author:
+  - Elastic
 threat:
-  - framework: "MITRE ATT&CK"
-    tactic:
+  - tactic:
       id: TA0006
       name: Credential Access
       reference: "https://attack.mitre.org/tactics/TA0006/"
+    framework: "MITRE ATT&CK"
     technique:
       - id: T1110
         name: Brute Force
@@ -148,11 +104,11 @@ threat:
           - id: T1110.003
             name: Password Spraying
             reference: "https://attack.mitre.org/techniques/T1110/003/"
-  - framework: "MITRE ATT&CK"
-    tactic:
+  - tactic:
       id: TA0008
       name: Lateral Movement
       reference: "https://attack.mitre.org/tactics/TA0008/"
+    framework: "MITRE ATT&CK"
     technique:
       - id: T1021
         name: Remote Services
@@ -161,9 +117,54 @@ threat:
           - id: T1021.004
             name: SSH
             reference: "https://attack.mitre.org/techniques/T1021/004/"
-timestamp_override: event.ingested
-to: now
-type: eql
+actions: []
+enabled: true
+license: Elastic License v2
+rule_id: "1c27fa22-7727-4dd3-81c0-de6da5555feb"
+version: 18
+interval: "5m"
+language: eql
+revision: 0
+severity: medium
+immutable: true
+created_at: "2026-10-07T18:38:25.662Z"
+created_by: elastic
+references: []
+risk_score: 47
 updated_at: "2026-10-07T19:29:47.352Z"
 updated_by: elastic
-version: 18
+description: "Identifies multiple internal consecutive login failures targeting a user account from the same source address within a short time interval. Adversaries will often brute force login attempts across multiple users with a common or known password, in an attempt to gain access to these accounts."
+max_signals: 5
+rule_source:
+  type: external
+  is_customized: false
+  has_base_version: true
+  customized_fields: []
+output_index: ""
+exceptions_list: []
+false_positives: []
+required_fields:
+  - ecs: true
+    name: event.action
+    type: keyword
+  - ecs: true
+    name: event.outcome
+    type: keyword
+  - ecs: true
+    name: host.id
+    type: keyword
+  - ecs: true
+    name: host.os.type
+    type: keyword
+  - ecs: true
+    name: source.ip
+    type: ip
+  - ecs: true
+    name: user.name
+    type: keyword
+severity_mapping: []
+risk_score_mapping: []
+timestamp_override: event.ingested
+related_integrations:
+  - package: system
+    version: ">=2.0.0"

@@ -1,0 +1,156 @@
+# ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · Timelines
+# Skabelon: Generic Network Timeline
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+columns:
+  - columnHeaderType: not-filtered
+    id: "@timestamp"
+    indexes: null
+    name: null
+    searchable: null
+  - columnHeaderType: not-filtered
+    id: kibana.alert.rule.description
+    indexes: null
+    name: null
+    searchable: null
+  - aggregatable: true
+    category: event
+    columnHeaderType: not-filtered
+    description: |-
+      The action captured by the event.
+
+      This describes the information in the event. It is more specific than `event.category`.
+      Examples are `group-add`, `process-started`, `file-created`. The value is
+      normally defined by the implementer.
+    example: user-password-change
+    id: event.action
+    indexes: null
+    name: null
+    searchable: null
+    type: string
+  - aggregatable: true
+    category: process
+    columnHeaderType: not-filtered
+    description: |-
+      Array of process arguments, starting with the absolute path to
+      the executable.
+
+      May be filtered to protect sensitive information.
+    example: "[\"/usr/bin/ssh\",\"-l\",\"user\",\"10.0.0.16\"]"
+    id: process.args
+    indexes: null
+    name: null
+    searchable: null
+    type: string
+  - columnHeaderType: not-filtered
+    id: process.pid
+    indexes: null
+    name: null
+    searchable: null
+  - aggregatable: true
+    category: source
+    columnHeaderType: not-filtered
+    description: IP address of the source (IPv4 or IPv6).
+    id: source.ip
+    indexes: null
+    name: null
+    searchable: null
+    type: ip
+  - aggregatable: true
+    category: source
+    columnHeaderType: not-filtered
+    description: Port of the source.
+    id: source.port
+    indexes: null
+    name: null
+    searchable: null
+    type: number
+  - aggregatable: true
+    category: destination
+    columnHeaderType: not-filtered
+    description: IP address of the destination (IPv4 or IPv6).
+    id: destination.ip
+    indexes: null
+    name: null
+    searchable: null
+    type: ip
+  - columnHeaderType: not-filtered
+    id: destination.port
+    indexes: null
+    name: null
+    searchable: null
+  - aggregatable: true
+    category: user
+    columnHeaderType: not-filtered
+    description: Short name or login of the user.
+    example: albert
+    id: user.name
+    indexes: null
+    name: null
+    searchable: null
+    type: string
+  - columnHeaderType: not-filtered
+    id: host.name
+    indexes: null
+    name: null
+    searchable: null
+created: 1791398305967
+createdBy: Elastic
+dataProviders:
+  - and:
+      - enabled: true
+        excluded: false
+        id: timeline-1-e37e37c5-a6e7-4338-af30-47bfbc3c0e1e
+        kqlQuery: ""
+        name: "{destination.ip}"
+        queryMatch:
+          displayField: destination.ip
+          displayValue: "{destination.ip}"
+          field: destination.ip
+          operator: ":"
+          value: "{destination.ip}"
+        type: template
+    enabled: true
+    excluded: false
+    id: timeline-1-ec778f01-1802-40f0-9dfb-ed8de1f656cb
+    kqlQuery: ""
+    name: "{source.ip}"
+    queryMatch:
+      displayField: source.ip
+      displayValue: "{source.ip}"
+      field: source.ip
+      operator: ":"
+      value: "{source.ip}"
+    type: template
+dataViewId: null
+dateRange:
+  end: "2026-10-07T18:38:25.967Z"
+  start: "2026-10-06T18:38:25.967Z"
+description: ""
+eventIdToNoteIds: []
+eventType: all
+excludedRowRendererIds: []
+favorite: []
+filters: []
+kqlMode: filter
+kqlQuery:
+  filterQuery:
+    kuery:
+      expression: ""
+      kind: kuery
+    serializedQuery: ""
+noteIds: []
+notes: []
+pinnedEventIds: []
+pinnedEventsSaveObject: []
+savedObjectId: "8f2ca392-2e68-4b46-8da7-6547c53df375"
+savedQueryId: null
+sort:
+  - columnId: "@timestamp"
+    sortDirection: desc
+status: immutable
+templateTimelineId: "91832785-286d-4ebe-b884-1a208d111a70"
+templateTimelineVersion: 2
+timelineType: template
+title: Generic Network Timeline
+updatedBy: Elastic
+version: "WzY0NjYsNV0="

@@ -1,0 +1,159 @@
+# ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · Timelines
+# Skabelon: Generic Endpoint Timeline
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+columns:
+  - columnHeaderType: not-filtered
+    id: "@timestamp"
+    indexes: null
+    name: null
+    searchable: null
+  - columnHeaderType: not-filtered
+    id: kibana.alert.rule.description
+    indexes: null
+    name: null
+    searchable: null
+  - columnHeaderType: not-filtered
+    id: event.action
+    indexes: null
+    name: null
+    searchable: null
+  - columnHeaderType: not-filtered
+    id: process.name
+    indexes: null
+    name: null
+    searchable: null
+  - aggregatable: true
+    category: process
+    columnHeaderType: not-filtered
+    description: The working directory of the process.
+    example: /home/alice
+    id: process.working_directory
+    indexes: null
+    name: null
+    searchable: null
+    type: string
+  - aggregatable: true
+    category: process
+    columnHeaderType: not-filtered
+    description: |-
+      Array of process arguments, starting with the absolute path to
+      the executable.
+
+      May be filtered to protect sensitive information.
+    example: "[\"/usr/bin/ssh\",\"-l\",\"user\",\"10.0.0.16\"]"
+    id: process.args
+    indexes: null
+    name: null
+    searchable: null
+    type: string
+  - columnHeaderType: not-filtered
+    id: process.pid
+    indexes: null
+    name: null
+    searchable: null
+  - aggregatable: true
+    category: process
+    columnHeaderType: not-filtered
+    description: Absolute path to the process executable.
+    example: /usr/bin/ssh
+    id: process.parent.executable
+    indexes: null
+    name: null
+    searchable: null
+    type: string
+  - aggregatable: true
+    category: process
+    columnHeaderType: not-filtered
+    description: |-
+      Array of process arguments.
+
+      May be filtered to protect sensitive information.
+    example: "[\"ssh\",\"-l\",\"user\",\"10.0.0.16\"]"
+    id: process.parent.args
+    indexes: null
+    name: null
+    searchable: null
+    type: string
+  - aggregatable: true
+    category: process
+    columnHeaderType: not-filtered
+    description: Process id.
+    example: "4242"
+    id: process.parent.pid
+    indexes: null
+    name: null
+    searchable: null
+    type: number
+  - aggregatable: true
+    category: user
+    columnHeaderType: not-filtered
+    description: Short name or login of the user.
+    example: albert
+    id: user.name
+    indexes: null
+    name: null
+    searchable: null
+    type: string
+  - aggregatable: true
+    category: host
+    columnHeaderType: not-filtered
+    description: |-
+      Name of the host.
+
+      It can contain what `hostname` returns on Unix systems, the fully qualified
+      domain name, or a name specified by the user. The sender decides which value
+      to use.
+    id: host.name
+    indexes: null
+    name: null
+    searchable: null
+    type: string
+created: 1791398305964
+createdBy: Elastic
+dataProviders:
+  - and: []
+    enabled: true
+    excluded: false
+    id: timeline-1-4685da24-35c1-43f3-892d-1f926dbf5568
+    kqlQuery: ""
+    name: ""
+    queryMatch:
+      displayField: agent.type
+      displayValue: endpoint
+      field: agent.type
+      operator: ":"
+      value: endpoint
+    type: default
+dataViewId: null
+dateRange:
+  end: "2026-10-07T18:38:25.964Z"
+  start: "2026-10-06T18:38:25.964Z"
+description: ""
+eventIdToNoteIds: []
+eventType: all
+excludedRowRendererIds: []
+favorite: []
+filters: []
+kqlMode: filter
+kqlQuery:
+  filterQuery:
+    kuery:
+      expression: ""
+      kind: kuery
+    serializedQuery: ""
+noteIds: []
+notes: []
+pinnedEventIds: []
+pinnedEventsSaveObject: []
+savedObjectId: "3cc82cab-1f22-401e-8253-44e6c5b26c44"
+savedQueryId: null
+sort:
+  - columnId: "@timestamp"
+    sortDirection: desc
+status: immutable
+templateTimelineId: db366523-f1c6-4c1f-8731-6ce5ed9e5717
+templateTimelineVersion: 2
+timelineType: template
+title: Generic Endpoint Timeline
+updatedBy: Elastic
+version: "WzY0NjMsNV0="

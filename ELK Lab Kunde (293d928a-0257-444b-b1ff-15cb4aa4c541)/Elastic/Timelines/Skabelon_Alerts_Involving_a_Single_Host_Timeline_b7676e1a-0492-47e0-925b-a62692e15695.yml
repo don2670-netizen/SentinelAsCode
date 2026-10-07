@@ -1,0 +1,75 @@
+# ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · Timelines
+# Skabelon: Alerts Involving a Single Host Timeline
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+columns:
+  - columnHeaderType: not-filtered
+    id: "@timestamp"
+    type: date
+  - columnHeaderType: not-filtered
+    id: signal.rule.name
+  - columnHeaderType: not-filtered
+    id: message
+  - columnHeaderType: not-filtered
+    id: event.category
+  - columnHeaderType: not-filtered
+    id: event.action
+  - columnHeaderType: not-filtered
+    id: host.name
+  - columnHeaderType: not-filtered
+    id: user.name
+created: 1791398305962
+createdBy: Elastic
+dataProviders:
+  - and:
+      - enabled: true
+        excluded: false
+        id: timeline-1-eb3f20d1-ceaa-4117-9338-2975606f5f77
+        kqlQuery: ""
+        name: host.id
+        queryMatch:
+          displayField: host.id
+          displayValue: "{host.id}"
+          field: host.id
+          operator: ":"
+          value: "{host.id}"
+        type: template
+    enabled: true
+    excluded: false
+    id: timeline-1-ac9b7ab7-0fea-4724-864c-19122139b08f
+    kqlQuery: ""
+    name: signal
+    queryMatch:
+      field: event.kind
+      operator: ":"
+      value: signal
+    type: default
+dataViewId: null
+dateRange:
+  end: "2026-10-07T18:38:25.962Z"
+  start: "2026-10-06T18:38:25.962Z"
+description: ""
+eventIdToNoteIds: []
+eventType: all
+excludedRowRendererIds: []
+favorite: []
+filters: []
+indexNames:
+  - ".alerts-*"
+kqlMode: filter
+noteIds: []
+notes: []
+pinnedEventIds: []
+pinnedEventsSaveObject: []
+savedObjectId: b7676e1a-0492-47e0-925b-a62692e15695
+savedQueryId: null
+sort:
+  - columnId: "@timestamp"
+    columnType: date
+    sortDirection: desc
+status: immutable
+templateTimelineId: "4434b91a-94ca-4a89-83cb-a37cdc0532b7"
+templateTimelineVersion: 1
+timelineType: template
+title: Alerts Involving a Single Host Timeline
+updatedBy: Elastic
+version: "WzY0NjEsNV0="

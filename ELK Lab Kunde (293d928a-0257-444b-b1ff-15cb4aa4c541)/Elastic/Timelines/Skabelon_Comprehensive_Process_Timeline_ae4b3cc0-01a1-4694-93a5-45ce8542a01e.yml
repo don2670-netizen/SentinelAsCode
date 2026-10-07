@@ -1,0 +1,109 @@
+# ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · Timelines
+# Skabelon: Comprehensive Process Timeline
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+columns:
+  - columnHeaderType: not-filtered
+    id: "@timestamp"
+    type: number
+  - aggregatable: false
+    category: base
+    columnHeaderType: not-filtered
+    description: "For log events the message field contains the log message, optimized for viewing in a log viewer. For structured logs without an original message field, other fields can be concatenated to form a human-readable summary of the event. If multiple messages exist, they can be combined into one message."
+    example: Hello World
+    id: message
+    type: string
+  - columnHeaderType: not-filtered
+    id: process.code_signature.status
+  - columnHeaderType: not-filtered
+    id: process.code_signature.subject_name
+  - columnHeaderType: not-filtered
+    id: process.command_line
+  - columnHeaderType: not-filtered
+    id: process.executable
+  - columnHeaderType: not-filtered
+    id: process.name
+  - columnHeaderType: not-filtered
+    id: process.parent.name
+  - columnHeaderType: not-filtered
+    id: event.action
+  - columnHeaderType: not-filtered
+    id: host.name
+  - columnHeaderType: not-filtered
+    id: user.name
+created: 1791398305965
+createdBy: Elastic
+dataProviders:
+  - and: []
+    enabled: true
+    excluded: false
+    id: timeline-1-44c387b3-14e2-4493-9702-869311bb7fb1
+    kqlQuery: ""
+    name: process
+    queryMatch:
+      displayField: null
+      displayValue: null
+      field: event.category
+      operator: ":"
+      value: process
+    type: default
+  - and: []
+    enabled: true
+    excluded: false
+    id: timeline-1-690a2939-b1d3-417b-8332-281147d8d0a0
+    kqlQuery: ""
+    name: "{signal.group.id}"
+    queryMatch:
+      displayField: null
+      displayValue: null
+      field: signal.group.id
+      operator: ":"
+      value: "{signal.group.id}"
+    type: template
+  - and: []
+    enabled: true
+    excluded: false
+    id: timeline-1-8a39602a-78f6-4de2-a3b1-60c1112701c4
+    kqlQuery: ""
+    name: "{signal.original_event.id}"
+    queryMatch:
+      field: signal.original_event.id
+      operator: ":"
+      value: "{signal.original_event.id}"
+    type: template
+dataViewId: null
+dateRange:
+  end: "2026-10-07T18:38:25.965Z"
+  start: "2026-10-06T18:38:25.965Z"
+description: ""
+eqlOptions:
+  eventCategoryField: event.category
+  query: ""
+  size: 100
+  tiebreakerField: ""
+  timestampField: "@timestamp"
+eventIdToNoteIds: []
+eventType: all
+excludedRowRendererIds: []
+favorite: []
+filters: []
+indexNames: []
+kqlMode: filter
+kqlQuery:
+  filterQuery: null
+noteIds: []
+notes: []
+pinnedEventIds: []
+pinnedEventsSaveObject: []
+savedObjectId: ae4b3cc0-01a1-4694-93a5-45ce8542a01e
+savedQueryId: null
+sort:
+  - columnId: "@timestamp"
+    columnType: number
+    sortDirection: desc
+status: immutable
+templateTimelineId: e70679c2-6cde-4510-9764-4823df18f7db
+templateTimelineVersion: 2
+timelineType: template
+title: Comprehensive Process Timeline
+updatedBy: Elastic
+version: "WzY0NjQsNV0="

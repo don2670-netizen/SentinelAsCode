@@ -1,0 +1,118 @@
+# ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · Timelines
+# Skabelon: Comprehensive File Timeline
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+columns:
+  - columnHeaderType: not-filtered
+    id: "@timestamp"
+    type: number
+  - aggregatable: false
+    category: base
+    columnHeaderType: not-filtered
+    description: "For log events the message field contains the log message, optimized for viewing in a log viewer. For structured logs without an original message field, other fields can be concatenated to form a human-readable summary of the event. If multiple messages exist, they can be combined into one message."
+    example: Hello World
+    id: message
+    type: string
+  - aggregatable: true
+    category: process
+    columnHeaderType: not-filtered
+    description: Process name. Sometimes called program name or similar.
+    example: ssh
+    id: process.name
+    type: string
+  - aggregatable: true
+    category: event
+    columnHeaderType: not-filtered
+    description: "The action captured by the event. This describes the information in the event. It is more specific than `event.category`. Examples are `group-add`, `process-started`, `file-created`. The value is normally defined by the implementer."
+    example: user-password-change
+    id: event.action
+    type: string
+  - aggregatable: true
+    category: file
+    columnHeaderType: not-filtered
+    description: Name of the file including the extension, without the directory.
+    example: example.png
+    id: file.name
+    type: string
+  - columnHeaderType: not-filtered
+    id: file.size
+  - columnHeaderType: not-filtered
+    id: file.path
+  - columnHeaderType: not-filtered
+    id: host.name
+  - columnHeaderType: not-filtered
+    id: user.name
+created: 1791398305958
+createdBy: Elastic
+dataProviders:
+  - and:
+      - enabled: true
+        excluded: false
+        id: timeline-1-072c4726-d198-41c5-a3dc-561062c454a9
+        kqlQuery: ""
+        name: "{signal.group.id}"
+        queryMatch:
+          displayField: null
+          displayValue: null
+          field: signal.group.id
+          operator: ":"
+          value: "{signal.group.id}"
+        type: template
+      - enabled: true
+        excluded: false
+        id: timeline-1-dba415d2-9968-4961-8b0f-a381c3d28c87
+        kqlQuery: ""
+        name: "{signal.original_event.id}"
+        queryMatch:
+          field: signal.original_event.id
+          operator: ":"
+          value: "{signal.original_event.id}"
+        type: template
+    enabled: true
+    excluded: false
+    id: timeline-1-fd6cfcf0-cfbd-4a42-b58e-9efccca7ecdd
+    kqlQuery: ""
+    name: file
+    queryMatch:
+      displayField: null
+      displayValue: null
+      field: event.category
+      operator: ":"
+      value: file
+    type: default
+dataViewId: null
+dateRange:
+  end: "2026-10-07T18:38:25.958Z"
+  start: "2026-10-06T18:38:25.958Z"
+description: ""
+eqlOptions:
+  eventCategoryField: event.category
+  query: ""
+  size: 100
+  tiebreakerField: ""
+  timestampField: "@timestamp"
+eventIdToNoteIds: []
+eventType: all
+excludedRowRendererIds: []
+favorite: []
+filters: []
+indexNames: []
+kqlMode: filter
+kqlQuery:
+  filterQuery: null
+noteIds: []
+notes: []
+pinnedEventIds: []
+pinnedEventsSaveObject: []
+savedObjectId: ec80d133-e732-4c6a-a0d6-3903dd298f31
+savedQueryId: null
+sort:
+  - columnId: "@timestamp"
+    columnType: number
+    sortDirection: desc
+status: immutable
+templateTimelineId: "4d4c0b59-ea83-483f-b8c1-8c360ee53c5c"
+templateTimelineVersion: 3
+timelineType: template
+title: Comprehensive File Timeline
+updatedBy: Elastic
+version: "WzY0NTcsNV0="

@@ -1,12 +1,12 @@
-# HUB tenant (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · LogAnalyticWestEurope · Anomaly rules
+# Management (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · LogAnalyticWestEurope · Anomaly rules
 # Suspicious volume of logins to computer with elevated token
-# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
 id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces//providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/9c27cee8-0a33-4abe-8683-212c0a98fc28"
 kind: Anomaly
 name: "9c27cee8-0a33-4abe-8683-212c0a98fc28"
 properties:
   anomalySettingsVersion: 0
-  anomalyVersion: "3.4.11"
+  anomalyVersion: "3.4.12"
   customizableObservations:
     multiSelectObservations: null
     prioritizeExcludeObservations: null

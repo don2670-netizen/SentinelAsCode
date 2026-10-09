@@ -21,7 +21,7 @@ properties:
       reopenClosedIncident: false
   query: |-
     SigninLogs
-    | where * has "Ramal"
+    | where * has "global"
   queryFrequency: PT10M
   queryPeriod: PT10M
   severity: Informational

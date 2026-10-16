@@ -1,6 +1,6 @@
-# HUB tenant (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Analytics rules
+# Management (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Analytics rules
 # Account Creation
-# Eksporteret af SocHub. Historikken for filen (git log) er objektets versionshistorik.
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
 id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/6d0bad84-d19b-4188-8d01-fd307e2e1b59"
 kind: Scheduled
 name: "6d0bad84-d19b-4188-8d01-fd307e2e1b59"
@@ -66,7 +66,7 @@ properties:
     | extend DnsDomain = iff(DeviceName has '.', substring(DeviceName, indexof(DeviceName, '.') + 1), "")
   queryFrequency: PT1H
   queryPeriod: PT1H
-  severity: Medium
+  severity: High
   suppressionDuration: PT1H
   suppressionEnabled: false
   tactics:

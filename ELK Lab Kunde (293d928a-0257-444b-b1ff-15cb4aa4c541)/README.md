@@ -6,8 +6,9 @@
 | Microsoft Sentinel | - |
 | Defender XDR | - |
 | Elastic Security | Kibana-space `kunde-lab` |
+| Splunk | - |
 
-Kundens Sentinel- og Defender-konfiguration som kode. En YAML-fil pr. objekt; `git log <fil>` er objektets versionshistorik.
+Kundens Sentinel-, Defender-, Elastic- og Splunk-konfiguration som kode. En YAML-fil pr. objekt; `git log <fil>` er objektets versionshistorik.
 
 ## Indhold
 

@@ -1,0 +1,23 @@
+# Splunk Lab (3e1286a2-6000-4781-9425-5c1f5a76fee0) · Splunk · Detection rules
+# SOROC Lab - Encoded PowerShell
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+action.correlationsearch.annotations: "{\"mitre_attack\": [\"T1059.001\", \"T1027\"]}"
+alert.digest_mode: "true"
+alert.severity: "6"
+alert.suppress: "true"
+alert.suppress.period: "10m"
+alert.track: "true"
+alert_comparator: greater than
+alert_threshold: "0"
+alert_type: number of events
+app: search
+cron_schedule: "* * * * *"
+description: PowerShell startet med kodet kommando (4688)
+disabled: "0"
+dispatch.earliest_time: "-5m"
+dispatch.latest_time: now
+is_scheduled: "true"
+name: SOROC Lab - Encoded PowerShell
+owner: nobody
+schedule_window: "0"
+search: "index=soroc_lab sourcetype=\"WinEventLog:Security\" EventCode=4688 (CommandLine=\"*-enc*\" OR CommandLine=\"*FromBase64String*\") | table _time host user CommandLine ParentProcessName"

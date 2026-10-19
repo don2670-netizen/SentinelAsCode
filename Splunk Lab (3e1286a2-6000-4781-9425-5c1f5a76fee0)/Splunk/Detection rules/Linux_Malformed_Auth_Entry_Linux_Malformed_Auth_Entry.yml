@@ -1,0 +1,43 @@
+# Splunk Lab (3e1286a2-6000-4781-9425-5c1f5a76fee0) · Splunk · Detection rules
+# Linux Malformed Auth Entry
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+action.correlationsearch.annotations: "{\"mitre_attack\":[],\"analytic_story\":[]}"
+action.correlationsearch.label: Linux Malformed Auth Entry
+alert.digest_mode: "true"
+alert.severity: "4"
+alert.suppress: "false"
+alert.track: "true"
+alert_comparator: greater than
+alert_threshold: "0"
+alert_type: number of events
+app: search
+cron_schedule: "0 * * * *"
+description: |-
+  The following analytic detects when su runs from a page-cache-corrupted binary.
+  When this happens a partial corruption of its runtime state can prevent it from resolving the identity of the calling user.
+  Under normal conditions, su logs both the target account and the invoking user.
+  When exploitation has occurred via this path, the invoking username field is absent.
+  This activity is significant because it indicates a possible privilege escalation attempt, allowing a user to gain root access.
+  If confirmed malicious, an attacker could achieve full control over the system, execute arbitrary commands, and compromise the entire environment.
+disabled: "0"
+dispatch.earliest_time: "-70m@m"
+dispatch.latest_time: "-10m@m"
+is_scheduled: "true"
+name: Linux Malformed Auth Entry
+owner: nobody
+schedule_window: "0"
+search: |-
+  sourcetype=linux_secure process=su
+  | rex "su:\s+\(to\s+(?<target_user>\S+)\)(?<source_user>\s{2,})on\s+(?<terminal>\S+)"
+  | where len(ltrim(source_user)) == 0
+  | stats
+      count                        as total_attempts,
+      min(_time)                   as firstTime,
+      max(_time)                   as lastTime,
+      values(target_user)          as target_users,
+      values(host)                 as dest
+      by process
+
+  | convert timeformat="%Y-%m-%dT%H:%M:%S" ctime(firstTime)
+  | convert timeformat="%Y-%m-%dT%H:%M:%S" ctime(lastTime)
+  | search *

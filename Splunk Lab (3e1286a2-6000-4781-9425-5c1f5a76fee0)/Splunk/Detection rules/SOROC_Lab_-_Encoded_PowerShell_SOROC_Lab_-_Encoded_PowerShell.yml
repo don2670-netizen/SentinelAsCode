@@ -11,10 +11,10 @@ alert_comparator: greater than
 alert_threshold: "0"
 alert_type: number of events
 app: search
-cron_schedule: "* * * * *"
+cron_schedule: "*/5 * * * *"
 description: PowerShell startet med kodet kommando (4688)
 disabled: "0"
-dispatch.earliest_time: "-5m"
+dispatch.earliest_time: "-6m"
 dispatch.latest_time: now
 is_scheduled: "true"
 name: SOROC Lab - Encoded PowerShell

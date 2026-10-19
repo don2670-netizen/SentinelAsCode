@@ -1,0 +1,10 @@
+# Splunk Lab (3e1286a2-6000-4781-9425-5c1f5a76fee0) · Splunk · Saved searches
+# Errors in the last 24 hours
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+app: search
+disabled: "false"
+dispatch.earliest_time: "-1d"
+is_scheduled: "false"
+name: Errors in the last 24 hours
+owner: nobody
+search: "error OR failed OR severe OR ( sourcetype=access_* ( 404 OR 500 OR 503 ) )"

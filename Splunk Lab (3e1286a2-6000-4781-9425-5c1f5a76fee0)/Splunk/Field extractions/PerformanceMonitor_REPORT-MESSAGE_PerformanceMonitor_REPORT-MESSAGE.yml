@@ -1,0 +1,10 @@
+# Splunk Lab (3e1286a2-6000-4781-9425-5c1f5a76fee0) · Splunk · Field extractions
+# PerformanceMonitor : REPORT-MESSAGE
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+app: system
+attribute: REPORT-MESSAGE
+name: "PerformanceMonitor : REPORT-MESSAGE"
+owner: nobody
+stanza: PerformanceMonitor
+type: Uses transform
+value: perfmon-kv

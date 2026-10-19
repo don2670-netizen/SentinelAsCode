@@ -1,0 +1,8 @@
+# Splunk Lab (3e1286a2-6000-4781-9425-5c1f5a76fee0) · Splunk · Macros
+# audit_searchlocal(1)
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+app: search
+args: filter
+definition: "search index=_audit action=search (id=* OR search_id=*) | eval search_id = if(isnull(search_id), id, search_id) | replace '*' with * in search_id | search $filter$"
+name: audit_searchlocal(1)
+owner: nobody

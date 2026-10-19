@@ -1,0 +1,13 @@
+# Splunk Lab (3e1286a2-6000-4781-9425-5c1f5a76fee0) · Splunk · Dashboards
+# data_model_explorer
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+app: search
+"eai:data": |-
+  <?xml version="1.0"?>
+  <view type="redirect" target="pivot" isDashboard="False">
+      <label>Datasets</label>
+  </view>
+isDashboard: "false"
+label: Datasets
+name: data_model_explorer
+owner: nobody

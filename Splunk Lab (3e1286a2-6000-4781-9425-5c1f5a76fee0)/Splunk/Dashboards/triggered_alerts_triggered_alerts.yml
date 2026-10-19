@@ -1,0 +1,13 @@
+# Splunk Lab (3e1286a2-6000-4781-9425-5c1f5a76fee0) · Splunk · Dashboards
+# triggered_alerts
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+app: system
+"eai:data": |-
+  <?xml version="1.0"?>
+  <view template="pages/page_with_flag.html" type="html" isDashboard="False" packageName="end-user-xp">
+      <label>Triggered Alerts - Splunk</label>
+  </view>
+isDashboard: "false"
+label: Triggered Alerts - Splunk
+name: triggered_alerts
+owner: nobody

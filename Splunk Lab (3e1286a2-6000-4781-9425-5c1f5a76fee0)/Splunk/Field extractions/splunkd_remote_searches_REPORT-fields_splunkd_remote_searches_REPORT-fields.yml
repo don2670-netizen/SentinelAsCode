@@ -1,0 +1,10 @@
+# Splunk Lab (3e1286a2-6000-4781-9425-5c1f5a76fee0) · Splunk · Field extractions
+# splunkd_remote_searches : REPORT-fields
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+app: system
+attribute: REPORT-fields
+name: "splunkd_remote_searches : REPORT-fields"
+owner: nobody
+stanza: splunkd_remote_searches
+type: Uses transform
+value: remote_searches_extractions_starting,remote_searches_extractions_terminated, remote_searches_extractions_starting_fallback

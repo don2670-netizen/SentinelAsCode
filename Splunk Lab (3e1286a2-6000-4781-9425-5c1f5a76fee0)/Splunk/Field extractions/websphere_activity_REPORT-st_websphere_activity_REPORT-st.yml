@@ -1,0 +1,10 @@
+# Splunk Lab (3e1286a2-6000-4781-9425-5c1f5a76fee0) · Splunk · Field extractions
+# websphere_activity : REPORT-st
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+app: system
+attribute: REPORT-st
+name: "websphere_activity : REPORT-st"
+owner: nobody
+stanza: websphere_activity
+type: Uses transform
+value: colon-line

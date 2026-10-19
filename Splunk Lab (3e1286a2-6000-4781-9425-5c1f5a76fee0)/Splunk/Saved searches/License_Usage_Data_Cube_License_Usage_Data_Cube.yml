@@ -1,0 +1,11 @@
+# Splunk Lab (3e1286a2-6000-4781-9425-5c1f5a76fee0) · Splunk · Saved searches
+# License Usage Data Cube
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+app: search
+disabled: "false"
+dispatch.earliest_time: "-31d"
+dispatch.latest_time: "-0d"
+is_scheduled: "false"
+name: License Usage Data Cube
+owner: nobody
+search: "index=_internal source=*license_usage.log* type=\"Usage\" | eval h=if(len(h)=0 OR isnull(h),\"(SQUASHED)\",h) | eval s=if(len(s)=0 OR isnull(s),\"(SQUASHED)\",s) | eval idx=if(len(idx)=0 OR isnull(idx),\"(UNKNOWN)\",idx) | bin _time span=1d | stats sum(b) as b by _time, pool, s, st, h, idx"

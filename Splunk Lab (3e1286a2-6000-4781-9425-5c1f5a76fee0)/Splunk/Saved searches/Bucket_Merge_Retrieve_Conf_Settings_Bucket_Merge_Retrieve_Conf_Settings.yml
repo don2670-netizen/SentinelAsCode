@@ -1,0 +1,13 @@
+# Splunk Lab (3e1286a2-6000-4781-9425-5c1f5a76fee0) · Splunk · Saved searches
+# Bucket Merge Retrieve Conf Settings
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+app: search
+disabled: "false"
+is_scheduled: "false"
+name: Bucket Merge Retrieve Conf Settings
+owner: nobody
+search: |-
+  | rest services/data/indexes datatype=all 
+  | search disabled!=1 AND bucketMerging=1 
+  | dedup title 
+  | fields title bucketMerging bucketMerge.minMergeSizeMB bucketMerge.maxMergeSizeMB bucketMerge.maxMergeTimeSpanSecs bucketMerge.minMergeCount bucketMerge.maxMergeCount

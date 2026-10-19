@@ -1,0 +1,11 @@
+# Splunk Lab (3e1286a2-6000-4781-9425-5c1f5a76fee0) · Splunk · Eventtypes
+# splunkd-log
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+app: system
+color: none
+disabled: "false"
+name: splunkd-log
+owner: nobody
+priority: "1"
+search: "index=_internal source=*/splunkd.log OR source=*\\\\splunkd.log"
+tags: "[]"

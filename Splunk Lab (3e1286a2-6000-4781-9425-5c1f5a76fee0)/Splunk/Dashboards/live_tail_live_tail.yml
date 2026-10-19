@@ -1,0 +1,13 @@
+# Splunk Lab (3e1286a2-6000-4781-9425-5c1f5a76fee0) · Splunk · Dashboards
+# live_tail
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+app: search
+"eai:data": |-
+  <?xml version="1.0"?>
+  <view template="pages/blank.html" type="html" isDashboard="False">
+      <label>Live Tail</label>
+  </view>
+isDashboard: "false"
+label: Live Tail
+name: live_tail
+owner: nobody

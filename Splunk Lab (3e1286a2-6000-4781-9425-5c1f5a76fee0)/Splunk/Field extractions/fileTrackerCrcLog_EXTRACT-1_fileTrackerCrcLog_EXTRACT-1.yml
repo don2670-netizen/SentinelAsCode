@@ -1,0 +1,10 @@
+# Splunk Lab (3e1286a2-6000-4781-9425-5c1f5a76fee0) · Splunk · Field extractions
+# fileTrackerCrcLog : EXTRACT-1
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+app: system
+attribute: EXTRACT-1
+name: "fileTrackerCrcLog : EXTRACT-1"
+owner: nobody
+stanza: fileTrackerCrcLog
+type: Inline
+value: "(?<_KEY_1>\\S+)::(?<_VAL_1>\\S+)"

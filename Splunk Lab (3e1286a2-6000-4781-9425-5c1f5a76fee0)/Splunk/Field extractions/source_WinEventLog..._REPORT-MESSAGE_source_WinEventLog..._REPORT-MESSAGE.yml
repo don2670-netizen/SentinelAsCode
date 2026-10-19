@@ -1,0 +1,10 @@
+# Splunk Lab (3e1286a2-6000-4781-9425-5c1f5a76fee0) · Splunk · Field extractions
+# source::WinEventLog... : REPORT-MESSAGE
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+app: system
+attribute: REPORT-MESSAGE
+name: "source::WinEventLog... : REPORT-MESSAGE"
+owner: nobody
+stanza: "source::WinEventLog..."
+type: Uses transform
+value: wel-message, wel-eq-kv, wel-col-kv

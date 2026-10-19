@@ -1,0 +1,9 @@
+# Splunk Lab (3e1286a2-6000-4781-9425-5c1f5a76fee0) · Splunk · Macros
+# comment(1)
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+app: search
+args: text
+definition: "\"\""
+iseval: "1"
+name: comment(1)
+owner: nobody

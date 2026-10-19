@@ -1,0 +1,9 @@
+# Splunk Lab (3e1286a2-6000-4781-9425-5c1f5a76fee0) · Splunk · Lookups
+# soroc_incident_state
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+app: search
+collection: soroc_incident_state
+external_type: kvstore
+fields_list: _key,incident_id,rule_name,status,owner,classification,determination,tags,comments,updated,updated_by
+name: soroc_incident_state
+owner: nobody

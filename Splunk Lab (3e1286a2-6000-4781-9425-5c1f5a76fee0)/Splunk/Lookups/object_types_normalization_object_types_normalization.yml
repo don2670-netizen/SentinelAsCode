@@ -1,0 +1,8 @@
+# Splunk Lab (3e1286a2-6000-4781-9425-5c1f5a76fee0) · Splunk · Lookups
+# object_types_normalization
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+app: audit_trail
+fields_list: DEST_OBJECT_TYPE,ORIG_OBJECT_TYPE
+filename: object_types.csv
+name: object_types_normalization
+owner: nobody

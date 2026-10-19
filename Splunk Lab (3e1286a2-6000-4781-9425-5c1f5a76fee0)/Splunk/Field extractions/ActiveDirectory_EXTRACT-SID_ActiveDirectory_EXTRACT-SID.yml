@@ -1,0 +1,10 @@
+# Splunk Lab (3e1286a2-6000-4781-9425-5c1f5a76fee0) · Splunk · Field extractions
+# ActiveDirectory : EXTRACT-SID
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+app: system
+attribute: EXTRACT-SID
+name: "ActiveDirectory : EXTRACT-SID"
+owner: nobody
+stanza: ActiveDirectory
+type: Inline
+value: "objectSid\\s*=\\s*(?<sid_lookup>\\S+)"

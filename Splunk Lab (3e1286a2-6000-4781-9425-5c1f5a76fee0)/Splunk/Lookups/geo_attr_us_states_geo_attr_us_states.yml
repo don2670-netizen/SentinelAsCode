@@ -1,0 +1,8 @@
+# Splunk Lab (3e1286a2-6000-4781-9425-5c1f5a76fee0) · Splunk · Lookups
+# geo_attr_us_states
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+app: search
+fields_list: state_name,state_fips,state_code
+filename: geo_attr_us_states.csv
+name: geo_attr_us_states
+owner: nobody

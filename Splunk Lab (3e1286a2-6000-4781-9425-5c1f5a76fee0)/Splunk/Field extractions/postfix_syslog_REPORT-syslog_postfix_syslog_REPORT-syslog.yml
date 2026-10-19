@@ -1,0 +1,10 @@
+# Splunk Lab (3e1286a2-6000-4781-9425-5c1f5a76fee0) · Splunk · Field extractions
+# postfix_syslog : REPORT-syslog
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+app: system
+attribute: REPORT-syslog
+name: "postfix_syslog : REPORT-syslog"
+owner: nobody
+stanza: postfix_syslog
+type: Uses transform
+value: syslog-extractions

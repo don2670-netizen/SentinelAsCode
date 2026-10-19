@@ -1,0 +1,9 @@
+# Splunk Lab (3e1286a2-6000-4781-9425-5c1f5a76fee0) · Splunk · Lookups
+# soroc_iocs
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+app: search
+collection: soroc_iocs
+external_type: kvstore
+fields_list: _key,ioc_id,type,value,action,severity,title,description,tlp,expires
+name: soroc_iocs
+owner: nobody

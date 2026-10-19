@@ -1,0 +1,13 @@
+# Splunk Lab (3e1286a2-6000-4781-9425-5c1f5a76fee0) · Splunk · Dashboards
+# dashboard_live
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+app: search
+"eai:data": |-
+  <?xml version="1.0"?>
+  <view template="dashboard.html" stylesheet="dashboard2.css" isDashboard="False" type="redirect" target="search">
+    <label>Summary</label>
+  </view>
+isDashboard: "false"
+label: Summary
+name: dashboard_live
+owner: nobody

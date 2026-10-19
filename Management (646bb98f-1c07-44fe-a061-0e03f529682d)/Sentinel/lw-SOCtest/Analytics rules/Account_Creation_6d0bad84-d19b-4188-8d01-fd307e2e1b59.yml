@@ -1,5 +1,5 @@
 # Management (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Analytics rules
-# Account Creation (Ramal)
+# Account Creation
 # Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
 id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/6d0bad84-d19b-4188-8d01-fd307e2e1b59"
 kind: Scheduled
@@ -13,7 +13,7 @@ properties:
     Query #1: Query for users being created using "net user" command.
     "net user" commands are noisy, so needs to be joined with another signal -.
     E.g. in this example we look for use of uncommon & undocumented commandline switches (e.g. /ad instead of /add).
-  displayName: Account Creation (Ramal)
+  displayName: Account Creation
   enabled: true
   entityMappings:
     - entityType: Host

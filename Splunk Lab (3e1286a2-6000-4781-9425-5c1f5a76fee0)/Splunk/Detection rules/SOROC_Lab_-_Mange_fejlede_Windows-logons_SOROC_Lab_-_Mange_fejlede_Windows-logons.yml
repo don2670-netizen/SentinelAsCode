@@ -1,0 +1,23 @@
+# Splunk Lab (3e1286a2-6000-4781-9425-5c1f5a76fee0) · Splunk · Detection rules
+# SOROC Lab - Mange fejlede Windows-logons
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+action.correlationsearch.annotations: "{\"mitre_attack\": [\"T1110\", \"T1110.003\"]}"
+alert.digest_mode: "true"
+alert.severity: "4"
+alert.suppress: "true"
+alert.suppress.period: "10m"
+alert.track: "true"
+alert_comparator: greater than
+alert_threshold: "0"
+alert_type: number of events
+app: search
+cron_schedule: "* * * * *"
+description: Mindst 10 fejlede Windows-logons (4625) fra samme kilde
+disabled: "0"
+dispatch.earliest_time: "-5m"
+dispatch.latest_time: now
+is_scheduled: "true"
+name: SOROC Lab - Mange fejlede Windows-logons
+owner: nobody
+schedule_window: "0"
+search: "index=soroc_lab sourcetype=\"WinEventLog:Security\" EventCode=4625 | stats count AS fejl dc(user) AS brugere BY src, host | where fejl >= 10"

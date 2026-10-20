@@ -1,0 +1,66 @@
+# Management (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · LogAnalyticWestEurope · Analytics rules
+# Microsoft Defender for Endpoint (MDE) signatures for Azure Synapse pipelines and Azure Data Factory
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/LogAnalyticWestEurope/providers/Microsoft.SecurityInsights/alertRules/8b05a69f-567d-4dc7-8b1d-4530703db99b"
+kind: Scheduled
+name: "8b05a69f-567d-4dc7-8b1d-4530703db99b"
+properties:
+  alertRuleTemplateName: a333d8bf-22a3-4c55-a1e9-5f0a135c0253
+  description: |-
+    This query looks for Microsoft Defender for Endpoint detections related to the remote command execution attempts on Azure IR with Managed VNet or SHIR. 
+    In Microsoft Sentinel, the SecurityAlerts table includes the name of the impacted device. Additionally, this query joins the DeviceInfo table to connect other information such as device group, IP address, signed in users, and others allowing analysts using Microsoft Sentinel to have more context related to the alert. 
+    Reference: https://msrc.microsoft.com/update-guide/vulnerability/CVE-2022-29972 , 
+    https://msrc-blog.microsoft.com/2022/05/09/vulnerability-mitigated-in-the-third-party-data-connector-used-in-azure-synapse-pipelines-and-azure-data-factory-cve-2022-29972
+  displayName: Microsoft Defender for Endpoint (MDE) signatures for Azure Synapse pipelines and Azure Data Factory
+  enabled: true
+  entityMappings:
+    - entityType: Host
+      fieldMappings:
+        - columnName: CompromisedEntity
+          identifier: FullName
+        - columnName: HostName
+          identifier: HostName
+        - columnName: HostNameDomain
+          identifier: DnsDomain
+    - entityType: IP
+      fieldMappings:
+        - columnName: PublicIP
+          identifier: Address
+  incidentConfiguration:
+    createIncident: true
+    groupingConfiguration:
+      enabled: false
+      groupByAlertDetails: null
+      groupByCustomDetails: null
+      groupByEntities: null
+      lookbackDuration: PT5H
+      matchingMethod: AllEntities
+      reopenClosedIncident: false
+  query: |-
+    let mde_threats = dynamic(["Behavior:Win32/SuspAzureRequest.A", "Behavior:Win32/SuspAzureRequest.B", "Behavior:Win32/SuspAzureRequest.C", "Behavior:Win32/LaunchingSuspCMD.B"]);
+    DeviceInfo
+    | extend DeviceName = tolower(DeviceName)
+    | join kind=inner ( SecurityAlert
+    | where ProviderName == "MDATP"
+    | extend ThreatName = tostring(parse_json(ExtendedProperties).ThreatName)
+    | extend ThreatFamilyName = tostring(parse_json(ExtendedProperties).ThreatFamilyName)
+    | where ThreatName in~ (mde_threats) or ThreatFamilyName in~ (mde_threats)
+    | extend CompromisedEntity = tolower(CompromisedEntity)
+    ) on $left.DeviceName == $right.CompromisedEntity
+    | summarize by bin(TimeGenerated, 1d), DisplayName, ThreatName, ThreatFamilyName, PublicIP, AlertSeverity, Description, tostring(LoggedOnUsers), DeviceId, TenantId, CompromisedEntity, tostring(LoggedOnUsers), ProductName, Entities
+    | extend HostName = tostring(split(CompromisedEntity, ".")[0]), DomainIndex = toint(indexof(CompromisedEntity, '.'))
+    | extend HostNameDomain = iff(DomainIndex != -1, substring(CompromisedEntity, DomainIndex + 1), CompromisedEntity)
+    | project-away DomainIndex
+  queryFrequency: P1D
+  queryPeriod: P1D
+  severity: High
+  suppressionDuration: PT5H
+  suppressionEnabled: false
+  tactics:
+    - InitialAccess
+  techniques:
+    - T1190
+  templateVersion: "1.0.6"
+  triggerOperator: GreaterThan
+  triggerThreshold: 0
+type: Microsoft.SecurityInsights/alertRules

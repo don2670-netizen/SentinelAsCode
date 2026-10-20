@@ -1,0 +1,106 @@
+# Management (646bb98f-1c07-44fe-a061-0e03f529682d) · Sentinel · lw-SOCtest · Analytics rules
+# Modified domain federation trust settings
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+id: "/subscriptions/f6033f31-9abe-488f-822e-41d46f45644e/resourceGroups/rg-soc/providers/Microsoft.OperationalInsights/workspaces/lw-SOCtest/providers/Microsoft.SecurityInsights/alertRules/15895d02-77b4-4a0c-acf0-4b67871fbc0d"
+kind: Scheduled
+name: "15895d02-77b4-4a0c-acf0-4b67871fbc0d"
+properties:
+  alertRuleTemplateName: "95dc4ae3-e0f2-48bd-b996-cdd22b90f9af"
+  description: |-
+    This will alert when a user or application modifies the federation settings on the domain or Update domain authentication from Managed to Federated.
+    For example, this alert will trigger when a new Active Directory Federated Service (ADFS) TrustedRealm object, such as a signing certificate, is added to the domain.
+    Modification to domain federation settings should be rare. Confirm the added or modified target domain/URL is legitimate administrator behavior.
+    To understand why an authorized user may update settings for a federated domain in Office 365, Azure, or Intune, see: https://docs.microsoft.com/office365/troubleshoot/active-directory/update-federated-domain-office-365.
+    For details on security realms that accept security tokens, see the ADFS Proxy Protocol (MS-ADFSPP) specification: https://docs.microsoft.com/openspecs/windows_protocols/ms-adfspp/e7b9ea73-1980-4318-96a6-da559486664b.
+    For further information on AuditLogs please see https://docs.microsoft.com/azure/active-directory/reports-monitoring/reference-audit-activities.
+  displayName: Modified domain federation trust settings
+  enabled: true
+  entityMappings:
+    - entityType: Account
+      fieldMappings:
+        - columnName: InitiatingAppName
+          identifier: Name
+        - columnName: InitiatingAppServicePrincipalId
+          identifier: AadUserId
+    - entityType: Account
+      fieldMappings:
+        - columnName: InitiatingUserPrincipalName
+          identifier: FullName
+        - columnName: InitiatingAccountName
+          identifier: Name
+        - columnName: InitiatingAccountUPNSuffix
+          identifier: UPNSuffix
+    - entityType: Account
+      fieldMappings:
+        - columnName: InitiatingAadUserId
+          identifier: AadUserId
+    - entityType: IP
+      fieldMappings:
+        - columnName: InitiatingIpAddress
+          identifier: Address
+  incidentConfiguration:
+    createIncident: true
+    groupingConfiguration:
+      enabled: false
+      groupByAlertDetails: null
+      groupByCustomDetails: null
+      groupByEntities: null
+      lookbackDuration: PT5H
+      matchingMethod: AllEntities
+      reopenClosedIncident: false
+  query: |-
+    (union isfuzzy=true
+    (
+    AuditLogs
+    | where OperationName =~ "Set federation settings on domain"
+    //| where Result =~ "success"   // commenting out, as it may be interesting to capture failed attempts
+    | mv-expand TargetResources
+    | extend modifiedProperties = parse_json(TargetResources).modifiedProperties
+    | mv-expand modifiedProperties
+    | extend targetDisplayName = tostring(parse_json(modifiedProperties).displayName)
+    ),
+    (
+    AuditLogs
+    | where OperationName =~ "Set domain authentication"
+    //| where Result =~ "success"   // commenting out, as it may be interesting to capture failed attempts
+    | mv-expand TargetResources
+    | extend modifiedProperties = parse_json(TargetResources).modifiedProperties
+    | mv-expand modifiedProperties
+    | mv-apply Property = modifiedProperties on
+      (
+          where Property.displayName =~ "LiveType"
+          | extend targetDisplayName = tostring(Property.displayName),
+                   NewDomainValue = tostring(Property.newValue)
+      )
+    | where NewDomainValue has "Federated"
+    )
+    )
+    | mv-apply AdditionalDetail = AdditionalDetails on
+      (
+          where AdditionalDetail.key =~ "User-Agent"
+          | extend UserAgent = tostring(AdditionalDetail.value)
+      )
+    | extend InitiatingUserOrApp = iff(isnotempty(InitiatedBy.user.userPrincipalName),tostring(InitiatedBy.user.userPrincipalName), tostring(InitiatedBy.app.displayName))
+    | extend InitiatingAppName = tostring(InitiatedBy.app.displayName)
+    | extend InitiatingAppServicePrincipalId = tostring(InitiatedBy.app.servicePrincipalId)
+    | extend InitiatingUserPrincipalName = tostring(InitiatedBy.user.userPrincipalName)
+    | extend InitiatingAadUserId = tostring(InitiatedBy.user.id)
+    | extend InitiatingIpAddress = tostring(iff(isnotempty(InitiatedBy.user.ipAddress), InitiatedBy.user.ipAddress, InitiatedBy.app.ipAddress))
+    | extend InitiatingAccountName = tostring(split(InitiatingUserPrincipalName, "@")[0]), InitiatingAccountUPNSuffix = tostring(split(InitiatingUserPrincipalName, "@")[1])
+    | project-reorder TimeGenerated, OperationName, InitiatingUserOrApp, AADOperationType, targetDisplayName, Result, InitiatingIpAddress, UserAgent, CorrelationId, TenantId, AADTenantId
+  queryFrequency: P1D
+  queryPeriod: P1D
+  severity: High
+  suppressionDuration: PT5H
+  suppressionEnabled: false
+  tactics:
+    - CredentialAccess
+    - Persistence
+    - PrivilegeEscalation
+  techniques:
+    - T1555
+    - T1098
+  templateVersion: "1.1.2"
+  triggerOperator: GreaterThan
+  triggerThreshold: 0
+type: Microsoft.SecurityInsights/alertRules

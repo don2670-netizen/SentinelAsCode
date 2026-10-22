@@ -1,0 +1,51 @@
+# ELK Lab Kunde (293d928a-0257-444b-b1ff-15cb4aa4c541) · Elastic · Detection rules
+# SOROC lab brute force 4ac305
+# Eksporteret af SOROC. Historikken for filen (git log) er objektets versionshistorik.
+actions: []
+author: []
+created_at: "2026-10-22T16:44:39.963Z"
+created_by: elastic
+description: Redigeret i SOROC
+enabled: true
+exceptions_list: []
+false_positives: []
+from: now-10m
+id: "4d2bf536-aa2b-4626-b87d-bf126bd548b6"
+immutable: false
+index:
+  - sochub-lab-4ac305
+interval: "1m"
+language: kuery
+max_signals: 100
+name: SOROC lab brute force 4ac305
+output_index: ""
+query: "event.category:authentication and event.outcome:failure"
+references: []
+related_integrations: []
+required_fields: []
+revision: 1
+risk_score: 95
+risk_score_mapping: []
+rule_id: e489995e-2372-4557-b95b-7c04a19cd7c4
+rule_source:
+  type: internal
+setup: ""
+severity: critical
+severity_mapping: []
+tags:
+  - sochub-lab
+threat:
+  - framework: "MITRE ATT&CK"
+    tactic:
+      id: TA0006
+      name: Credential Access
+      reference: "https://attack.mitre.org/tactics/TA0006/"
+    technique:
+      - id: T1110
+        name: Brute Force
+        reference: "https://attack.mitre.org/techniques/T1110/"
+to: now
+type: query
+updated_at: "2026-10-22T16:44:50.529Z"
+updated_by: elastic
+version: 1
